@@ -1,0 +1,108 @@
+{{ block title }}
+Information Avoidance Scale
+{{ endblock }}
+
+{{ block internal_styles }}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="{% static 'otree/js/jquery-3.2.1.min.js' %}"></script>
+<style>
+    label.btn.btn-default.btn-secondary.active {
+        background: yellow;
+        color: black;
+    }
+
+</style>
+{{ endblock }}
+
+{{ block content }}
+
+<script src="https://unpkg.com/survey-jquery@1.8.70/survey.jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.6.4/showdown.min.js"></script>
+{#<link href="https://unpkg.com/survey-core@1.8.70/modern.min.css" type="text/css" rel="stylesheet"/>#}
+<div class="card">
+
+    <div class="card-body">
+        <h5 class="card-title">Consider the following statement:</h5>
+        <div class="card-text lead text-center">{{ Constants.statement }}</div>
+
+    </div>
+</div>
+<div id="surveyElement" style="display:inline-block;width:100%;"></div>
+<div id="surveyResult"></div>
+<input type="hidden" id="surveyholder" name="surveyholder">
+<script>
+
+    Survey.defaultBootstrapCss.navigationButton = "btn-primary btn-lg";
+    Survey
+        .StylesManager
+        .applyTheme("bootstrap");
+
+    var json = {  "completeText": "Next",showCompletedPage:false,
+        questions:
+            [
+                {"hideNumber":true,
+                    isRequired:true,
+                    "type": "radiogroup",
+                    "name": "ias_friend",
+                    "title": "Choose which position describes you most:",
+                    "choices": [
+                        "I would avoid learning what **my friend** thinks about the statement above.",
+                        "Even if it will upset me, I want to know what **my friend** thinks about the statement above.",
+
+                    ]
+                },
+                {"hideNumber":true,isRequired:true,
+                    "type": "radiogroup",
+                    "name": "ias_coworker",
+                    "title": "Choose which position describes you most:",
+                    "choices": [
+                        "I would avoid learning what my **co-worker** thinks about the statement above.",
+                        "Even if it will upset me, I want to know what **co-worker** thinks about the statement above.",
+
+                    ]
+                },
+                {"hideNumber":true,isRequired:true,
+                    "type": "radiogroup",
+                    "name": "ias_stranger",
+                    "title": "Choose which position describes you most:",
+                    "choices": [
+                        "I would avoid learning what **a person I do not know too well** thinks about the statement above.",
+                        "Even if it will upset me, I want to know what **a person I do not know too well** thinks about the statement above.",
+
+                    ]
+                },
+
+            ]
+    };
+
+    window.survey = new Survey.Model(json);
+
+    survey
+        .onComplete
+        .add(function (sender) {
+            document
+            $('#surveyholder').val(JSON.stringify(sender.data, null, 3))
+            $('#form').submit()
+            ;
+        });
+    //Create showdown markdown converter
+    var converter = new showdown.Converter();
+    survey
+        .onTextMarkdown
+        .add(function (survey, options) {
+            //convert the markdown text to html
+            var str = converter.makeHtml(options.text);
+            //remove root paragraphs <p></p>
+            str = str.substring(3);
+            str = str.substring(0, str.length - 4);
+            //set html
+            options.html = str;
+        });
+
+    $("#surveyElement").Survey({model: survey});
+    ;
+</script>
+
+
+{{ endblock }}

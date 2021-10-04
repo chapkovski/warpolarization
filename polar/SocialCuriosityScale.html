@@ -1,0 +1,74 @@
+{{ block title }}
+Social curiosity scale
+{{ endblock }}
+
+
+{{ block content }}
+<style>
+    label.btn.btn-default.btn-secondary.active {
+        background: yellow;
+        color: black;
+    }
+
+</style>
+<script src="https://unpkg.com/survey-jquery@1.8.70/survey.jquery.min.js"></script>
+
+<div id="surveyElement" style="display:inline-block;width:100%;"></div>
+<div id="surveyResult"></div>
+<input type="hidden" id="surveyholder" name="surveyholder">
+<script>
+    Survey.defaultBootstrapCss.navigationButton = "btn-primary btn-lg";
+    Survey
+        .StylesManager
+        .applyTheme("bootstrap");
+
+    var json = {showCompletedPage:false,
+        questions: [
+            {
+                hideNumber: true,
+                "type": "matrixdropdown",
+                "name": "scs",
+                  "titleLocation": "hidden",
+
+                "columns": [
+                    {
+                        name: "scs",
+                        title: 'For each statement please choose the value for 1 to 7 where 1 means ‘Does not describe me at all’ and 7 means ‘Completely describes me’',
+                        cellType: "rating",
+                        "rateMin": 1,
+                        "rateMax": 7,
+                        isRequired: true,
+                        requiredErrorText: 'This question is required',
+                    },
+                ],
+                "rows": [
+                    {value: "scs_habits", text: 'I like to learn about the habits of others'},
+                    {value: "scs_why", text: 'I like finding out why people behave the way they do'},
+                    {value: "scs_conversation", text: "When other people are having a conversation, I like to find out what it's about"},
+                    {value: "scs_listening", text: 'When around other people, I like listening to their conversations'},
+                    {value: "scs_quarrel", text: "When people quarrel, I like to know what's going on"},
+
+
+                ]
+            }
+        ],
+        "completeText": "Next"
+    };
+
+    window.survey = new Survey.Model(json);
+
+    survey
+        .onComplete
+        .add(function (sender) {
+            document
+            $('#surveyholder').val(JSON.stringify(sender.data, null, 3))
+            $('#form').submit()
+            ;
+        });
+
+    $("#surveyElement").Survey({model: survey});
+    ;
+</script>
+
+
+{{ endblock }}

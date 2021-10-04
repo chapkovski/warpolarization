@@ -1,0 +1,27 @@
+{{ block title }}
+Reasons
+{{ endblock }}
+{{ block content }}
+{{ formfield player.reason_dg }}
+<div class="alert alert-info">Please indicate below three keywords that best describe the motives why you took the
+    decision regarding giving money to or taking money from the Participant B you were matched with or leaving his
+    account unchanged?
+</div>
+{{ formfield player.keyword_dg_1 label='' }}
+{{ formfield player.keyword_dg_2 label=''  }}
+{{ formfield player.keyword_dg_3  label='' }}
+{% if session.config.reveal %}
+
+
+    {{ formfield player.reason_reveal }}
+    <div class="alert">
+        Please indicate below three keywords that best describe the motives why you took the decision regarding observing or not observing Participant B’s opinion?
+    </div>
+    {{ formfield player.keyword_rev_1 label='' }}
+    {{ formfield player.keyword_rev_1 label=''  }}
+    {{ formfield player.keyword_rev_1  label='' }}
+{% endif %}
+
+{{ next_button }}
+
+{{ endblock }}

@@ -1,0 +1,75 @@
+{{ block title }}
+Risk attitudes
+{{ endblock }}
+
+
+{{ block content }}
+<style>
+    label.btn.btn-default.btn-secondary.active {
+        background: yellow;
+        color: black;
+    }
+
+</style>
+<script src="https://unpkg.com/survey-jquery@1.8.70/survey.jquery.min.js"></script>
+
+<div id="surveyElement" style="display:inline-block;width:100%;"></div>
+<div id="surveyResult"></div>
+<input type="hidden" id="surveyholder" name="surveyholder">
+<script>
+    Survey.defaultBootstrapCss.navigationButton = "btn-primary btn-lg";
+    Survey
+        .StylesManager
+        .applyTheme("bootstrap");
+
+    var json = {showCompletedPage:false,
+        questions: [
+            {
+                hideNumber: true,
+                "type": "matrixdropdown",
+                "name": "risk_attitudes",
+                "title": "Please indicate how willing you are to take risks?",
+
+                "columns": [
+                    {
+                        name: "risk_attitudes",
+                        title: 'To answer, choose a value on a scale from 0 to 10, where 0 means that you are "not at all willing to take risks" and 10 means that you are "very willing to take risks.\n',
+                        cellType: "rating",
+                        "rateMin": 0,
+                        "rateMax": 10,
+                        isRequired: true,
+                        requiredErrorText: 'This question is required',
+                    },
+                ],
+                "rows": [
+                    {value: "risk_general", text: 'In general'},
+                    {value: "risk_financial_matters", text: 'In financial matters'},
+                    {value: "risk_free", text: 'In your free time and while playing sports'},
+                    {value: "risk_profession", text: 'In your profession'},
+                    {value: "risk_health", text: 'As far as your health is concerned'},
+                    {value: "risk_strangers", text: 'In relationships with strangers'},
+                    {value: "risk_driving", text: 'While driving'},
+
+                ]
+            }
+        ],
+        "completeText": "Next"
+    };
+
+    window.survey = new Survey.Model(json);
+
+    survey
+        .onComplete
+        .add(function (sender) {
+            document
+            $('#surveyholder').val(JSON.stringify(sender.data, null, 3))
+            $('#form').submit()
+            ;
+        });
+
+    $("#surveyElement").Survey({model: survey});
+    ;
+</script>
+
+
+{{ endblock }}
