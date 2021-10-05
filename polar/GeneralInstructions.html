@@ -1,9 +1,47 @@
 {{ block title }}
-    Page title
+General Instructions
 {{ endblock }}
 {{ block content }}
+<div class="alert alert-warning my-3">Please, read the following instructions attentively because from their understanding depends your payoff!</div>
+<div class="card my-3">
 
-    {{ formfields }}
-    {{ next_button }}
+    <div class="card-body">
+        <div class="card-text">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    In this study there are TWO types of participants: Participants A whose decisions may affect the
+                    payoffs of others and of themselves and Participants B, who do not make any decisions that can
+                    affect payoffs of others or their own.
+
+                </li>
+                <li class="list-group-item">
+                    Each participant A is matched in a pair with a randomly chosen Participant B.
+
+                </li>
+                <li class="list-group-item fw-bold text-center  lead">
+
+                    You are the Participant A.
+                </li>
+                <li class="list-group-item">
+                    In this study you will have to make a decision that will affect your payoff and the payoff of a
+                    Participant B matched with you.
+
+                </li>
+                <li class="list-group-item">
+                    You will not be told who you are matched with during or after the study, and the participant you
+                    will be paired with will not be told who you are – neither during or after the study.
+
+                </li>
+                <li class="list-group-item">
+                    Upon the completion of the study your bonus and the bonus of the Participant B will be defined by
+                    your decision. We will explain what kind of decision you will have to take on the following page.
+
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</div>
+{{ next_button }}
 
 {{ endblock }}

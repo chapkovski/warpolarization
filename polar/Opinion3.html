@@ -1,9 +1,20 @@
 {{ block title }}
-    Page title
+    Opinion 3
 {{ endblock }}
 {{ block content }}
 
-    {{ formfields }}
+<div class="card my-3">
+    <div class="card-body">
+        <div class="card-text">
+            <div>How much do you agree with the following statement?</div>
+            <div class="text-center font-italic lead"> Everyone needs to be vaccinated against COVID-19 to stop the coronavirus epidemic</div>
+            <div>
+{{ formfields }}
+            </div>
+        </div>
+    </div>
+</div>
+
     {{ next_button }}
 
 {{ endblock }}

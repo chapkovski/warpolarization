@@ -14,15 +14,18 @@ class OpinionIntro(Page):
 
 
 class Opinion1(Page):
-    pass
+    form_model = 'player'
+    form_fields = ['opinion_competition']
 
 
 class Opinion2(Page):
-    pass
+    form_model = 'player'
+    form_fields = ['opinion_lgbt']
 
 
 class Opinion3(Page):
-    pass
+    form_model = 'player'
+    form_fields = ['opinion_covid']
 
 
 class GeneralInstructions(Page):
@@ -34,31 +37,54 @@ class DecisionInstructions(Page):
 
 
 class DGComprehensionCheck(Page):
-    pass
+    form_model = 'player'
+    form_fields = ['cq1_ego',
+                   'cq1_alter',
+                   'cq2_ego',
+                   'cq2_alter',
+                   'cq3_ego',
+                   'cq3_alter']
 
 
 class InfoStage1(Page):
-    pass
+    form_model = 'player'
+
+    @staticmethod
+    def get_form_fields(player: Player):
+        if player.subsession.treatment == 'reveal_before':
+            return ['reveal']
+
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.subsession.treatment != 'reveal_after'
 
 
 class InfoStage2(Page):
-    pass
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.subsession.treatment != 'reveal_after'
 
 
 class DecisionStage(Page):
-    pass
+    form_model = 'player'
+    form_fields = ['dg_decision']
 
 
 class RevealAfterStage1(Page):
-    pass
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.subsession.treatment == 'reveal_after'
 
 
 class RevealAfterStage2(Page):
-    pass
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.subsession.treatment == 'reveal_after' and player.reveal
 
 
 class Reasons(Page):
     form_model = 'player'
+
     def get_form_fields(player: Player):
         l = ['reason_dg', 'keyword_dg_1', 'keyword_dg_2', 'keyword_dg_3']
         revl = ['reason_reveal', 'keyword_rev_1', 'keyword_rev_2', 'keyword_rev_3']
@@ -122,8 +148,6 @@ class RiskAttitudes(Page):
 import json
 
 
-
-
 class Demographics(Page):
     pass
 
@@ -142,18 +166,18 @@ page_sequence = [
     # GeneralInstructions,
     # DecisionInstructions,
     # DGComprehensionCheck,
-    # InfoStage1,
-    # InfoStage2,
-    # DecisionStage,
+    InfoStage1,
+    InfoStage2,
+    DecisionStage,
     # RevealAfterStage1,
     # RevealAfterStage2,
     Reasons,
     # BeliefsIntro,
     # Beliefs,
-    # InformationAvoidanceScale,
-    # SocialCuriosityScale,
-    # SocialDistanceIndex,
-    # RiskAttitudes,
+    InformationAvoidanceScale,
+    SocialCuriosityScale,
+    SocialDistanceIndex,
+    RiskAttitudes,
     # Demographics,
     # Demand
 ]

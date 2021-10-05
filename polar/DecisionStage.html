@@ -1,9 +1,147 @@
 {{ block title }}
-    Page title
+Decision stage
 {{ endblock }}
 {{ block content }}
+{% if player.field_maybe_none('reveal') or subsession.treatment == 'forced_reveal' %}
+    <div class="card my-3">
+        <div class="card-body">
+            <div class="card-text">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        The Participant B you are matched with <span
+                            class="fw-bolder text-danger">{{ player.get_partner_opinion }}</span> with the
+                        following statement:
+                    </li>
+                    <li class="list-group-item text-center lead my-3">
+                        {{ Constants.statement_lgbt }}
+                    </li>
+                    <li class="list-group-item">
+                        {{ Constants.privacy_note }}
+                    </li>
+            </div>
+        </div>
+    </div>
+{% endif %}
+<div class="card my-3">
+    <div class="card-body">
+        <div class="card-text">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    Now you will make a choice towards Participant B:
 
-    {{ formfields }}
-    {{ next_button }}
+                </li>
+                <li class="list-group-item mx-3">
+
+                    - As explained, you have at your disposal $1.00.
+                </li>
+                <li class="list-group-item mx-3">
+                    - Participant B has received $0.50.
+
+                </li>
+                <li class="list-group-item">
+                    Your decision:
+
+                </li>
+                <li class="list-group-item mx-3">
+                    - You can give nothing, or up to $0.50 of your money to Participant B (choose any positive amount or
+                    zero below).
+
+                </li>
+                <li class="list-group-item mx-3">
+                    - You can take nothing, or up to $0.50 from the money of Participant B (choose any negative amount
+                    or
+                    zero below).
+
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="card my-3">
+    <div class="card-header">
+        Your decision
+    </div>
+    <div class="card-body">
+        <div class="mb-3 _formfield">
+
+            <label class="col-form-label" for="id_dg_decision"></label>
+            <div class="controls d-flex flex-lg-row flex-sm-column">
+
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="id_dg_decision-0" name="dg_decision" required=""
+                           value="-50">
+                    <label for="id_dg_decision-0" class="form-check-label">-0.50$</label>
+                </div>
+
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="id_dg_decision-1" name="dg_decision" required=""
+                           value="-40">
+                    <label for="id_dg_decision-1" class="form-check-label">-0.40$</label>
+                </div>
+
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="id_dg_decision-2" name="dg_decision" required=""
+                           value="-30">
+                    <label for="id_dg_decision-2" class="form-check-label">-0.30$</label>
+                </div>
+
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="id_dg_decision-3" name="dg_decision" required=""
+                           value="-20">
+                    <label for="id_dg_decision-3" class="form-check-label">-0.20$</label>
+                </div>
+
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="id_dg_decision-4" name="dg_decision" required=""
+                           value="-10">
+                    <label for="id_dg_decision-4" class="form-check-label">-0.10$</label>
+                </div>
+
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="id_dg_decision-5" name="dg_decision" required=""
+                           value="0">
+                    <label for="id_dg_decision-5" class="form-check-label">0.00$</label>
+                </div>
+
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="id_dg_decision-6" name="dg_decision" required=""
+                           value="10">
+                    <label for="id_dg_decision-6" class="form-check-label">0.10$</label>
+                </div>
+
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="id_dg_decision-7" name="dg_decision" required=""
+                           value="20">
+                    <label for="id_dg_decision-7" class="form-check-label">0.20$</label>
+                </div>
+
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="id_dg_decision-8" name="dg_decision" required=""
+                           value="30">
+                    <label for="id_dg_decision-8" class="form-check-label">0.30$</label>
+                </div>
+
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="id_dg_decision-9" name="dg_decision" required=""
+                           value="40">
+                    <label for="id_dg_decision-9" class="form-check-label">0.40$</label>
+                </div>
+
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="id_dg_decision-10" name="dg_decision" required=""
+                           value="50">
+                    <label for="id_dg_decision-10" class="form-check-label">0.50$</label>
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+{# TODO: add js for calculating Pyaoffs of A and B #}
+{# TODO: generate choices in loop #}
+{{ next_button }}
 
 {{ endblock }}

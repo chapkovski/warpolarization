@@ -1,9 +1,33 @@
 {{ block title }}
-    Page title
+Information stage 2
 {{ endblock }}
 {{ block content }}
 
-    {{ formfields }}
-    {{ next_button }}
+<div class="card my-3">
+    <div class="card-body">
+        <div class="card-text">
+            <ul class="list-group list-group-flush">
+                {% if player.field_maybe_none('reveal') or subsession.treatment == 'forced_reveal' %}
+
+
+                    <li class="list-group-item">
+                        The Participant B you are matched with <span
+                            class="fw-bolder text-danger">{{ player.get_partner_opinion }}</span> with the
+                        following statement:
+                    </li>
+                    <li class="list-group-item text-center lead my-3">
+                        {{ Constants.statement_lgbt }}
+                    </li>
+                    <li class="list-group-item">
+                        {{ Constants.privacy_note }}
+                    </li>
+                {% endif %}
+                <li class="list-group-item">Please click ‘Next’ to proceed to the Decision
+                </li>
+        </div>
+    </div>
+</div>
+
+{{ next_button }}
 
 {{ endblock }}

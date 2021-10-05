@@ -1,3 +1,6 @@
+REVEAL_CHOICES = [(True, 'I <b>want to observe the answer  of Participant B'),
+                  (False, 'I do not want to observe the answer of Participant B')]
+OPINION_CHOICES = [(True, 'Agree'), (False, 'Disagree'), ]
 AGE_CHOICES = ["Younger than 18",
                "18-24 years old",
                "25-34 years old",

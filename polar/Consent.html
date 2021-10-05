@@ -1,9 +1,72 @@
 {{ block title }}
-    Page title
+Consent
 {{ endblock }}
 {{ block content }}
 
-    {{ formfields }}
-    {{ next_button }}
+<div class="card my-3">
+    <div class="card-body">
+        <div class="card-text">
+
+            <div>
+                Please read the following information carefully:
+            </div>
+            <div>
+                You are invited to take part in a study that investigates choices made by individuals in group settings.
+                Participants will be asked to respond to some questions and make some choices which may affect other
+                participants in this survey. No choices will be traced back to any one individual. The following list of
+                items summarises all important things you should know before proceeding with this study.
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    You must be over 18 to participate.
+
+                </li>
+                <li class="list-group-item">
+                    Your participation is voluntary, and you may withdraw from the study at any time.
+
+                </li>
+                <li class="list-group-item">
+                    Participation in the tasks will not incur any financial expense by you.
+                </li>
+                <li class="list-group-item">
+                    Some of the tasks may involve a monetary reward.
+
+                </li>
+                <li class="list-group-item">
+                    If you agree to participate in the study, you are expected to fulfill the obligations related to the
+                    study. That is, respond to the tasks assigned to you for the duration of the study.
+
+
+                </li>
+                <li class="list-group-item">
+                    There are no known physical risks involved in this procedure and the tasks do not require any
+                    special physical or psychological attitudes or any specific knowledge of any kind.
+
+
+                </li>
+                <li class="list-group-item">
+                    During this study we may ask you for some personal information. For instance, your gender, level of
+                    education, personal income level, etc.
+
+
+                </li>
+                <li class="list-group-item">
+                    CONFIDENTIALITY: The information you provide will be treated in full confidence and will be legally
+                    protected. It will never be associated with you personally in any form. No person-identifiable
+                    information will be reported in any published or unpublished work. Nonperson identifiable data may
+                    be made publicly available.
+
+
+                </li>
+
+            </ul>
+            <div>
+                <span class="font-italic">Consent: If you agree with the terms of this study and wish to continue with this study, then please proceed to the next page.</span>
+            </div>
+        </div>
+
+    </div>
+</div>
+{{ next_button }}
 
 {{ endblock }}
