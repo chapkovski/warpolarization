@@ -4,21 +4,21 @@ SESSION_CONFIGS = [
     dict(
         name='reveal_after',
         app_sequence=['polar'],
-        num_demo_participants=1,
+        num_demo_participants=2,
         reveal=True,
         before=False
     ),
     dict(
         name='reveal_before',
         app_sequence=['polar'],
-        num_demo_participants=1,
+        num_demo_participants=2,
         reveal=True,
         before=True
     ),
     dict(
         name='forced_reveal',
         app_sequence=['polar'],
-        num_demo_participants=1,
+        num_demo_participants=2,
         reveal=False,
         before=False
     ),

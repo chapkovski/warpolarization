@@ -1,0 +1,90 @@
+<div class="card my-3">
+
+    <div class="card-body">
+        <div class="card-text">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item my-3">
+                    The decision stage is conducted as follows:
+
+                </li>
+                <li class="list-group-item  mx-3">
+                    - You are matched with a Participant B.
+
+
+                </li>
+                <li class="list-group-item  mx-3 ">
+                    - Both of you have been allocated $0.50.
+
+                </li>
+                <li class="list-group-item  mx-3">
+                    - You have been allocated an additional $0.50 for a total of $1.00. The person you are paired with
+                    has not been allocated this additional $0.50.
+
+
+                </li>
+                <li class="list-group-item my-3">
+                    You will be asked to make one transfer decision. You can decide to:
+
+
+                </li>
+                <li class="list-group-item  mx-3  ">
+                    - take up to $0.50 from the matched participant B and add it to your own account;
+
+
+                </li>
+                <li class="list-group-item  mx-3">
+                    - make no change to the money either you or the matched participant B received;
+
+
+                </li>
+                <li class="list-group-item  mx-3">
+                    - give up to $0.50 of your own money to the matched participant B.
+
+
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="card my-3">
+    <div class="card-header">
+        Bonus table
+    </div>
+    <div class="card-body">
+        <div class="card-text">
+            <table class="table">
+                <tbody>
+                <tr>
+                    <td></td>
+                    {% for p in player.payoff_table %}
+                        <td class="fw-bold text-center">{{ p.label }}</td>
+                    {% endfor %}
+
+                </tr>
+                <tr>
+                    <td class="">Your decision:</td>
+                    {% for p in player.payoff_table %}
+                        <td class="fw-bold text-center">{{ p.decision }}</td>
+                    {% endfor %}
+
+                </tr>
+
+                <tr>
+                    <td>Your bonus:</td>
+                    {% for p in player.payoff_table %}
+                        <td class="text-center">{{ p.ego }}</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <td>Participant B's bonus:</td>
+                    {% for p in player.payoff_table %}
+                        <td class="text-center">{{ p.alter }}</td>
+                    {% endfor %}
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

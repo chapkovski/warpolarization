@@ -1,3 +1,4 @@
+{% extends "global/Page.html" %}
 {{ block title }}
 Reveal After Stage 2
 {{ endblock }}
@@ -12,7 +13,7 @@ Reveal After Stage 2
 
                     <li class="list-group-item">
                         The Participant B you are matched with <span
-                            class="fw-bolder text-danger">{{ player.get_partner_opinion }}</span> with the
+                            class="fw-bolder text-danger lead ">{{ player.get_partner_opinion }}</span> with the
                         following statement:
                     </li>
                     <li class="list-group-item text-center lead my-3">

@@ -1,3 +1,4 @@
+{% extends "global/Page.html" %}
 {{ block title }}
 DG comprehension check
 
@@ -14,13 +15,9 @@ DG comprehension check
             Q1. If you decided to give 50 cents, how much would each of you end up with?
 
             <h6>Your payoff:</h6>
-            {% with  field_name="cq1_ego" %}
-                {% include "polar/includes/cqchoicer.html" %}
-            {% endwith %}
+             {{ formfield player.cq1_ego label=''}}
             <h6>Their payoff:</h6>
-            {% with  field_name="cq1_alter" %}
-                {% include "polar/includes/cqchoicer.html" %}
-            {% endwith %}
+              {{ formfield player.cq1_alter label=''}}
 
         </div>
     </div>
@@ -31,14 +28,9 @@ DG comprehension check
         <div class="card-text">
             Q2. If you decided to make no change to either endowment, how much would each of you end up with?
             <h6>Your payoff:</h6>
-            {% with  field_name="cq2_ego" %}
-                {% include "polar/includes/cqchoicer.html" %}
-            {% endwith %}
+            {{ formfield player.cq2_ego label=''}}
             <h6>Their payoff:</h6>
-            {% with  field_name="cq2_alter" %}
-                {% include "polar/includes/cqchoicer.html" %}
-            {% endwith %}
-
+           {{ formfield player.cq2_alter label=''}}
         </div>
     </div>
 </div>
@@ -48,14 +40,9 @@ DG comprehension check
             Q3. If you decided to take 50 cents, how much would each of you end up with?
 
                 <h6>Your payoff:</h6>
-            {% with  field_name="cq3_ego" %}
-                {% include "polar/includes/cqchoicer.html" %}
-            {% endwith %}
+             {{ formfield player.cq3_ego label=''}}
             <h6>Their payoff:</h6>
-            {% with  field_name="cq3_alter" %}
-
-                {% include "polar/includes/cqchoicer.html" %}
-            {% endwith %}
+              {{ formfield player.cq3_alter label=''}}
 
 
         </div>

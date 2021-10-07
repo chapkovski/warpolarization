@@ -3,6 +3,13 @@ from .choices import *
 from .constants import Constants
 import json
 import itertools
+import random
+from math import copysign
+
+# TODO: Add footer
+# TODO: add email to consent page
+# TODO: add error counter
+f = lambda x: f'{(x / 100):.2f}$'
 
 
 class Subsession(BaseSubsession):
@@ -11,22 +18,19 @@ class Subsession(BaseSubsession):
 
 def creating_session(subsession):
     subsession.treatment = subsession.session.config.get('name')
-    orders = itertools.cycle([False, True])
+    orders = [False, True]
+    partner_positions = itertools.cycle([False, True])
+
     for p in subsession.get_players():
-        c = sorted(REVEAL_CHOICES, key=lambda x: x[0], reverse=next(orders))
+        c = sorted(REVEAL_CHOICES, key=lambda x: x[0], reverse=random.choice(orders))
         p.reveal_order = json.dumps(c)
+        p.partner_position = next(partner_positions)
         p.egoendowment = Constants.DICTATOR_ENDOWMENT
         p.alterendowment = Constants.BASIC_ENDOWMENT
 
 
 class Group(BaseGroup):
     pass
-
-
-import random
-
-
-#  TODO - potentially  randomize choice order in opinions 1-3
 
 
 def reveal_choices(player):
@@ -45,19 +49,51 @@ class Player(BasePlayer):
         return [dict(id=0, value=0, label='0$'),
                 dict(id=1, value=50, label='0.50$'),
                 dict(id=2, value=100, label='1.00$'),
-                dict(id=3, value=150, label='1.50$'),]
+                dict(id=3, value=150, label='1.50$'), ]
+
+    def payoff_table(self):
+        conv_ = {-1: 'Take', 0: 'Make no change', 1: 'Give'}
+
+        def conv(v):
+            if v == 0:
+                return conv_[0]
+            return conv_[copysign(1, v)]
+
+        _choices = dg_decision_choices(self)
+
+        res = []
+        for i in _choices:
+            res.append(dict(decision=i[1], ego=f(Constants.DICTATOR_ENDOWMENT - i[0]),
+                            alter=f(Constants.BASIC_ENDOWMENT + i[0]),
+                            label=conv(i[0])))
+        return res
+
+    partner_position = models.BooleanField()
 
     def get_partner_opinion(self):
-        # TODO: get partner position
-        return 'AGREED'
+        return 'AGREED' if self.partner_position else 'НЕ СОГЛАСЕН'
+
     @property
     def reverted_opinion(self):
-        return 'disagree' if self.opinion_lgbt else 'agree'
+        try:
+            own_opinion = self.opinion_lgbt
+            return 'disagree' if (self.opinion_lgbt) else 'agree'
+        except TypeError:
+            # just for debugging
+            return 'disagree'
+
+    def reverted_opinion_single(self):
+        try:
+            own_opinion = self.opinion_lgbt
+            return 'disagrees' if (self.opinion_lgbt) else 'agrees'
+        except TypeError:
+            # just for debugging
+            return 'disagrees'
+
     opinion_competition = models.BooleanField(choices=OPINION_CHOICES, widget=widgets.RadioSelectHorizontal,
                                               label='')
     opinion_lgbt = models.BooleanField(choices=OPINION_CHOICES, widget=widgets.RadioSelectHorizontal, label='')
     opinion_covid = models.BooleanField(choices=OPINION_CHOICES, widget=widgets.RadioSelectHorizontal, label='')
-
 
     risk_general = models.IntegerField()
     risk_financial_matters = models.IntegerField()
@@ -90,12 +126,19 @@ class Player(BasePlayer):
     keyword_rev_2 = models.StringField()
     keyword_rev_3 = models.StringField()
     # Comprehension questions
-    cq1_ego = models.IntegerField(label=Constants.CQ_EGO_LABEL)
-    cq1_alter = models.IntegerField(label=Constants.CQ_ALTER_LABEL)
-    cq2_ego = models.IntegerField(label=Constants.CQ_EGO_LABEL)
-    cq2_alter = models.IntegerField(label=Constants.CQ_ALTER_LABEL)
-    cq3_ego = models.IntegerField(label=Constants.CQ_EGO_LABEL)
-    cq3_alter = models.IntegerField(label=Constants.CQ_ALTER_LABEL)
+    cq1_ego = models.IntegerField(label=Constants.CQ_EGO_LABEL, choices=CQ_CHOICES,
+                                  widget=widgets.RadioSelectHorizontal)
+    cq1_alter = models.IntegerField(label=Constants.CQ_ALTER_LABEL, choices=CQ_CHOICES,
+                                    widget=widgets.RadioSelectHorizontal)
+    cq2_ego = models.IntegerField(label=Constants.CQ_EGO_LABEL, choices=CQ_CHOICES,
+                                  widget=widgets.RadioSelectHorizontal)
+    cq2_alter = models.IntegerField(label=Constants.CQ_ALTER_LABEL, choices=CQ_CHOICES,
+                                    widget=widgets.RadioSelectHorizontal)
+    cq3_ego = models.IntegerField(label=Constants.CQ_EGO_LABEL, choices=CQ_CHOICES,
+                                  widget=widgets.RadioSelectHorizontal)
+    cq3_alter = models.IntegerField(label=Constants.CQ_ALTER_LABEL, choices=CQ_CHOICES,
+                                    widget=widgets.RadioSelectHorizontal)
+    cq_err_counter = models.IntegerField(initial=0)
     #     main variables
     reveal_order = models.StringField()
     reveal = models.BooleanField()
@@ -113,31 +156,32 @@ class Player(BasePlayer):
     # DEMOGRAPHICS
     religion = models.IntegerField(label="""
     How strongly do you believe in the existence of a God or Gods? (indicate your answer on the range from 1 = not at all 5 = very much)
-    """, choices=range(1, 6),widget=widgets.RadioSelectHorizontal)
+    """, choices=range(1, 6), widget=widgets.RadioSelectHorizontal)
     political = models.IntegerField(label="""
     Here is a 7-point scale on which the political views that people might hold are arranged from extremely liberal (left) to  extremely conservative (right). Where would you place yourself on this scale?
-    """, choices=range(0, 8),widget=widgets.RadioSelectHorizontal)
-    age = models.StringField(label='How old are you?', choices=AGE_CHOICES,widget=widgets.RadioSelect)
+    """, choices=range(0, 8), widget=widgets.RadioSelectHorizontal)
+    age = models.StringField(label='How old are you?', choices=AGE_CHOICES, widget=widgets.RadioSelect)
     education = models.StringField(label="What is the highest level of school you have completed or "
                                          "the highest degree you have received?",
-                                   choices=EDUCATION_CHOICES,widget=widgets.RadioSelect)
+                                   choices=EDUCATION_CHOICES, widget=widgets.RadioSelect)
     gender = models.StringField(label='What is your sex?',
-                                choices=GENDER_CHOICES,widget=widgets.RadioSelect)
+                                choices=GENDER_CHOICES, widget=widgets.RadioSelect)
     marital = models.StringField(label='Are you now married, widowed, divorced, separated or never married?',
-                                 choices=MARITAL_CHOICES,widget=widgets.RadioSelect)
+                                 choices=MARITAL_CHOICES, widget=widgets.RadioSelect)
     employment = models.StringField(label='Which statement best describes your current employment status?',
-                                    choices=EMPLOYMENT_CHOICES,widget=widgets.RadioSelect)
+                                    choices=EMPLOYMENT_CHOICES, widget=widgets.RadioSelect)
     occupation = models.StringField(label='Please indicate your occupation:',
-                                    choices=OCCUPATION_CHOICES,widget=widgets.RadioSelect)
+                                    choices=OCCUPATION_CHOICES, widget=widgets.RadioSelect)
     # Demand and clarity
     demand = models.LongStringField()
     instructions_clarity = models.IntegerField(label="""
-    How strongly do you believe in the existence of a God or Gods? (indicate your answer on the range from 1 = not at all 5 = very much)
-    """, choices=range(1, 6),widget=widgets.RadioSelectHorizontal)
+    How understanble and clear were the instructions in this study for you? (indicate your answer on the range from 1 = not at all 5 = very much)
+    """, choices=range(1, 6), widget=widgets.RadioSelectHorizontal)
+
 
 def dg_decision_choices(player):
     ints = list(range(-50, 51, 10))
-    f = lambda x: f'{(x / 100):.2f}$'
+
     return [(i, f(i)) for i in ints]
 
 

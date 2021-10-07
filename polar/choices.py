@@ -1,3 +1,5 @@
+CQ_CHOICES = [(0, '0$'), (50, '0.50$'), (100, '1.00$'), (150, '1.50$')]
+
 REVEAL_CHOICES = [(True, 'I <b>want to observe the answer  of Participant B'),
                   (False, 'I do not want to observe the answer of Participant B')]
 OPINION_CHOICES = [(True, 'Agree'), (False, 'Disagree'), ]

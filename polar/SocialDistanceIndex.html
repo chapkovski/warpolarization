@@ -1,11 +1,11 @@
+{% extends "global/Page.html" %}
 {{ block title }}
 Social Distance Index
 {{ endblock }}
 
-{{ block internal_styles }}
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-<script src="{% static 'otree/js/jquery-3.2.1.min.js' %}"></script>
+
+
+{{ block content }}
 <style>
     label.btn.btn-default.btn-secondary.active {
         background: yellow;
@@ -13,10 +13,6 @@ Social Distance Index
     }
 
 </style>
-{{ endblock }}
-
-{{ block content }}
-
 <script src="https://unpkg.com/survey-jquery@1.8.70/survey.jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.6.4/showdown.min.js"></script>
 {#<link href="https://unpkg.com/survey-core@1.8.70/modern.min.css" type="text/css" rel="stylesheet"/>#}
@@ -34,6 +30,7 @@ Social Distance Index
 <input type="hidden" id="surveyholder" name="surveyholder">
 <script>
     var genStat = "**<u>{{ reverted_opinion }}</u>** with the statement above?"
+    var genStatSingle = "**<u>{{ reverted_opinion_single }}</u>** with the statement above?"
     Survey.defaultBootstrapCss.navigationButton = "btn-primary btn-lg";
     Survey
         .StylesManager
@@ -87,7 +84,7 @@ Social Distance Index
                     "hideNumber": true,
                     "type": "rating",
                     "name": "sdi_family",
-                    "title": `Suppose a son or daughter of yours was getting married. How would you feel if he or she married a someone who ${genStat}`,
+                    "title": `Suppose a son or daughter of yours was getting married. How would you feel if he or she married a someone who ${genStatSingle}`,
                     "rateValues": [
                         "Not all all upset",
                         "Not too upset",

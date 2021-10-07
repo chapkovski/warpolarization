@@ -1,8 +1,20 @@
-from otree.api import *
+from otree.api import Page as oTreePage
 from .choices import *
 from .models import *
 from .constants import Constants
 from pprint import pprint
+
+
+class Page(oTreePage):
+    instructions = False
+
+    def get_context_data(self, **context):
+        r = super().get_context_data(**context)
+        r['maxpages'] = self.participant._max_page_index
+        r['page_index'] = self._index_in_pages
+        r['progress'] = f'{int(self._index_in_pages / self.participant._max_page_index * 100):d}'
+        r['instructions'] = self.instructions
+        return r
 
 
 class Consent(Page):
@@ -37,6 +49,7 @@ class DecisionInstructions(Page):
 
 
 class DGComprehensionCheck(Page):
+    instructions = True
     form_model = 'player'
     form_fields = ['cq1_ego',
                    'cq1_alter',
@@ -45,8 +58,13 @@ class DGComprehensionCheck(Page):
                    'cq3_ego',
                    'cq3_alter']
 
+    def form_invalid(self, form):
+        self.player.cq_err_counter += 1
+        return super().form_invalid(form)
+
 
 class InfoStage1(Page):
+    instructions = True
     form_model = 'player'
 
     @staticmethod
@@ -60,12 +78,15 @@ class InfoStage1(Page):
 
 
 class InfoStage2(Page):
+    instructions = True
+
     @staticmethod
     def is_displayed(player: Player):
         return player.subsession.treatment != 'reveal_after'
 
 
 class DecisionStage(Page):
+    instructions = True
     form_model = 'player'
     form_fields = ['dg_decision']
 
@@ -135,8 +156,8 @@ class InformationAvoidanceScale(Page):
 
 class SocialDistanceIndex(Page):
     def vars_for_template(player: Player):
-        # todo: make it dependent on Respondent answer
-        return dict(reverted_opinion=player.reverted_opinion)
+        return dict(reverted_opinion=player.reverted_opinion,
+                    reverted_opinion_single=player.reverted_opinion_single)
 
     def post(self):
         survey_data = json.loads(self._form_data.get('surveyholder'))
@@ -183,7 +204,8 @@ class Demographics(Page):
 
 
 class Demand(Page):
-    pass
+    form_model = 'player'
+    form_fields = ["demand", 'instructions_clarity']
 
 
 page_sequence = [
@@ -198,7 +220,7 @@ page_sequence = [
     # DGComprehensionCheck,
     # InfoStage1,
     # InfoStage2,
-    # DecisionStage,
+    DecisionStage,
     # RevealAfterStage1,
     # RevealAfterStage2,
     # Reasons,
@@ -208,6 +230,6 @@ page_sequence = [
     # SocialCuriosityScale,
     # SocialDistanceIndex,
     # RiskAttitudes,
-    Demographics,
-    Demand
+    # Demographics,
+    # Demand
 ]

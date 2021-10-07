@@ -1,27 +1,9 @@
+{% extends "global/Page.html" %}
 {{ block title }}
 Decision stage
 {{ endblock }}
 {{ block content }}
-{% if player.field_maybe_none('reveal') or subsession.treatment == 'forced_reveal' %}
-    <div class="card my-3">
-        <div class="card-body">
-            <div class="card-text">
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">
-                        The Participant B you are matched with <span
-                            class="fw-bolder text-danger">{{ player.get_partner_opinion }}</span> with the
-                        following statement:
-                    </li>
-                    <li class="list-group-item text-center lead my-3">
-                        {{ Constants.statement_lgbt }}
-                    </li>
-                    <li class="list-group-item">
-                        {{ Constants.privacy_note }}
-                    </li>
-            </div>
-        </div>
-    </div>
-{% endif %}
+
 <div class="card my-3">
     <div class="card-body">
         <div class="card-text">
@@ -58,6 +40,26 @@ Decision stage
         </div>
     </div>
 </div>
+{% if player.field_maybe_none('reveal') or subsession.treatment == 'forced_reveal' %}
+    <div class="card my-3">
+        <div class="card-body">
+            <div class="card-text">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        The Participant B you are matched with <span
+                            class="fw-bolder text-danger lead">{{ player.get_partner_opinion }}</span> with the
+                        following statement:
+                    </li>
+                    <li class="list-group-item text-center lead my-3">
+                        {{ Constants.statement_lgbt }}
+                    </li>
+                    <li class="list-group-item">
+                        {{ Constants.privacy_note }}
+                    </li>
+            </div>
+        </div>
+    </div>
+{% endif %}
 <div class="card my-3">
     <div class="card-header">
         Your decision
@@ -67,10 +69,11 @@ Decision stage
     <div class="card-body">
         <div class="card-text">
             <div class="mb-3 _formfield">
-                <label class="col-form-label" for="id_dg_decision"></label>
+
                 <div class="controls d-flex flex-lg-row flex-sm-column">
                     {% for ch in player.html_dg_decision_choices %}
                         <div class="form-check form-check-inline">
+
                             <input class="form-check-input dg-decision" type="radio" id="id_dg_decision-{{ ch.id }}"
                                    name="dg_decision"
                                    required=""
