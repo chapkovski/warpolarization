@@ -1,13 +1,16 @@
 {% extends "global/Page.html" %}
 
 {{ block title }}
-Information stage 1
+
 {{ endblock }}
 {{ block content }}
 <div class="card my-3">
     <div class="card-body">
         <div class="card-text">
             <ul class="list-group list-group-flush">
+             <li class="list-group-item">
+            In this study <b>half</b> of the participants agreed with the statement below, and <b>half</b> disagreed with it.
+             </li>
                 {% if subsession.treatment == 'reveal_before' %}
 
 
@@ -19,19 +22,7 @@ Information stage 1
                     <li class="list-group-item text-center lead">{{ Constants.statement_lgbt }}
                     </li>
                     <li class="list-group-item">
-                        <div id="id_reveal" required="">
-                            <div class="form-check"><input class="form-check-input" type="radio" id="id_reveal-0"
-                                                           name="reveal"
-                                                           required="" value="False"> <label for="id_reveal-0">I <b>do
-                                not
-                                want</b> to
-                                observe the answer of Participant B</label></div>
-                            <div class="form-check"><input class="form-check-input" type="radio" id="id_reveal-1"
-                                                           name="reveal"
-                                                           required="" value="True"> <label for="id_reveal-1">I
-                                <b>want</b> to
-                                observe the answer of Participant B</label></div>
-                        </div>
+                      {{ formfield player.reveal }}
                     </li>
                 {% else %}
 

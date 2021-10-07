@@ -6,9 +6,8 @@ import itertools
 import random
 from math import copysign
 
-# TODO: Add footer
-# TODO: add email to consent page
-# TODO: add error counter
+
+
 f = lambda x: f'{(x / 100):.2f}$'
 
 
@@ -71,7 +70,7 @@ class Player(BasePlayer):
     partner_position = models.BooleanField()
 
     def get_partner_opinion(self):
-        return 'AGREED' if self.partner_position else 'НЕ СОГЛАСЕН'
+        return 'AGREED' if self.partner_position else 'DISAGREED'
 
     @property
     def reverted_opinion(self):

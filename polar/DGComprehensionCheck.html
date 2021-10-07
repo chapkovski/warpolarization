@@ -1,12 +1,12 @@
 {% extends "global/Page.html" %}
 {{ block title }}
-DG comprehension check
+
 
 {{ endblock }}
 {{ block content }}
 <div class="alert alert-warning my-3">
-    The following questions allow us to check if you understand the instructions. You will be able to proceed after you
-    submit the correct answers to these questions
+    The following questions allow us to check check your understanding of the instructions. You can proceed after you
+    submit the correct answers to these questions.
 
 </div>
 <div class="card my-3">
@@ -15,9 +15,9 @@ DG comprehension check
             Q1. If you decided to give 50 cents, how much would each of you end up with?
 
             <h6>Your payoff:</h6>
-             {{ formfield player.cq1_ego label=''}}
+            {{ formfield player.cq1_ego label=''}}
             <h6>Their payoff:</h6>
-              {{ formfield player.cq1_alter label=''}}
+            {{ formfield player.cq1_alter label=''}}
 
         </div>
     </div>
@@ -30,7 +30,7 @@ DG comprehension check
             <h6>Your payoff:</h6>
             {{ formfield player.cq2_ego label=''}}
             <h6>Their payoff:</h6>
-           {{ formfield player.cq2_alter label=''}}
+            {{ formfield player.cq2_alter label=''}}
         </div>
     </div>
 </div>
@@ -39,10 +39,10 @@ DG comprehension check
         <div class="card-text">
             Q3. If you decided to take 50 cents, how much would each of you end up with?
 
-                <h6>Your payoff:</h6>
-             {{ formfield player.cq3_ego label=''}}
+            <h6>Your payoff:</h6>
+            {{ formfield player.cq3_ego label=''}}
             <h6>Their payoff:</h6>
-              {{ formfield player.cq3_alter label=''}}
+            {{ formfield player.cq3_alter label=''}}
 
 
         </div>

@@ -1,7 +1,8 @@
+from markupsafe import escape, Markup
 CQ_CHOICES = [(0, '0$'), (50, '0.50$'), (100, '1.00$'), (150, '1.50$')]
 
-REVEAL_CHOICES = [(True, 'I <b>want to observe the answer  of Participant B'),
-                  (False, 'I do not want to observe the answer of Participant B')]
+REVEAL_CHOICES = [(True, Markup('I want to know the answer  of Participant B')),
+                  (False, 'I do not want to know the answer of Participant B')]
 OPINION_CHOICES = [(True, 'Agree'), (False, 'Disagree'), ]
 AGE_CHOICES = ["Younger than 18",
                "18-24 years old",
