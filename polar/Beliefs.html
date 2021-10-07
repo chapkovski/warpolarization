@@ -1,9 +1,81 @@
 {{ block title }}
-    Page title
+Beliefs
 {{ endblock }}
 {{ block content }}
 
-    {{ formfields }}
-    {{ next_button }}
+{#TODO BELIEFS PAGE#}
+    <style>
+        .red {
+            color: red;
+            font-weight: bold
+        }
+    </style>
+<div class="alert alert-warning">
+    <b>One</b> of the following questions will be randomly chosen and will be used to define your extra bonus.
+</div>
+{% if subsession.treatment == 'reveal_after' %}
+  {% with  field={'name':'dg_belief_ra', 'label':'In the Decision stage, what will be the decision most Participants A take?'} %}
+        {% include "polar/includes/choicer_wrapper.html" %}
+    {% endwith %}
+
+
+    {% include "polar/includes/reveal_belief.html" %}
+
+
+{% elif subsession.treatment == 'forced_reveal' %}
+
+    In this study Participants A and Participants B were able to either agree or disagree with each regarding their
+    opinion about statement:
+    <li class="list-group-item text-center lead">{{ Constants.statement_lgbt }}</li>
+
+
+    {% with  field={'name':'dg_belief_fr_diff', 'label':'In the Decision stage, what will be the decision most Participants A take who were matched with Participants B with a <span class="red">different</span> opinion about the statement above (from -0.50 to +0.50)?'} %}
+        {% include "polar/includes/choicer_wrapper.html" %}
+    {% endwith %}
+    {% with  field={'name':'dg_belief_fr_same', 'label':'In the Decision stage, what will be the decision most Participants A take who were matched with Participants B with the <span class="red">same</span> opinion about the statement above (from -0.50 to +0.50)?'} %}
+        {% include "polar/includes/choicer_wrapper.html" %}
+    {% endwith %}
+
+
+
+
+
+
+
+
+{% else %}
+    {#    REVEAL_BEFORE #}
+
+    In this study Participants A and Participants B were able to either agree or disagree with each regarding their
+    opinion about statement:
+    <li class="list-group-item text-center lead">{{ Constants.statement_lgbt }}</li>
+    {% with  field={'name':'dg_belief_rb_nonrev', 'label':'In the Decision stage, what will be the decision most Participants A take who decided <span class="red">not to observe</span> Participant B opinion about the statement above?  '} %}
+        {% include "polar/includes/choicer_wrapper.html" %}
+    {% endwith %}
+    {% with  field={'name':'dg_belief_rb_rev_diff', 'label':'In the Decision stage, what will be the decision most Participants A take who decided <span class="red">to observe</span> Participant B’s opinion about the statement above and were matched with a Participant B with a  <span class="red">different</span> opinion ?'} %}
+        {% include "polar/includes/choicer_wrapper.html" %}
+    {% endwith %}
+    {% with  field={'name':'dg_belief_rb_rev_same', 'label':'In the Decision stage, what will be the decision most Participants A take who decided <span class="red">to observe</span> Participant B’s opinion about the statement above and were matched with a Participant B with the  <span class="red">same</span> opinion ?'} %}
+        {% include "polar/includes/choicer_wrapper.html" %}
+    {% endwith %}
+
+
+
+
+
+    {% include "polar/includes/reveal_belief.html" %}
+
+
+{% endif %}
+
+
+
+
+
+
+
+
+
+{{ next_button }}
 
 {{ endblock }}

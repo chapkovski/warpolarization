@@ -20,16 +20,23 @@ Information Avoidance Scale
 <script src="https://unpkg.com/survey-jquery@1.8.70/survey.jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.6.4/showdown.min.js"></script>
 {#<link href="https://unpkg.com/survey-core@1.8.70/modern.min.css" type="text/css" rel="stylesheet"/>#}
-<div class="card">
+<div class="container">
+    <div class="row">
+        <div class="col">
 
-    <div class="card-body">
-        <h5 class="card-title">Consider the following statement:</h5>
-        <div class="card-text lead text-center">{{ Constants.statement }}</div>
+            <div class="card">
 
+                <div class="card-body">
+                    <h5 class="card-title">Consider the following statement:</h5>
+                    <div class="card-text lead text-center">{{ Constants.statement_lgbt }}</div>
+
+                </div>
+            </div>
+            <div id="surveyElement" style="display:inline-block;width:100%;"></div>
+
+        </div>
     </div>
 </div>
-<div id="surveyElement" style="display:inline-block;width:100%;"></div>
-<div id="surveyResult"></div>
 <input type="hidden" id="surveyholder" name="surveyholder">
 <script>
 
@@ -38,11 +45,13 @@ Information Avoidance Scale
         .StylesManager
         .applyTheme("bootstrap");
 
-    var json = {  "completeText": "Next",showCompletedPage:false,
+    var json = {
+        "completeText": "Next", showCompletedPage: false, requiredText:'',
         questions:
             [
-                {"hideNumber":true,
-                    isRequired:true,
+                {
+                    "hideNumber": true,
+                    isRequired: true,
                     "type": "radiogroup",
                     "name": "ias_friend",
                     "title": "Choose which position describes you most:",
@@ -52,7 +61,8 @@ Information Avoidance Scale
 
                     ]
                 },
-                {"hideNumber":true,isRequired:true,
+                {
+                    "hideNumber": true, isRequired: true,
                     "type": "radiogroup",
                     "name": "ias_coworker",
                     "title": "Choose which position describes you most:",
@@ -62,7 +72,8 @@ Information Avoidance Scale
 
                     ]
                 },
-                {"hideNumber":true,isRequired:true,
+                {
+                    "hideNumber": true, isRequired: true,
                     "type": "radiogroup",
                     "name": "ias_stranger",
                     "title": "Choose which position describes you most:",

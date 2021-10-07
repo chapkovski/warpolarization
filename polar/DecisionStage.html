@@ -62,86 +62,69 @@ Decision stage
     <div class="card-header">
         Your decision
     </div>
+
+
     <div class="card-body">
-        <div class="mb-3 _formfield">
-
-            <label class="col-form-label" for="id_dg_decision"></label>
-            <div class="controls d-flex flex-lg-row flex-sm-column">
-
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" id="id_dg_decision-0" name="dg_decision" required=""
-                           value="-50">
-                    <label for="id_dg_decision-0" class="form-check-label">-0.50$</label>
+        <div class="card-text">
+            <div class="mb-3 _formfield">
+                <label class="col-form-label" for="id_dg_decision"></label>
+                <div class="controls d-flex flex-lg-row flex-sm-column">
+                    {% for ch in player.html_dg_decision_choices %}
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input dg-decision" type="radio" id="id_dg_decision-{{ ch.id }}"
+                                   name="dg_decision"
+                                   required=""
+                                   value="{{ ch.value }}">
+                            <label for="id_dg_decision-{{ ch.id }}" class="form-check-label">{{ ch.label }}</label>
+                        </div>
+                    {% endfor %}
                 </div>
-
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" id="id_dg_decision-1" name="dg_decision" required=""
-                           value="-40">
-                    <label for="id_dg_decision-1" class="form-check-label">-0.40$</label>
-                </div>
-
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" id="id_dg_decision-2" name="dg_decision" required=""
-                           value="-30">
-                    <label for="id_dg_decision-2" class="form-check-label">-0.30$</label>
-                </div>
-
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" id="id_dg_decision-3" name="dg_decision" required=""
-                           value="-20">
-                    <label for="id_dg_decision-3" class="form-check-label">-0.20$</label>
-                </div>
-
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" id="id_dg_decision-4" name="dg_decision" required=""
-                           value="-10">
-                    <label for="id_dg_decision-4" class="form-check-label">-0.10$</label>
-                </div>
-
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" id="id_dg_decision-5" name="dg_decision" required=""
-                           value="0">
-                    <label for="id_dg_decision-5" class="form-check-label">0.00$</label>
-                </div>
-
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" id="id_dg_decision-6" name="dg_decision" required=""
-                           value="10">
-                    <label for="id_dg_decision-6" class="form-check-label">0.10$</label>
-                </div>
-
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" id="id_dg_decision-7" name="dg_decision" required=""
-                           value="20">
-                    <label for="id_dg_decision-7" class="form-check-label">0.20$</label>
-                </div>
-
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" id="id_dg_decision-8" name="dg_decision" required=""
-                           value="30">
-                    <label for="id_dg_decision-8" class="form-check-label">0.30$</label>
-                </div>
-
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" id="id_dg_decision-9" name="dg_decision" required=""
-                           value="40">
-                    <label for="id_dg_decision-9" class="form-check-label">0.40$</label>
-                </div>
-
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" id="id_dg_decision-10" name="dg_decision" required=""
-                           value="50">
-                    <label for="id_dg_decision-10" class="form-check-label">0.50$</label>
-                </div>
-
             </div>
+            <ol class="list-group  ">
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold">Your bonus:</div>
 
+                    </div>
+                    <div class="display-6">
+                        <span class="badge bg-primary rounded-pill"><span id="ownpayoff"></span></span>
+                    </div>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold">Participant B's bonus:</div>
 
+                    </div>
+                    <div class="display-6">
+                        <span class="badge bg-primary rounded-pill "><span id="alterpayoff"></span></span>
+                    </div>
+                </li>
+
+            </ol>
         </div>
     </div>
 </div>
-{# TODO: add js for calculating Pyaoffs of A and B #}
-{# TODO: generate choices in loop #}
+
+
+<script>
+    const formatter = (i)=>{return (i/100).toFixed(2)+'$'}
+    const $own = $('#ownpayoff')
+    const $alter = $('#alterpayoff')
+    const egoendowment = {{ player.egoendowment|json }}
+    const alterendowment = {{ player.alterendowment|json }}
+    const egopayoff = formatter(egoendowment)
+    const alterpayoff = formatter(alterendowment)
+    $own.html( egopayoff)
+    $alter.html( alterpayoff)
+    $('.dg-decision').change(function(){
+        const val = $(this).val();
+        const egopayoff = formatter(egoendowment-parseInt(val))
+        const alterpayoff = formatter(alterendowment+parseInt(val))
+        $own.html( egopayoff)
+        $alter.html( alterpayoff)
+    })
+</script>
+
 {{ next_button }}
 
 {{ endblock }}

@@ -15,6 +15,8 @@ def creating_session(subsession):
     for p in subsession.get_players():
         c = sorted(REVEAL_CHOICES, key=lambda x: x[0], reverse=next(orders))
         p.reveal_order = json.dumps(c)
+        p.egoendowment = Constants.DICTATOR_ENDOWMENT
+        p.alterendowment = Constants.BASIC_ENDOWMENT
 
 
 class Group(BaseGroup):
@@ -24,40 +26,38 @@ class Group(BaseGroup):
 import random
 
 
-#  TODO - potentially
-# TODO: 1. randomize choice order in opinions 1-3
-# TODO: 2. Randomice choice order in revealing (!)
+#  TODO - potentially  randomize choice order in opinions 1-3
+
 
 def reveal_choices(player):
     return json.loads(player.reveal_order)
 
 
 class Player(BasePlayer):
-    def get_partner_opinion(self):
-        return 'AGREED'
+    def html_dg_decision_choices(self):
+        _choices = dg_decision_choices(self)
+        res = []
+        for i, j in enumerate(_choices):
+            res.append(dict(id=i, value=j[0], label=j[1]))
+        return res
 
-    opinion_competition = models.BooleanField(choices=OPINION_CHOICES, widget=widgets.RadioSelectHorizontal, label='')
+    def cq_choices(self):
+        return [dict(id=0, value=0, label='0$'),
+                dict(id=1, value=50, label='0.50$'),
+                dict(id=2, value=100, label='1.00$'),
+                dict(id=3, value=150, label='1.50$'),]
+
+    def get_partner_opinion(self):
+        # TODO: get partner position
+        return 'AGREED'
+    @property
+    def reverted_opinion(self):
+        return 'disagree' if self.opinion_lgbt else 'agree'
+    opinion_competition = models.BooleanField(choices=OPINION_CHOICES, widget=widgets.RadioSelectHorizontal,
+                                              label='')
     opinion_lgbt = models.BooleanField(choices=OPINION_CHOICES, widget=widgets.RadioSelectHorizontal, label='')
     opinion_covid = models.BooleanField(choices=OPINION_CHOICES, widget=widgets.RadioSelectHorizontal, label='')
 
-    religion = models.IntegerField(label="""
-    How strongly do you believe in the existence of a God or Gods? (indicate your answer on the range from 1 = not at all 5 = very much)
-    """, choices=range(1, 6))
-    political = models.IntegerField(label="""
-    Here is a 7-point scale on which the political views that people might hold are arranged from extremely liberal (left) to  extremely conservative (right). Where would you place yourself on this scale?
-    """, choices=range(0, 8))
-    age = models.StringField(label='How old are you?', choices=AGE_CHOICES)
-    education = models.StringField(label="What is the highest level of school you have completed or "
-                                         "the highest degree you have received?",
-                                   choices=EDUCATION_CHOICES)
-    gender = models.StringField(label='What is your sex?',
-                                choices=GENDER_CHOICES)
-    marital = models.StringField(label='What is your sex?',
-                                 choices=MARITAL_CHOICES)
-    employment = models.StringField(label='What is your sex?',
-                                    choices=EMPLOYMENT_CHOICES)
-    occupation = models.StringField(label='Please indicate your occupation',
-                                    choices=OCCUPATION_CHOICES)
 
     risk_general = models.IntegerField()
     risk_financial_matters = models.IntegerField()
@@ -99,9 +99,41 @@ class Player(BasePlayer):
     #     main variables
     reveal_order = models.StringField()
     reveal = models.BooleanField()
-    dg_decision = models.IntegerField(widget=widgets.RadioSelectHorizontal
-                                      )
-
+    dg_decision = models.IntegerField(widget=widgets.RadioSelectHorizontal)
+    egoendowment = models.IntegerField()
+    alterendowment = models.IntegerField()
+    # BELIEFS:
+    reveal_belief = models.IntegerField(min=0, max=100)
+    dg_belief_ra = models.IntegerField()
+    dg_belief_rb_nonrev = models.IntegerField()
+    dg_belief_rb_rev_diff = models.IntegerField()
+    dg_belief_rb_rev_same = models.IntegerField()
+    dg_belief_fr_diff = models.IntegerField()
+    dg_belief_fr_same = models.IntegerField()
+    # DEMOGRAPHICS
+    religion = models.IntegerField(label="""
+    How strongly do you believe in the existence of a God or Gods? (indicate your answer on the range from 1 = not at all 5 = very much)
+    """, choices=range(1, 6),widget=widgets.RadioSelectHorizontal)
+    political = models.IntegerField(label="""
+    Here is a 7-point scale on which the political views that people might hold are arranged from extremely liberal (left) to  extremely conservative (right). Where would you place yourself on this scale?
+    """, choices=range(0, 8),widget=widgets.RadioSelectHorizontal)
+    age = models.StringField(label='How old are you?', choices=AGE_CHOICES,widget=widgets.RadioSelect)
+    education = models.StringField(label="What is the highest level of school you have completed or "
+                                         "the highest degree you have received?",
+                                   choices=EDUCATION_CHOICES,widget=widgets.RadioSelect)
+    gender = models.StringField(label='What is your sex?',
+                                choices=GENDER_CHOICES,widget=widgets.RadioSelect)
+    marital = models.StringField(label='Are you now married, widowed, divorced, separated or never married?',
+                                 choices=MARITAL_CHOICES,widget=widgets.RadioSelect)
+    employment = models.StringField(label='Which statement best describes your current employment status?',
+                                    choices=EMPLOYMENT_CHOICES,widget=widgets.RadioSelect)
+    occupation = models.StringField(label='Please indicate your occupation:',
+                                    choices=OCCUPATION_CHOICES,widget=widgets.RadioSelect)
+    # Demand and clarity
+    demand = models.LongStringField()
+    instructions_clarity = models.IntegerField(label="""
+    How strongly do you believe in the existence of a God or Gods? (indicate your answer on the range from 1 = not at all 5 = very much)
+    """, choices=range(1, 6),widget=widgets.RadioSelectHorizontal)
 
 def dg_decision_choices(player):
     ints = list(range(-50, 51, 10))

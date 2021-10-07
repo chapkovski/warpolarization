@@ -71,6 +71,9 @@ class DecisionStage(Page):
 
 
 class RevealAfterStage1(Page):
+    form_model = 'player'
+    form_fields = ['reveal']
+
     @staticmethod
     def is_displayed(player: Player):
         return player.subsession.treatment == 'reveal_after'
@@ -79,7 +82,7 @@ class RevealAfterStage1(Page):
 class RevealAfterStage2(Page):
     @staticmethod
     def is_displayed(player: Player):
-        return player.subsession.treatment == 'reveal_after' and player.reveal
+        return player.subsession.treatment == 'reveal_after'
 
 
 class Reasons(Page):
@@ -98,7 +101,26 @@ class BeliefsIntro(Page):
 
 
 class Beliefs(Page):
-    pass
+    form_model = 'player'
+
+    @staticmethod
+    def get_form_fields(player: Player):
+        if player.subsession.treatment == 'reveal_after':
+            return ['dg_belief_ra', 'reveal_belief']
+        if player.subsession.treatment == 'reveal_before':
+            return [
+                'dg_belief_rb_nonrev',
+                'dg_belief_rb_rev_diff',
+                'dg_belief_rb_rev_same',
+                'reveal_belief'
+            ]
+        if player.subsession.treatment == 'forced_reveal':
+            return [
+
+                'dg_belief_fr_diff',
+                'dg_belief_fr_same',
+
+            ]
 
 
 class InformationAvoidanceScale(Page):
@@ -114,7 +136,7 @@ class InformationAvoidanceScale(Page):
 class SocialDistanceIndex(Page):
     def vars_for_template(player: Player):
         # todo: make it dependent on Respondent answer
-        return dict(reverted_opinion='did not agree')
+        return dict(reverted_opinion=player.reverted_opinion)
 
     def post(self):
         survey_data = json.loads(self._form_data.get('surveyholder'))
@@ -149,7 +171,15 @@ import json
 
 
 class Demographics(Page):
-    pass
+    form_model = 'player'
+    form_fields = ["religion",
+                   "political",
+                   "age",
+                   "education",
+                   "gender",
+                   "marital",
+                   "employment",
+                   "occupation", ]
 
 
 class Demand(Page):
@@ -166,18 +196,18 @@ page_sequence = [
     # GeneralInstructions,
     # DecisionInstructions,
     # DGComprehensionCheck,
-    InfoStage1,
-    InfoStage2,
-    DecisionStage,
+    # InfoStage1,
+    # InfoStage2,
+    # DecisionStage,
     # RevealAfterStage1,
     # RevealAfterStage2,
-    Reasons,
+    # Reasons,
     # BeliefsIntro,
     # Beliefs,
-    InformationAvoidanceScale,
-    SocialCuriosityScale,
-    SocialDistanceIndex,
-    RiskAttitudes,
-    # Demographics,
-    # Demand
+    # InformationAvoidanceScale,
+    # SocialCuriosityScale,
+    # SocialDistanceIndex,
+    # RiskAttitudes,
+    Demographics,
+    Demand
 ]

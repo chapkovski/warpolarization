@@ -12,9 +12,15 @@ DG comprehension check
     <div class="card-body">
         <div class="card-text">
             Q1. If you decided to give 50 cents, how much would each of you end up with?
-            (Please fill in number in cents, that is 50, not 0.50)
-            <div>{{ formfield player.cq1_ego }}</div>
-            <div>{{ formfield player.cq1_alter }}</div>
+
+            <h6>Your payoff:</h6>
+            {% with  field_name="cq1_ego" %}
+                {% include "polar/includes/cqchoicer.html" %}
+            {% endwith %}
+            <h6>Their payoff:</h6>
+            {% with  field_name="cq1_alter" %}
+                {% include "polar/includes/cqchoicer.html" %}
+            {% endwith %}
 
         </div>
     </div>
@@ -24,8 +30,14 @@ DG comprehension check
     <div class="card-body">
         <div class="card-text">
             Q2. If you decided to make no change to either endowment, how much would each of you end up with?
-            <div>{{ formfield player.cq2_ego }}</div>
-            <div>{{ formfield player.cq2_alter }}</div>
+            <h6>Your payoff:</h6>
+            {% with  field_name="cq2_ego" %}
+                {% include "polar/includes/cqchoicer.html" %}
+            {% endwith %}
+            <h6>Their payoff:</h6>
+            {% with  field_name="cq2_alter" %}
+                {% include "polar/includes/cqchoicer.html" %}
+            {% endwith %}
 
         </div>
     </div>
@@ -33,10 +45,18 @@ DG comprehension check
 <div class="card my-3">
     <div class="card-body">
         <div class="card-text">
-           Q3. If you decided to take 50 cents, how much would each of you end up with?
+            Q3. If you decided to take 50 cents, how much would each of you end up with?
 
-            <div>{{ formfield player.cq3_ego }}</div>
-            <div>{{ formfield player.cq3_alter }}</div>
+                <h6>Your payoff:</h6>
+            {% with  field_name="cq3_ego" %}
+                {% include "polar/includes/cqchoicer.html" %}
+            {% endwith %}
+            <h6>Their payoff:</h6>
+            {% with  field_name="cq3_alter" %}
+
+                {% include "polar/includes/cqchoicer.html" %}
+            {% endwith %}
+
 
         </div>
     </div>

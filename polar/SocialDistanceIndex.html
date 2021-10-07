@@ -20,16 +20,17 @@ Social Distance Index
 <script src="https://unpkg.com/survey-jquery@1.8.70/survey.jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.6.4/showdown.min.js"></script>
 {#<link href="https://unpkg.com/survey-core@1.8.70/modern.min.css" type="text/css" rel="stylesheet"/>#}
-<div class="card">
+<div class="otree-body container">
+    <div class="card">
 
-    <div class="card-body">
-    <h5 class="card-title">Consider the following statement:</h5>
-        <div class="card-text lead text-center">{{ Constants.statement }}</div>
+        <div class="card-body">
+            <h5 class="card-title">Consider the following statement:</h5>
+            <div class="card-text lead text-center">{{ Constants.statement_lgbt }}</div>
 
+        </div>
     </div>
+    <div id="surveyElement" style="display:inline-block;width:100%;"></div>
 </div>
-<div id="surveyElement" style="display:inline-block;width:100%;"></div>
-<div id="surveyResult"></div>
 <input type="hidden" id="surveyholder" name="surveyholder">
 <script>
     var genStat = "**<u>{{ reverted_opinion }}</u>** with the statement above?"
@@ -38,10 +39,12 @@ Social Distance Index
         .StylesManager
         .applyTheme("bootstrap");
 
-    var json = {showCompletedPage:false,
+    var json = {
+        showCompletedPage: false,requiredText:'',
         questions:
             [
-                {           isRequired: true,
+                {
+                    isRequired: true,
                     "hideNumber": true,
                     "type": "rating",
                     "name": "sdi_politics",
@@ -53,11 +56,12 @@ Social Distance Index
                         "Extremely comfortable"
                     ]
                 },
-                {           isRequired: true,
+                {
+                    isRequired: true,
                     "hideNumber": true,
                     "type": "rating",
                     "name": "sdi_neighbors",
-                    "title":`How comfortable are you having **neighbors** on your street who ${genStat}`,
+                    "title": `How comfortable are you having **neighbors** on your street who ${genStat}`,
                     "rateValues": [
                         "Not at all comfortable",
                         "Not too comfortable",
@@ -65,11 +69,12 @@ Social Distance Index
                         "Extremely comfortable"
                     ]
                 },
-                {           isRequired: true,
+                {
+                    isRequired: true,
                     "hideNumber": true,
                     "type": "rating",
                     "name": "sdi_friends",
-                    "title":`How comfortable are you having **close personal friends** on your street who ${genStat}`,
+                    "title": `How comfortable are you having **close personal friends** on your street who ${genStat}`,
                     "rateValues": [
                         "Not at all comfortable",
                         "Not too comfortable",
@@ -77,7 +82,8 @@ Social Distance Index
                         "Extremely comfortable"
                     ]
                 },
-                {           isRequired: true,
+                {
+                    isRequired: true,
                     "hideNumber": true,
                     "type": "rating",
                     "name": "sdi_family",

@@ -1,0 +1,16 @@
+<div class="mb-3 _formfield">
+    <label class="col-form-label" for="id_{{ field_name }}"></label>
+    <div class="controls d-flex flex-lg-row flex-sm-column">
+        {% for ch in player.html_dg_decision_choices %}
+            <div class="form-check form-check-inline">
+                <input class="form-check-input dg-decision" type="radio" id="id_{{ field_name }}-{{ ch.id }}"
+                       name="{{ field_name }}"
+                       required
+                       value="{{ ch.value }}">
+                <label for="id_{{ field_name }}-{{ ch.id }}" class="form-check-label">{{ ch.label }}</label>
+            </div>
+        {% endfor %}
+
+    </div>
+    <div>{{ formfield_errors  field_name }}</div>
+</div>

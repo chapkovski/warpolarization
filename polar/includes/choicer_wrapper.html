@@ -1,0 +1,17 @@
+<div class="card my-3">
+    <div class="card-body">
+        <div class="fw-bold">
+            {{ field.label }}
+        </div>
+        {% with  field_name=field.name %}
+            {% include "polar/includes/choicer.html" %}
+        {% endwith %}
+
+        <div class="fst-italic"> (if your answer deviates <b>by 10 US cents or less</b> from the correct answer you
+            can be
+            eligible for the additional bonus
+            of {{ Constants.formatted_belief_bonus }}).
+        </div>
+    </div>
+</div>
+
