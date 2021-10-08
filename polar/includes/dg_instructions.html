@@ -4,43 +4,40 @@
         <div class="card-text">
             <ul class="list-group list-group-flush">
                 <li class="list-group-item my-3">
-                    The decision stage is conducted as follows:
+                    Этап принятия решения проходит следующим образом:
 
                 </li>
                 <li class="list-group-item  mx-3">
-                    - You are matched with a Participant B.
+                    - Вы сопоставляетесь с участником B.
 
 
                 </li>
                 <li class="list-group-item  mx-3 ">
-                    - Both of you have been allocated $0.50.
+                    - Вам обоим выделено по $0,50.
 
                 </li>
                 <li class="list-group-item  mx-3">
-                    - You have been allocated an additional $0.50 for a total of $1.00. The person you are paired with
-                    has not been allocated this additional $0.50.
+                    - Вам выделено еще $0,50, что в сумме составляет $1,00. Человеку, с которым вы в паре, не было выделено дополнительно $0,50.
 
 
                 </li>
                 <li class="list-group-item my-3">
-                    You will be asked to make one transfer decision. You can decide to:
+                    Вам будет предложено принять одно решение о переводе. Вы можете принять решение:
 
 
                 </li>
                 <li class="list-group-item  mx-3  ">
-                    - take up to $0.50 from the matched participant B and add it to your own account;
+                    - взять до $0,50 у участника B, с которым вы состоите в паре, и добавить их на свой собственный счет;
 
 
                 </li>
                 <li class="list-group-item  mx-3">
-                    - make no change to the money either you or the matched participant B received;
+                    - ничего не менять в деньгах, полученных вами или участником B;
 
 
                 </li>
                 <li class="list-group-item  mx-3">
-                    - give up to $0.50 of your own money to the matched participant B.
-
-
+                    - отдать до $0,50 из своих собственных денег участнику B.
                 </li>
 
             </ul>
@@ -50,7 +47,7 @@
 
 <div class="card my-3">
     <div class="card-header">
-        Bonus table
+        Таблица бонусов
     </div>
     <div class="card-body">
         <div class="card-text">
@@ -64,7 +61,7 @@
 
                 </tr>
                 <tr>
-                    <td class="">Your decision:</td>
+                    <td class="">Ваше решение:</td>
                     {% for p in player.payoff_table %}
                         <td class="fw-bold text-center">{{ p.decision }}</td>
                     {% endfor %}
@@ -72,13 +69,13 @@
                 </tr>
 
                 <tr>
-                    <td>Your bonus:</td>
+                    <td>Ваш бонус:</td>
                     {% for p in player.payoff_table %}
                         <td class="text-center">{{ p.ego }}</td>
                     {% endfor %}
                 </tr>
                 <tr>
-                    <td>Participant B's bonus:</td>
+                    <td>Бонус Участника Б:</td>
                     {% for p in player.payoff_table %}
                         <td class="text-center">{{ p.alter }}</td>
                     {% endfor %}

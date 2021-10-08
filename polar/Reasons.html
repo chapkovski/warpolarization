@@ -4,9 +4,9 @@
 {{ endblock }}
 {{ block content }}
 {{ formfield player.reason_dg }}
-<div class="alert alert-info">Please indicate below three keywords that best describe the motives why you took the
-    decision regarding giving money to or taking money from the Participant B you were matched with or leaving his
-    account unchanged?
+<div class="alert alert-info">
+    Пожалуйста, укажите ниже три ключевых слова, которые лучше всего описывают мотивы, по которым вы приняли решение о
+    том, чтобы дать или взять деньги у участника В, с которым вы были сопоставлены, или оставить его счет без изменений?
 </div>
 {{ formfield player.keyword_dg_1 label='' }}
 {{ formfield player.keyword_dg_2 label=''  }}
@@ -15,8 +15,9 @@
 
 
     {{ formfield player.reason_reveal }}
-    <div class="alert">
-        Please indicate below three keywords that best describe the motives why you took the decision regarding observing or not observing Participant B’s opinion?
+    <div class="alert alert-info" >
+        Пожалуйста, укажите ниже три ключевых слова, которые лучше всего описывают мотивы, по которым вы приняли решение относительно
+        наблюдать или не наблюдать за мнением участника Б?
     </div>
     {{ formfield player.keyword_rev_1 label='' }}
     {{ formfield player.keyword_rev_2 label=''  }}

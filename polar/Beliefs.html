@@ -12,10 +12,10 @@
         }
     </style>
 <div class="alert alert-warning">
-    <b>One</b> of the following questions will be randomly chosen and will be used to define your extra bonus.
+   <b>Один</b> из следующих вопросов будет выбран случайным образом и будет использоваться для определения вашего дополнительного бонуса.
 </div>
 {% if subsession.treatment == 'reveal_after' %}
-  {% with  field={'name':'dg_belief_ra', 'label':'In the Decision stage, what will be the decision most Participants A take?'} %}
+  {% with  field={'name':'dg_belief_ra', 'label':'На этапе принятия решения, какое решение примет большинство участников А?'} %}
         {% include "polar/includes/choicer_wrapper.html" %}
     {% endwith %}
 
@@ -25,15 +25,15 @@
 
 {% elif subsession.treatment == 'forced_reveal' %}
 
-    In this study Participants A and Participants B were able to either agree or disagree with each regarding their
-    opinion about statement:
+    В данном исследовании участники А и Б могли либо согласиться, либо не согласиться с каждым из них относительно их
+    мнения о высказывании:
     <li class="list-group-item text-center lead">{{ Constants.statement_lgbt }}</li>
 
 
-    {% with  field={'name':'dg_belief_fr_diff', 'label':'In the Decision stage, what will be the decision most Participants A take who were matched with Participants B with a <span class="red">different</span> opinion about the statement above (from -0.50 to +0.50)?'} %}
+    {% with  field={'name':'dg_belief_fr_diff', 'label':'На этапе принятия решения, какое решение примут большинство участников A, которые были сопоставлены с участниками B с <span class="red">различным</span> мнением об утверждении выше (от -0,50 до +0,50)?'} %}
         {% include "polar/includes/choicer_wrapper.html" %}
     {% endwith %}
-    {% with  field={'name':'dg_belief_fr_same', 'label':'In the Decision stage, what will be the decision most Participants A take who were matched with Participants B with the <span class="red">same</span> opinion about the statement above (from -0.50 to +0.50)?'} %}
+    {% with  field={'name':'dg_belief_fr_same', 'label':'На этапе принятия решения, какое решение примут большинство участников A, которые были сопоставлены с участниками B с <span class="red">одинаковым</span> мнением об утверждении выше (от -0,50 до +0,50)?'} %}
         {% include "polar/includes/choicer_wrapper.html" %}
     {% endwith %}
 
@@ -47,16 +47,15 @@
 {% else %}
     {#    REVEAL_BEFORE #}
 
-    In this study Participants A and Participants B were able to either agree or disagree with each regarding their
-    opinion about statement:
+    В данном исследовании участники А и Б могли либо согласиться, либо не согласиться с каждым из них относительно их мнения о высказывании:
     <li class="list-group-item text-center lead">{{ Constants.statement_lgbt }}</li>
-    {% with  field={'name':'dg_belief_rb_nonrev', 'label':'In the Decision stage, what will be the decision most Participants A take who decided <span class="red">not to observe</span> Participant B opinion about the statement above?  '} %}
+    {% with  field={'name':'dg_belief_rb_nonrev', 'label':'На этапе принятия решения, какое решение примет большинство участников A, решивших <span class="red">не наблюдать</span> за мнением участника B о приведенном выше утверждении?  '} %}
         {% include "polar/includes/choicer_wrapper.html" %}
     {% endwith %}
-    {% with  field={'name':'dg_belief_rb_rev_diff', 'label':'In the Decision stage, what will be the decision most Participants A take who decided <span class="red">to observe</span> Participant B’s opinion about the statement above and were matched with a Participant B with a  <span class="red">different</span> opinion ?'} %}
+    {% with  field={'name':'dg_belief_rb_rev_diff', 'label':'На этапе принятия решения, какое решение примут большинство участников А, которые решили <span class="red">наблюдать</span> за мнением участника Б о приведенном выше утверждении и были сопоставлены с участником Б с <span class="red">другим</span> мнением?'} %}
         {% include "polar/includes/choicer_wrapper.html" %}
     {% endwith %}
-    {% with  field={'name':'dg_belief_rb_rev_same', 'label':'In the Decision stage, what will be the decision most Participants A take who decided <span class="red">to observe</span> Participant B’s opinion about the statement above and were matched with a Participant B with the  <span class="red">same</span> opinion ?'} %}
+    {% with  field={'name':'dg_belief_rb_rev_same', 'label':'На этапе принятия решения, какое решение примут большинство участников А, которые решили <span class="red">наблюдать</span> за мнением участника Б о приведенном выше утверждении и были сопоставлены с участником Б с <span class="red">таким же</span> мнением?'} %}
         {% include "polar/includes/choicer_wrapper.html" %}
     {% endwith %}
 

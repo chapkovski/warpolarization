@@ -6,6 +6,8 @@ import itertools
 import random
 from math import copysign
 
+# TODO add question about estimated proportions
+# TODO: remove proportions from methods
 
 
 f = lambda x: f'{(x / 100):.2f}$'
@@ -37,6 +39,13 @@ def reveal_choices(player):
 
 
 class Player(BasePlayer):
+    # Main vars
+    opinion_lgbt = models.BooleanField(choices=OPINION_CHOICES, widget=widgets.RadioSelectHorizontal, label='')
+    partner_position = models.BooleanField()
+    aligned = models.BooleanField()
+    reveal = models.BooleanField()
+    dg_decision = models.IntegerField(widget=widgets.RadioSelectHorizontal)
+
     def html_dg_decision_choices(self):
         _choices = dg_decision_choices(self)
         res = []
@@ -51,7 +60,7 @@ class Player(BasePlayer):
                 dict(id=3, value=150, label='1.50$'), ]
 
     def payoff_table(self):
-        conv_ = {-1: 'Take', 0: 'Make no change', 1: 'Give'}
+        conv_ = {-1: 'Взять', 0: 'Оставить без изменений', 1: 'Отдать'}
 
         def conv(v):
             if v == 0:
@@ -67,31 +76,29 @@ class Player(BasePlayer):
                             label=conv(i[0])))
         return res
 
-    partner_position = models.BooleanField()
+
 
     def get_partner_opinion(self):
-        return 'AGREED' if self.partner_position else 'DISAGREED'
+        return 'СОГЛАСИЛСЯ' if self.partner_position else 'НЕ СОГЛАСИЛСЯ'
 
     @property
     def reverted_opinion(self):
         try:
-            own_opinion = self.opinion_lgbt
-            return 'disagree' if (self.opinion_lgbt) else 'agree'
+            return 'не согласны' if (self.opinion_lgbt) else 'согласны'
         except TypeError:
             # just for debugging
-            return 'disagree'
+            return 'не согласны'
 
     def reverted_opinion_single(self):
         try:
-            own_opinion = self.opinion_lgbt
-            return 'disagrees' if (self.opinion_lgbt) else 'agrees'
+            return 'не согласен' if (self.opinion_lgbt) else 'согласен'
         except TypeError:
             # just for debugging
-            return 'disagrees'
+            return 'не согласен'
 
     opinion_competition = models.BooleanField(choices=OPINION_CHOICES, widget=widgets.RadioSelectHorizontal,
                                               label='')
-    opinion_lgbt = models.BooleanField(choices=OPINION_CHOICES, widget=widgets.RadioSelectHorizontal, label='')
+
     opinion_covid = models.BooleanField(choices=OPINION_CHOICES, widget=widgets.RadioSelectHorizontal, label='')
 
     risk_general = models.IntegerField()
@@ -115,12 +122,12 @@ class Player(BasePlayer):
     ias_stranger = models.StringField()
     # REASONS
     reason_dg = models.LongStringField(
-        label='Please think back to your decision regarding giving money to or taking money from the Participant B you were matched with or leaving his account unchanged. What influenced you in your decision, what were your decision motives? ')
+        label='Вспомните, пожалуйста, свое решение о том, дать ли деньги участнику B, с которым вы были сопоставлены, или взять деньги у него, или оставить его счет без изменений. Что повлияло на ваше решение, каковы были мотивы вашего решения?')
     keyword_dg_1 = models.StringField()
     keyword_dg_2 = models.StringField()
     keyword_dg_3 = models.StringField()
     reason_reveal = models.LongStringField(
-        label="""Please think back to your decision regarding observing or not observing Participant B’s opinion. What influenced you in your decision, what were your decision motives? """)
+        label="""Вспомните, пожалуйста, ваше решение относительно того, наблюдать или не наблюдать за мнением участника В. Что повлияло на ваше решение, каковы были мотивы вашего решения?""")
     keyword_rev_1 = models.StringField()
     keyword_rev_2 = models.StringField()
     keyword_rev_3 = models.StringField()
@@ -138,10 +145,8 @@ class Player(BasePlayer):
     cq3_alter = models.IntegerField(label=Constants.CQ_ALTER_LABEL, choices=CQ_CHOICES,
                                     widget=widgets.RadioSelectHorizontal)
     cq_err_counter = models.IntegerField(initial=0)
-    #     main variables
+    #   other   main variables
     reveal_order = models.StringField()
-    reveal = models.BooleanField()
-    dg_decision = models.IntegerField(widget=widgets.RadioSelectHorizontal)
     egoendowment = models.IntegerField()
     alterendowment = models.IntegerField()
     # BELIEFS:
@@ -154,27 +159,26 @@ class Player(BasePlayer):
     dg_belief_fr_same = models.IntegerField()
     # DEMOGRAPHICS
     religion = models.IntegerField(label="""
-    How strongly do you believe in the existence of a God or Gods? (indicate your answer on the range from 1 = not at all 5 = very much)
+    Насколько сильно вы верите в существование Бога или богов? (укажите свой ответ в диапазоне от 1 = совсем нет 5 = очень сильно)
     """, choices=range(1, 6), widget=widgets.RadioSelectHorizontal)
     political = models.IntegerField(label="""
-    Here is a 7-point scale on which the political views that people might hold are arranged from extremely liberal (left) to  extremely conservative (right). Where would you place yourself on this scale?
+    Здесь представлена 7-балльная шкала, на которой политические взгляды, которых могут придерживаться люди, расположены от крайне либеральных (слева) до крайне консервативных (справа). Куда бы вы поставили себя на этой шкале?
     """, choices=range(0, 8), widget=widgets.RadioSelectHorizontal)
-    age = models.StringField(label='How old are you?', choices=AGE_CHOICES, widget=widgets.RadioSelect)
-    education = models.StringField(label="What is the highest level of school you have completed or "
-                                         "the highest degree you have received?",
+    age = models.StringField(label='Укажите ваш возраст:', choices=AGE_CHOICES, widget=widgets.RadioSelect)
+    education = models.StringField(label="Какой самый высокий уровень школы вы закончили или какую высшую степень вы получили?",
                                    choices=EDUCATION_CHOICES, widget=widgets.RadioSelect)
-    gender = models.StringField(label='What is your sex?',
+    gender = models.StringField(label='Укажите ваш пол:',
                                 choices=GENDER_CHOICES, widget=widgets.RadioSelect)
-    marital = models.StringField(label='Are you now married, widowed, divorced, separated or never married?',
+    marital = models.StringField(label='В настоящий момент вы:',
                                  choices=MARITAL_CHOICES, widget=widgets.RadioSelect)
-    employment = models.StringField(label='Which statement best describes your current employment status?',
+    employment = models.StringField(label='В настоящий момент вы:?',
                                     choices=EMPLOYMENT_CHOICES, widget=widgets.RadioSelect)
-    occupation = models.StringField(label='Please indicate your occupation:',
+    occupation = models.StringField(label='Укажите в какой области вы работаете/работали:',
                                     choices=OCCUPATION_CHOICES, widget=widgets.RadioSelect)
     # Demand and clarity
     demand = models.LongStringField()
     instructions_clarity = models.IntegerField(label="""
-    How understanble and clear were the instructions in this study for you? (indicate your answer on the range from 1 = not at all 5 = very much)
+    Насколько понятными и ясными были для вас инструкции по проведению данного исследования? (укажите свой ответ в диапазоне от 1 = совсем нет 5 = очень много)
     """, choices=range(1, 6), widget=widgets.RadioSelectHorizontal)
 
 

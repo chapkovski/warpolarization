@@ -5,8 +5,8 @@ class Constants(BaseConstants):
     name_in_url = 'polar'
     players_per_group = None
     num_rounds = 1
-    statement_lgbt = 'LGBT people should have the same legal     rights to marry as people of heterosexual orientation.'
-    privacy_note = 'NOTE: <b>Only you</b> are able to see Participant B’s answer to this question. Participant B remains unaware of any of your answers. '
+    statement_lgbt = 'Представители ЛГБТ должны иметь такие же  права на заключение брака, как и люди гетеросексуальной ориентации.'
+    privacy_note = 'ПРИМЕЧАНИЕ: <b>Только вы</b> можете видеть ответ участника Б на этот вопрос. Участник Б остается в неведении относительно ваших ответов. '
     ERR_MSG = 'Please re-read the instructions and check your answer'
     CQ_EGO_LABEL = 'Your bonus  (in cents):'
     CQ_ALTER_LABEL = 'Their bonus  (in cents):'
@@ -15,3 +15,6 @@ class Constants(BaseConstants):
     DICTATOR_ENDOWMENT = BASIC_ENDOWMENT + EXTRA_ENDOWMENT
     belief_bonus = 25
     formatted_belief_bonus =f'{(belief_bonus / 100):.2f}$'
+    agreement_question='Согласны ли вы или не согласны со следующим утверждением?'
+    NEXT_BTN='Далее'
+    REQUIRED_MSG='Ответьте на вопрос'

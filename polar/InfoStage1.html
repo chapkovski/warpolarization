@@ -8,21 +8,17 @@
     <div class="card-body">
         <div class="card-text">
             <ul class="list-group list-group-flush">
-             <li class="list-group-item">
-            In this study <b>half</b> of the participants agreed with the statement below, and <b>half</b> disagreed with it.
-             </li>
+
                 {% if subsession.treatment == 'reveal_before' %}
 
 
                     <li class="list-group-item">
-                        Now you have to decide if you want to observe whether the Participant B with whom you are
-                        matched
-                        agreed or disagreed with the following statement:
+                        Теперь вам нужно решить, хотите ли вы наблюдать, согласен или не согласен участник B, с которым вы сопряжены, со следующим утверждением:
                     </li>
                     <li class="list-group-item text-center lead">{{ Constants.statement_lgbt }}
                     </li>
                     <li class="list-group-item">
-                      {{ formfield player.reveal }}
+                           {{ formfield player.reveal label='' }}
                     </li>
                 {% else %}
 
@@ -38,7 +34,7 @@
                 <li class="list-group-item">
                     {{ Constants.privacy_note }}
                 </li>
-                <li class="list-group-item">Please click ‘Next’ to proceed
+                <li class="list-group-item">Нажмите "Далее", чтобы продолжить
                 </li>
             </ul>
         </div>

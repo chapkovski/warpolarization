@@ -1,6 +1,7 @@
 from os import environ
-prolific_options = dict(for_prolific=True,
-                        prolific_redirect_url='https://app.prolific.co/submissions/complete?cc=7C68BD7C')
+prolific_options = dict(for_prolific=False,
+                        prolific_redirect_url='https://app.prolific.co/submissions/complete?cc=7C68BD7C',
+                        for_toloka=True)
 SESSION_CONFIGS = [
     dict(
         name='reveal_after',
@@ -42,7 +43,7 @@ SESSION_FIELDS = []
 
 # ISO-639 code
 # for example: de, fr, ja, ko, zh-hans
-LANGUAGE_CODE = 'en'
+LANGUAGE_CODE = 'ru'
 
 # e.g. EUR, GBP, CNY, JPY
 REAL_WORLD_CURRENCY_CODE = 'USD'

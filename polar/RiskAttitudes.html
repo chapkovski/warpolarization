@@ -29,32 +29,32 @@
                 hideNumber: true,
                 "type": "matrixdropdown",
                 "name": "risk_attitudes",
-                "title": "Please indicate how willing you are to take risks?",
+                "title": "Укажите, пожалуйста, насколько вы готовы идти на риск?",
 
                 "columns": [
                     {
                         name: "risk_attitudes",
-                        title: 'To answer, choose a value on a scale from 0 to 10, where 0 means that you are "not at all willing to take risks" and 10 means that you are "very willing to take risks.\n',
+                        title: 'Для ответа выберите значение по шкале от 0 до 10, где 0 означает, что вы "совсем не готовы рисковать", а 10 означает, что вы "очень готовы рисковать.',
                         cellType: "rating",
                         "rateMin": 0,
                         "rateMax": 10,
                         isRequired: true,
-                        requiredErrorText: 'This question is required',
+                    requiredErrorText: {{Constants.REQUIRED_MSG|json}},
                     },
                 ],
                 "rows": [
-                    {value: "risk_general", text: 'In general'},
-                    {value: "risk_financial_matters", text: 'In financial matters'},
-                    {value: "risk_free", text: 'In your free time and while playing sports'},
-                    {value: "risk_profession", text: 'In your profession'},
-                    {value: "risk_health", text: 'As far as your health is concerned'},
-                    {value: "risk_strangers", text: 'In relationships with strangers'},
-                    {value: "risk_driving", text: 'While driving'},
+                    {value: "risk_general", text: 'В целом'},
+                    {value: "risk_financial_matters", text: 'В финансовых вопросах'},
+                    {value: "risk_free", text: 'В свободное время и во время занятий спортом'},
+                    {value: "risk_profession", text: 'В вашей профессии'},
+                    {value: "risk_health", text: 'В том что касается вашего здоровья'},
+                    {value: "risk_strangers", text: 'В отношениях с незнакомыми людьми'},
+                    {value: "risk_driving", text: 'Во время езды за рулем'},
 
                 ]
             }
         ],
-        "completeText": "Next"
+        "completeText": {{Constants.NEXT_BTN|json}}
     };
 
     window.survey = new Survey.Model(json);

@@ -1,6 +1,6 @@
 {% extends "global/Page.html" %}
 {{ block title }}
-Decision
+Примите решение о бонусе
 {{ endblock }}
 {{ block content }}
 
@@ -9,30 +9,27 @@ Decision
         <div class="card-text">
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                    Now you will make a choice towards Participant B:
+                    Теперь вы сделаете выбор в пользу участника B:
 
                 </li>
                 <li class="list-group-item mx-3">
 
-                    - As explained, you have at your disposal $1.00.
+                 - Как уже объяснялось, в вашем распоряжении $1,00.
                 </li>
                 <li class="list-group-item mx-3">
-                    - Participant B has received $0.50.
+              - Участник Б получил $0,50.
 
                 </li>
                 <li class="list-group-item">
-                    Your decision:
+                  Ваше решение:
 
                 </li>
                 <li class="list-group-item mx-3">
-                    - You can give nothing, or up to $0.50 of your money to Participant B (choose any positive amount or
-                    zero below).
+                   - Вы можете ничего или до $0,50 из своих денег отдать участнику Б (выберите любую положительную сумму или ноль ниже).
 
                 </li>
                 <li class="list-group-item mx-3">
-                    - You can take nothing, or up to $0.50 from the money of Participant B (choose any negative amount
-                    or
-                    zero below).
+                    - Вы можете взять из денег участника Б либо ничего, либо до $0,50 (выберите любую отрицательную сумму или ноль ниже).
 
                 </li>
 
@@ -46,9 +43,8 @@ Decision
             <div class="card-text">
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
-                        The Participant B you are matched with <span
-                            class="fw-bolder text-danger lead">{{ player.get_partner_opinion }}</span> with the
-                        following statement:
+                        Участник Б, с которым вы состоите в паре,  <span
+                            class="fw-bolder text-danger lead ">{{ player.get_partner_opinion }}</span>  со следующим утверждением:
                     </li>
                     <li class="list-group-item text-center lead my-3">
                         {{ Constants.statement_lgbt }}
@@ -62,7 +58,7 @@ Decision
 {% endif %}
 <div class="card my-3">
     <div class="card-header">
-        Your decision
+        Ваше решение:
     </div>
 
 
@@ -86,7 +82,7 @@ Decision
             <ol class="list-group  ">
                 <li class="list-group-item d-flex justify-content-between align-items-start">
                     <div class="ms-2 me-auto">
-                        <div class="fw-bold">Your bonus:</div>
+                        <div class="fw-bold">Ваш бонус:</div>
 
                     </div>
                     <div class="display-6">
@@ -95,7 +91,7 @@ Decision
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-start">
                     <div class="ms-2 me-auto">
-                        <div class="fw-bold">Participant B's bonus:</div>
+                        <div class="fw-bold">Бонус Участника Б:</div>
 
                     </div>
                     <div class="display-6">

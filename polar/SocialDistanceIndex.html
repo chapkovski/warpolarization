@@ -20,7 +20,7 @@
     <div class="card">
 
         <div class="card-body">
-            <h5 class="card-title">Consider the following statement:</h5>
+            <h5 class="card-title">Рассмотрим следующее утверждение:</h5>
             <div class="card-text lead text-center">{{ Constants.statement_lgbt }}</div>
 
         </div>
@@ -29,67 +29,63 @@
 </div>
 <input type="hidden" id="surveyholder" name="surveyholder">
 <script>
-    var genStat = "**<u>{{ reverted_opinion }}</u>** with the statement above?"
-    var genStatSingle = "**<u>{{ reverted_opinion_single }}</u>** with the statement above?"
+    var genStat = "**<u>{{ reverted_opinion }}</u>** с приведенным выше утверждением?"
+    var genStatSingle = "**<u>{{ reverted_opinion_single }}</u>**  с приведенным выше утверждением?"
     Survey.defaultBootstrapCss.navigationButton = "btn-primary btn-lg";
     Survey
         .StylesManager
         .applyTheme("bootstrap");
+    var rateValues=[
+                        "Совсем не удобно",
+                        "Не слишком комфортно",
+                        "Несколько комфортно",
+                        "Очень удобно"
+                    ]
 
     var json = {
-        showCompletedPage: false,requiredText:'', "completeText": "Next",
+        showCompletedPage: false,requiredText:'', "completeText": {{ Constants.NEXT_BTN|json }},
+        requiredErrorText: {{Constants.REQUIRED_MSG|json}},
         questions:
             [
                 {
                     isRequired: true,
+                    requiredErrorText: {{Constants.REQUIRED_MSG|json}},
                     "hideNumber": true,
                     "type": "rating",
                     "name": "sdi_politics",
-                    "title": `How comfortable would you be to **talk about politics** with people who ${genStat}`,
-                    "rateValues": [
-                        "Not at all comfortable",
-                        "Not too comfortable",
-                        "Somewhat comfortable",
-                        "Extremely comfortable"
-                    ]
+                    "title": `Насколько комфортно вам было бы **говорить о политике** с людьми, которые  ${genStat}`,
+                    "rateValues": rateValues
                 },
                 {
                     isRequired: true,
+                      requiredErrorText: {{Constants.REQUIRED_MSG|json}},
                     "hideNumber": true,
                     "type": "rating",
                     "name": "sdi_neighbors",
-                    "title": `How comfortable are you having **neighbors** on your street who ${genStat}`,
-                    "rateValues": [
-                        "Not at all comfortable",
-                        "Not too comfortable",
-                        "Somewhat comfortable",
-                        "Extremely comfortable"
-                    ]
+                    "title": `Насколько вам комфортно иметь **соседей** на вашей улице, которые ${genStat}`,
+                     "rateValues": rateValues
                 },
                 {
                     isRequired: true,
+                      requiredErrorText: {{Constants.REQUIRED_MSG|json}},
                     "hideNumber": true,
                     "type": "rating",
                     "name": "sdi_friends",
-                    "title": `How comfortable are you having **close personal friends** on your street who ${genStat}`,
-                    "rateValues": [
-                        "Not at all comfortable",
-                        "Not too comfortable",
-                        "Somewhat comfortable",
-                        "Extremely comfortable"
-                    ]
+                    "title": `Насколько вам комфортно иметь **близких друзей**, которы ${genStat}`,
+                     "rateValues": rateValues
                 },
                 {
                     isRequired: true,
+                      requiredErrorText: {{Constants.REQUIRED_MSG|json}},
                     "hideNumber": true,
                     "type": "rating",
                     "name": "sdi_family",
-                    "title": `Suppose a son or daughter of yours was getting married. How would you feel if he or she married a someone who ${genStatSingle}`,
+                    "title": `Предположим, ваш сын или дочь собираются жениться. Как бы вы себя чувствовали, если бы он или она вышли замуж за человека, который ${genStatSingle}`,
                     "rateValues": [
-                        "Not all all upset",
-                        "Not too upset",
-                        "Somewhat upset",
-                        "Extremely upset"
+                       "Не все расстроены",
+                        "Не слишком расстроен",
+                        "Несколько расстроен",
+                        "Сильно расстроен"
                     ]
                 }
 
