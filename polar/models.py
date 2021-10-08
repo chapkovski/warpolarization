@@ -8,6 +8,8 @@ from math import copysign
 
 # TODO add question about estimated proportions
 # TODO: remove proportions from methods
+# TODO: drop profession
+# TODO: add income
 
 
 f = lambda x: f'{(x / 100):.2f}$'
@@ -122,12 +124,12 @@ class Player(BasePlayer):
     ias_stranger = models.StringField()
     # REASONS
     reason_dg = models.LongStringField(
-        label='Вспомните, пожалуйста, свое решение о том, дать ли деньги участнику B, с которым вы были сопоставлены, или взять деньги у него, или оставить его счет без изменений. Что повлияло на ваше решение, каковы были мотивы вашего решения?')
+        label='Вспомните, пожалуйста, свое решение о том отдавать или брать деньги у участника Б, с которым вы были в паре. Чем вы руководствовались при принятии вашего решения?')
     keyword_dg_1 = models.StringField()
     keyword_dg_2 = models.StringField()
     keyword_dg_3 = models.StringField()
     reason_reveal = models.LongStringField(
-        label="""Вспомните, пожалуйста, ваше решение относительно того, наблюдать или не наблюдать за мнением участника В. Что повлияло на ваше решение, каковы были мотивы вашего решения?""")
+        label="""Вспомните, пожалуйста, ваше решение относительно того, узнавать или не узнавать ответ участника Б. Чем вы руководствовались при принятии вашего решения?""")
     keyword_rev_1 = models.StringField()
     keyword_rev_2 = models.StringField()
     keyword_rev_3 = models.StringField()

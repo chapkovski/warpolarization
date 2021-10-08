@@ -6,7 +6,7 @@ class Constants(BaseConstants):
     players_per_group = None
     num_rounds = 1
     statement_lgbt = 'Представители ЛГБТ должны иметь такие же  права на заключение брака, как и люди гетеросексуальной ориентации.'
-    privacy_note = 'ПРИМЕЧАНИЕ: <b>Только вы</b> можете видеть ответ участника Б на этот вопрос. Участник Б остается в неведении относительно ваших ответов. '
+    privacy_note = 'ВНИМАНИЕ: <b>Только вы</b> можете видеть ответ участника Б на этот вопрос. Участник Б не имеет возможности посмотреть ваши ответы на любые вопросы. '
     ERR_MSG = 'Please re-read the instructions and check your answer'
     CQ_EGO_LABEL = 'Your bonus  (in cents):'
     CQ_ALTER_LABEL = 'Their bonus  (in cents):'
