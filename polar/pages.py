@@ -216,8 +216,8 @@ class FinalForProlific(Page):
 
 page_sequence = [
 
-    # Consent,
-    # OpinionIntro,
+    Consent,
+    OpinionIntro,
     Opinion1,
     Opinion2,
     Opinion3,
