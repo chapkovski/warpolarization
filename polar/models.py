@@ -6,8 +6,7 @@ import itertools
 import random
 from math import copysign
 
-# TODO: In this study half of the participants agreed with the statement below, and half disagreed with it.
-# TODO: consider to change is to 'we select participants in such a way that'
+
 
 f = lambda x: f'{(x / 100):.2f}$'
 
