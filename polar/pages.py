@@ -94,7 +94,8 @@ class DecisionStage(Page):
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
         player.payoff = Constants.DICTATOR_ENDOWMENT - player.dg_decision
-        player.aligned = player.opinion_lgbt==player.partner_position
+        player.aligned = player.opinion_lgbt == player.partner_position
+
 
 class RevealAfterStage1(Page):
     form_model = 'player'
@@ -147,6 +148,11 @@ class Beliefs(Page):
                 'dg_belief_fr_same',
 
             ]
+
+
+class Proportions(Page):
+    form_model = 'player'
+    form_fields = ['proportion']
 
 
 class InformationAvoidanceScale(Page):
@@ -205,7 +211,7 @@ class Demographics(Page):
                    "gender",
                    "marital",
                    "employment",
-                   "occupation", ]
+                   "income", ]
 
 
 class Demand(Page):
@@ -220,11 +226,10 @@ class FinalForProlific(Page):
     def get(self):
         return RedirectResponse(self.session.config.get('prolific_redirect_url'))
 
+
 class FinalForToloka(Page):
     def is_displayed(self):
         return self.session.config.get('for_toloka')
-
-
 
 
 page_sequence = [
@@ -245,6 +250,7 @@ page_sequence = [
     Reasons,
     BeliefsIntro,
     Beliefs,
+    Proportions,
     InformationAvoidanceScale,
     SocialCuriosityScale,
     SocialDistanceIndex,

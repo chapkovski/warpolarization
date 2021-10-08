@@ -6,11 +6,9 @@ import itertools
 import random
 from math import copysign
 
-# TODO add question about estimated proportions
 # TODO: remove proportions from methods
-# TODO: drop profession
-# TODO: add income
-
+# TODO: check forced_reveal translation
+# TODO: check reveal_before translation
 
 f = lambda x: f'{(x / 100):.2f}$'
 
@@ -77,8 +75,6 @@ class Player(BasePlayer):
                             alter=f(Constants.BASIC_ENDOWMENT + i[0]),
                             label=conv(i[0])))
         return res
-
-
 
     def get_partner_opinion(self):
         return 'СОГЛАСИЛСЯ' if self.partner_position else 'НЕ СОГЛАСИЛСЯ'
@@ -159,28 +155,33 @@ class Player(BasePlayer):
     dg_belief_rb_rev_same = models.IntegerField()
     dg_belief_fr_diff = models.IntegerField()
     dg_belief_fr_same = models.IntegerField()
+    proportion = models.IntegerField(min=0, max=100, label='')
     # DEMOGRAPHICS
     religion = models.IntegerField(label="""
-    Насколько сильно вы верите в существование Бога или богов? (укажите свой ответ в диапазоне от 1 = совсем нет 5 = очень сильно)
+    Насколько сильно вы верите в существование Бога? (укажите свой ответ в диапазоне от 1 = совсем нет 5 = очень сильно)
     """, choices=range(1, 6), widget=widgets.RadioSelectHorizontal)
     political = models.IntegerField(label="""
     Здесь представлена 7-балльная шкала, на которой политические взгляды, которых могут придерживаться люди, расположены от крайне либеральных (слева) до крайне консервативных (справа). Куда бы вы поставили себя на этой шкале?
     """, choices=range(0, 8), widget=widgets.RadioSelectHorizontal)
     age = models.StringField(label='Укажите ваш возраст:', choices=AGE_CHOICES, widget=widgets.RadioSelect)
-    education = models.StringField(label="Какой самый высокий уровень школы вы закончили или какую высшую степень вы получили?",
-                                   choices=EDUCATION_CHOICES, widget=widgets.RadioSelect)
+    education = models.StringField(
+        label="Какой самый высокий уровень школы вы закончили или какую высшую степень вы получили?",
+        choices=EDUCATION_CHOICES, widget=widgets.RadioSelect)
     gender = models.StringField(label='Укажите ваш пол:',
                                 choices=GENDER_CHOICES, widget=widgets.RadioSelect)
     marital = models.StringField(label='В настоящий момент вы:',
                                  choices=MARITAL_CHOICES, widget=widgets.RadioSelect)
-    employment = models.StringField(label='В настоящий момент вы:?',
+    employment = models.StringField(label='В настоящий момент вы:',
                                     choices=EMPLOYMENT_CHOICES, widget=widgets.RadioSelect)
-    occupation = models.StringField(label='Укажите в какой области вы работаете/работали:',
-                                    choices=OCCUPATION_CHOICES, widget=widgets.RadioSelect)
+    income = models.StringField(
+        label="Какое высказывание наиболее точно описывает финансовое положение вашей семьи?",
+        choices=INCOME_CHOICES,
+        widget=widgets.RadioSelect()
+    )
     # Demand and clarity
     demand = models.LongStringField()
     instructions_clarity = models.IntegerField(label="""
-    Насколько понятными и ясными были для вас инструкции по проведению данного исследования? (укажите свой ответ в диапазоне от 1 = совсем нет 5 = очень много)
+    Насколько понятными и ясными были для вас инструкции? (укажите свой ответ в диапазоне от 1 = совсем непонятны 5 = абсолютно понятны)
     """, choices=range(1, 6), widget=widgets.RadioSelectHorizontal)
 
 

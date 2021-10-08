@@ -36,10 +36,10 @@
         .StylesManager
         .applyTheme("bootstrap");
     var rateValues=[
-                        "Совсем не удобно",
-                        "Не слишком комфортно",
-                        "Несколько комфортно",
-                        "Очень удобно"
+                        "Полностью неприемлемо",
+                        "Испытываю некоторые затруднения",
+                        "Не вижу серьезных проблем",
+                        "Не испытываю малейших проблем"
                     ]
 
     var json = {
@@ -51,41 +51,42 @@
                     isRequired: true,
                     requiredErrorText: {{Constants.REQUIRED_MSG|json}},
                     "hideNumber": true,
-                    "type": "rating",
+                    "type": "radiogroup",
                     "name": "sdi_politics",
-                    "title": `Насколько комфортно вам было бы **говорить о политике** с людьми, которые  ${genStat}`,
-                    "rateValues": rateValues
+                    "title": `Насколько приемлемо вам было бы **говорить о политике** с людьми, которые  ${genStat}`,
+                    "choices": rateValues
                 },
                 {
                     isRequired: true,
                       requiredErrorText: {{Constants.REQUIRED_MSG|json}},
                     "hideNumber": true,
-                    "type": "rating",
+                    "type": "radiogroup",
                     "name": "sdi_neighbors",
-                    "title": `Насколько вам комфортно иметь **соседей** на вашей улице, которые ${genStat}`,
-                     "rateValues": rateValues
+                    "title": `Насколько приемлемо для вас было бы, если бы ваши **соседи** были бы ${genStat}`,
+                     "choices": rateValues
                 },
                 {
                     isRequired: true,
                       requiredErrorText: {{Constants.REQUIRED_MSG|json}},
                     "hideNumber": true,
-                    "type": "rating",
+                    "type": "radiogroup",
                     "name": "sdi_friends",
-                    "title": `Насколько вам комфортно иметь **близких друзей**, которы ${genStat}`,
-                     "rateValues": rateValues
+                    "title": `Насколько приемлемо для вас было бы, если ваши **близкие друзья** были бы  ${genStat}`,
+                     "choices": rateValues
                 },
                 {
                     isRequired: true,
                       requiredErrorText: {{Constants.REQUIRED_MSG|json}},
                     "hideNumber": true,
-                    "type": "rating",
+                    "type": "radiogroup",
                     "name": "sdi_family",
-                    "title": `Предположим, ваш сын или дочь собираются жениться. Как бы вы себя чувствовали, если бы он или она вышли замуж за человека, который ${genStatSingle}`,
-                    "rateValues": [
-                       "Не все расстроены",
-                        "Не слишком расстроен",
-                        "Несколько расстроен",
-                        "Сильно расстроен"
+                    "title": `Предположим, ваш сын или дочь собираются жениться/выйти замуж.
+                    Как бы вы себя чувствовали, если бы он или она женились/вышли замуж за человека, который ${genStatSingle}`,
+                    "choices": [
+                       "Я бы совершенно не расстроился",
+                        "Я бы скорее не расстроился ",
+                        "Я бы немного расстроился",
+                        "Я бы сильно расстроился "
                     ]
                 }
 

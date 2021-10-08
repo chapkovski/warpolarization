@@ -1,0 +1,30 @@
+{% extends "global/Page.html" %}
+{{ block title }}
+
+{{ endblock }}
+{{ block content }}
+
+<div class="card my-3">
+
+    <div class="card-body">
+        <h5 class="card-title">Вспомните следующее утверждение:</h5>
+        <div class="card-text lead text-center">{{ Constants.statement_lgbt }}</div>
+
+    </div>
+</div>
+
+
+<div class="card my-3">
+    <div class="card-body">
+        <div class="card-text fw-bold">
+            <div class="fw-bold">Из 100 участников Б, которые приняли участие в этом исследовании,
+                сколько по вашему <b>СОГЛАСИЛИСЬ</b> с этим утверждением?
+            </div>
+               {{ formfields }}
+        </div>
+    </div>
+</div>
+
+{{ next_button }}
+
+{{ endblock }}
