@@ -3,7 +3,7 @@ from .choices import *
 from .models import *
 from .constants import Constants
 from pprint import pprint
-
+from starlette.responses import RedirectResponse
 
 class Page(oTreePage):
     instructions = False
@@ -206,18 +206,24 @@ class Demographics(Page):
 class Demand(Page):
     form_model = 'player'
     form_fields = ["demand", 'instructions_clarity']
+class FinalForProlific(Page):
+    def is_displayed(self):
+        return self.session.config.get('for_prolific')
+
+    def get(self):
+        return RedirectResponse(self.session.config.get('prolific_redirect_url'))
 
 
 page_sequence = [
-
-    # Consent,
-    # OpinionIntro,
-    # Opinion1,
-    # Opinion2,
-    # Opinion3,
-    # GeneralInstructions,
-    # DecisionInstructions,
-    # DGComprehensionCheck,
+FinalForProlific,
+    Consent,
+    OpinionIntro,
+    Opinion1,
+    Opinion2,
+    Opinion3,
+    GeneralInstructions,
+    DecisionInstructions,
+    DGComprehensionCheck,
     InfoStage1,
     # InfoStage2,
     # DecisionStage,
