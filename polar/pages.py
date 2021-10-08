@@ -5,6 +5,7 @@ from .constants import Constants
 from pprint import pprint
 from starlette.responses import RedirectResponse
 
+
 class Page(oTreePage):
     instructions = False
 
@@ -89,6 +90,10 @@ class DecisionStage(Page):
     instructions = True
     form_model = 'player'
     form_fields = ['dg_decision']
+
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        player.payoff = Constants.DICTATOR_ENDOWMENT - player.dg_decision
 
 
 class RevealAfterStage1(Page):
@@ -206,6 +211,8 @@ class Demographics(Page):
 class Demand(Page):
     form_model = 'player'
     form_fields = ["demand", 'instructions_clarity']
+
+
 class FinalForProlific(Page):
     def is_displayed(self):
         return self.session.config.get('for_prolific')
