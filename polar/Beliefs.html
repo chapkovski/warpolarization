@@ -29,10 +29,10 @@
     <li class="list-group-item text-center lead">{{ Constants.statement_lgbt }}</li>
 
 
-    {% with  field={'name':'dg_belief_fr_diff', 'label':'На этапе принятия решения, какое решение примут большинство участников A, которые были сопоставлены с участниками B с <span class="red">различным</span> мнением об утверждении выше (от -0,50 до +0,50)?'} %}
+    {% with  field={'name':'dg_belief_fr_diff', 'label':'На этапе принятия решения, какое решение примет большинство участников A, которые были в паре с участником Б с <span class="red">отличным от их</span> мнением об утверждении выше?'} %}
         {% include "polar/includes/choicer_wrapper.html" %}
     {% endwith %}
-    {% with  field={'name':'dg_belief_fr_same', 'label':'На этапе принятия решения, какое решение примут большинство участников A, которые были сопоставлены с участниками B с <span class="red">одинаковым</span> мнением об утверждении выше (от -0,50 до +0,50)?'} %}
+    {% with  field={'name':'dg_belief_fr_same', 'label':'На этапе принятия решения, какое решение примет большинство участников A, которые были в паре с участником Б с <span class="red">таким же как их</span> мнением об утверждении выше?'} %}
         {% include "polar/includes/choicer_wrapper.html" %}
     {% endwith %}
 

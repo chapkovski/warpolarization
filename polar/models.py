@@ -7,9 +7,8 @@ import random
 from math import copysign
 
 # TODO: remove proportions from methods
-# TODO: check forced_reveal translation
-# TODO: check reveal_before translation
-
+# TODO: write down the logic of treatment
+# TODO: what to do with recipieints?
 f = lambda x: f'{(x / 100):.2f}$'
 
 
@@ -161,7 +160,7 @@ class Player(BasePlayer):
     Насколько сильно вы верите в существование Бога? (укажите свой ответ в диапазоне от 1 = совсем нет 5 = очень сильно)
     """, choices=range(1, 6), widget=widgets.RadioSelectHorizontal)
     political = models.IntegerField(label="""
-    Здесь представлена 7-балльная шкала, на которой политические взгляды, которых могут придерживаться люди, расположены от крайне либеральных (слева) до крайне консервативных (справа). Куда бы вы поставили себя на этой шкале?
+    Ниже представлена 7-балльная шкала, на которой политические взгляды, которых могут придерживаться люди, расположены от крайне либеральных (слева) до крайне консервативных (справа). Куда бы вы поставили себя на этой шкале?
     """, choices=range(0, 8), widget=widgets.RadioSelectHorizontal)
     age = models.StringField(label='Укажите ваш возраст:', choices=AGE_CHOICES, widget=widgets.RadioSelect)
     education = models.StringField(

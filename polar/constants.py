@@ -7,7 +7,7 @@ class Constants(BaseConstants):
     num_rounds = 1
     statement_lgbt = 'Представители ЛГБТ должны иметь такие же  права на заключение брака, как и люди гетеросексуальной ориентации.'
     privacy_note = 'ВНИМАНИЕ: <b>Только вы</b> можете видеть ответ участника Б на этот вопрос. Участник Б не имеет возможности посмотреть ваши ответы на любые вопросы. '
-    ERR_MSG = 'Please re-read the instructions and check your answer'
+    ERR_MSG = 'Пожалуйста перечитайте инструкции и попробуйте еще раз!'
     CQ_EGO_LABEL = 'Your bonus  (in cents):'
     CQ_ALTER_LABEL = 'Their bonus  (in cents):'
     BASIC_ENDOWMENT = 50
