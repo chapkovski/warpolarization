@@ -61,7 +61,20 @@ class DGComprehensionCheck(Page):
 
     def form_invalid(self, form):
         self.player.cq_err_counter += 1
+        if self.player.cq_err_counter > Constants.MAX_CQ_ATTEMPTS:
+            self.player.blocked = True
+            return
         return super().form_invalid(form)
+
+    @staticmethod
+    def vars_for_template(player: Player):
+        return dict(attempts=Constants.MAX_CQ_ATTEMPTS - player.cq_err_counter)
+
+
+class Blocked(Page):
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.blocked
 
 
 class InfoStage1(Page):
@@ -90,11 +103,6 @@ class DecisionStage(Page):
     instructions = True
     form_model = 'player'
     form_fields = ['dg_decision']
-
-    @staticmethod
-    def before_next_page(player: Player, timeout_happened):
-        player.payoff = Constants.DICTATOR_ENDOWMENT - player.dg_decision
-        player.aligned = player.opinion_lgbt == player.partner_position
 
 
 class RevealAfterStage1(Page):
@@ -218,6 +226,12 @@ class Demand(Page):
     form_model = 'player'
     form_fields = ["demand", 'instructions_clarity']
 
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        player.payable = True
+        player.payoff = Constants.DICTATOR_ENDOWMENT - player.dg_decision
+        player.aligned = player.opinion_lgbt == player.partner_position
+
 
 class FinalForProlific(Page):
     def is_displayed(self):
@@ -228,12 +242,12 @@ class FinalForProlific(Page):
 
 
 class FinalForToloka(Page):
-    def is_displayed(self):
-        return self.session.config.get('for_toloka')
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.session.config.get('for_toloka') and not player.blocked
 
 
 page_sequence = [
-
     Consent,
     OpinionIntro,
     Opinion1,
@@ -242,6 +256,7 @@ page_sequence = [
     GeneralInstructions,
     DecisionInstructions,
     DGComprehensionCheck,
+    Blocked,
     InfoStage1,
     InfoStage2,
     DecisionStage,
@@ -257,6 +272,6 @@ page_sequence = [
     RiskAttitudes,
     Demographics,
     Demand,
-    FinalForProlific,
     FinalForToloka,
+
 ]

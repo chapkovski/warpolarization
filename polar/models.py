@@ -44,6 +44,9 @@ class Player(BasePlayer):
     aligned = models.BooleanField()
     reveal = models.BooleanField()
     dg_decision = models.IntegerField(widget=widgets.RadioSelectHorizontal)
+    payable = models.BooleanField()
+    cq_err_counter = models.IntegerField(initial=0)
+    blocked = models.BooleanField(initial=False)
 
     def html_dg_decision_choices(self):
         _choices = dg_decision_choices(self)
@@ -141,7 +144,7 @@ class Player(BasePlayer):
                                   widget=widgets.RadioSelectHorizontal)
     cq3_alter = models.IntegerField(label=Constants.CQ_ALTER_LABEL, choices=CQ_CHOICES,
                                     widget=widgets.RadioSelectHorizontal)
-    cq_err_counter = models.IntegerField(initial=0)
+
     #   other   main variables
     reveal_order = models.StringField()
     egoendowment = models.IntegerField()

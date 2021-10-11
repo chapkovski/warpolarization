@@ -8,28 +8,31 @@
 {% endblock %}
 
 {% block body_main %}
-    <nav class="navbar navbar-light bg-light justify-content-between fixed-top">
-        <div class="navbar-nav flex-grow-1 mx-1">
-            <div class="progress " style="height: 30px;">
-                <div class="progress-bar" role="progressbar" style="width: {{ progress }}%"
-                     aria-valuenow="{{ progress }}"
-                     aria-valuemin="0" aria-valuemax="100">
-                    <b> {{ progress }}%</b></div>
+    {% block progress %}
+
+        <nav class="navbar navbar-light bg-light justify-content-between fixed-top">
+            <div class="navbar-nav flex-grow-1 mx-1">
+                <div class="progress " style="height: 30px;">
+                    <div class="progress-bar" role="progressbar" style="width: {{ progress }}%"
+                         aria-valuenow="{{ progress }}"
+                         aria-valuemin="0" aria-valuemax="100">
+                        <b> {{ progress }}%</b></div>
+                </div>
             </div>
-        </div>
-        {% if instructions %}
+            {% if instructions %}
 
 
-            <div class="mx-1">
-                <button class="btn   btn-success" data-bs-toggle="modal" data-bs-target="#instructionsModal">
-                    Инструкции
-                </button>
-            </div>
+                <div class="mx-1">
+                    <button class="btn   btn-success" data-bs-toggle="modal" data-bs-target="#instructionsModal">
+                        Инструкции
+                    </button>
+                </div>
 
 
 
-        {% endif %}
-    </nav>
+            {% endif %}
+        </nav>
+    {% endblock %}
     {% if instructions %}
         <!-- Modal -->
         <div class="modal fade" id="instructionsModal" tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -41,7 +44,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                      {% include 'polar/includes/dg_instructions.html' %}
+                        {% include 'polar/includes/dg_instructions.html' %}
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>

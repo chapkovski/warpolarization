@@ -14,7 +14,10 @@ class Constants(BaseConstants):
     EXTRA_ENDOWMENT = 50
     DICTATOR_ENDOWMENT = BASIC_ENDOWMENT + EXTRA_ENDOWMENT
     belief_bonus = 25
-    formatted_belief_bonus =f'{(belief_bonus / 100):.2f}$'
-    agreement_question='Согласны ли вы или не согласны со следующим утверждением?'
-    NEXT_BTN='Далее'
-    REQUIRED_MSG='Ответьте на вопрос'
+    formatted_belief_bonus = f'{(belief_bonus / 100):.2f}$'
+    agreement_question = 'Согласны ли вы или не согласны со следующим утверждением?'
+    NEXT_BTN = 'Далее'
+    REQUIRED_MSG = 'Ответьте на вопрос'
+    MAX_CQ_ATTEMPTS = 4
+    formatter = lambda  x: 'раз' if x in [0] or x> 5 else 'раза'
+    MAX_CQ_ATTEMPTS_formatted = f'{MAX_CQ_ATTEMPTS} {formatter(MAX_CQ_ATTEMPTS)}'

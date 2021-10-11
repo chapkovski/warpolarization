@@ -4,10 +4,12 @@
 
 {{ endblock }}
 {{ block content }}
+
 <div class="alert alert-warning my-3">
     Следующие вопросы нужны для проверки понимания вами инструкции. Вы сможете продолжить после того, как
     представите правильные ответы на эти вопросы.
     <div class="fw-bold">Вы можете всегда перечитать инструкцию, нажав зеленую кнопку "Инструкции" сверху.</div>
+    <div class="lead fw-bold text-center text-danger">Количество оставшихся попыток: {{ attempts }} </div>
 </div>
 <style>
     label.col-form-label {
