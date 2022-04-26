@@ -40,7 +40,7 @@
                         "rateMin": 1,
                         "rateMax": 7,
                         isRequired: true,
-                        requiredErrorText: {{ Constants.REQUIRED_MSG|json }},
+                        requiredErrorText: {{ C.REQUIRED_MSG|json }},
                     },
                 ],
                 "rows": [
@@ -54,7 +54,7 @@
                 ]
             }
         ],
-        "completeText": "{{ Constants.NEXT_BTN }}"
+        "completeText": "{{ C.NEXT_BTN }}"
     };
 
     window.survey = new Survey.Model(json);

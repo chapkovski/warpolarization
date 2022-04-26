@@ -1,9 +1,11 @@
 from otree.api import Page as oTreePage
 from .choices import *
 from .models import *
-from .constants import Constants
+from .constants import C
 from pprint import pprint
 from starlette.responses import RedirectResponse
+import json
+import random
 
 
 class Page(oTreePage):
@@ -26,14 +28,31 @@ class OpinionIntro(Page):
     pass
 
 
-class Opinion1(Page):
+class Opinion(Page):
     form_model = 'player'
-    form_fields = ['opinion_competition']
+    form_fields = ['opinion_war']
+
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        if player.opinion_war == 1:
+            c = random.sample(INTENSITY_YES_CHOICES, 2)
+            player.opinion_intensity_order = json.dumps(c)
+        else:
+            c = random.sample(INTENSITY_NO_CHOICES, 2)
+            player.opinion_intensity_order = json.dumps(c)
 
 
-class Opinion2(Page):
+class OpinionIntensity(Page):
     form_model = 'player'
-    form_fields = ['opinion_lgbt']
+    form_fields = ['opinion_intensity']
+
+    @staticmethod
+    def vars_for_template(player: Player):
+        if player.opinion_war:
+            label = 'Скажите, пожалуйста, насколько Вы поддерживаете действия российских вооруженных сил на Украине?'
+        else:
+            label = 'Скажите, пожалуйста, насколько Вы не поддерживаете действия российских вооруженных сил на Украине?'
+        return dict(label=label)
 
 
 class Opinion3(Page):
@@ -61,14 +80,14 @@ class DGComprehensionCheck(Page):
 
     def form_invalid(self, form):
         self.player.cq_err_counter += 1
-        if self.player.cq_err_counter > Constants.MAX_CQ_ATTEMPTS:
+        if self.player.cq_err_counter > C.MAX_CQ_ATTEMPTS:
             self.player.blocked = True
             return
         return super().form_invalid(form)
 
     @staticmethod
     def vars_for_template(player: Player):
-        return dict(attempts=Constants.MAX_CQ_ATTEMPTS - player.cq_err_counter)
+        return dict(attempts=C.MAX_CQ_ATTEMPTS - player.cq_err_counter)
 
 
 class Blocked(Page):
@@ -124,11 +143,13 @@ class Reasons(Page):
     form_model = 'player'
 
     def get_form_fields(player: Player):
-        l = ['reason_dg', 'keyword_dg_1', 'keyword_dg_2', 'keyword_dg_3']
-        revl = ['reason_reveal', 'keyword_rev_1', 'keyword_rev_2', 'keyword_rev_3']
-        if player.session.config.get('reveal'):
-            return l + revl
-        return l
+        if player.role == C.dictator:
+            l = ['reason_dg', ]
+            revl = ['reason_reveal', ]
+            if player.session.config.get('reveal'):
+                return l + revl
+        else:
+            return ['reason_dg_r']
 
 
 class BeliefsIntro(Page):
@@ -187,15 +208,6 @@ class SocialDistanceIndex(Page):
         return super().post()
 
 
-class SocialCuriosityScale(Page):
-    def post(self):
-        survey_data = json.loads(self._form_data.get('surveyholder'))
-        attitudes = survey_data.get('scs')
-        for k, v in attitudes.items():
-            setattr(self.player, k, v.get('scs'))
-        return super().post()
-
-
 class RiskAttitudes(Page):
     def post(self):
         survey_data = json.loads(self._form_data.get('surveyholder'))
@@ -207,19 +219,24 @@ class RiskAttitudes(Page):
         return super().post()
 
 
-import json
-
-
 class Demographics(Page):
-    form_model = 'player'
-    form_fields = ["religion",
-                   "political",
-                   "age",
-                   "education",
-                   "gender",
-                   "marital",
-                   "employment",
-                   "income", ]
+    def post(self):
+        survey_data = json.loads(self._form_data.get('surveyholder'))
+        pprint(survey_data)
+        ses = survey_data.pop('multi_ses', [])
+
+        for k, v in survey_data.items():
+            try:
+                setattr(self.player, k, int(v))
+            except AttributeError:
+                pass
+
+        for i in ses:
+            try:
+                setattr(self.player, i, True)
+            except AttributeError:
+                pass
+        return super().post()
 
 
 class Demand(Page):
@@ -229,7 +246,7 @@ class Demand(Page):
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
         player.payable = True
-        player.payoff = Constants.DICTATOR_ENDOWMENT - player.dg_decision
+        player.payoff = C.DICTATOR_ENDOWMENT - player.dg_decision
         player.aligned = player.opinion_lgbt == player.partner_position
 
 
@@ -248,30 +265,28 @@ class FinalForToloka(Page):
 
 
 page_sequence = [
-    Consent,
-    OpinionIntro,
-    Opinion1,
-    Opinion2,
-    Opinion3,
-    GeneralInstructions,
-    DecisionInstructions,
-    DGComprehensionCheck,
-    Blocked,
-    InfoStage1,
-    InfoStage2,
-    DecisionStage,
-    RevealAfterStage1,
-    RevealAfterStage2,
-    Reasons,
-    BeliefsIntro,
-    Beliefs,
-    Proportions,
-    InformationAvoidanceScale,
-    SocialCuriosityScale,
-    SocialDistanceIndex,
-    RiskAttitudes,
-    Demographics,
-    Demand,
-    FinalForToloka,
+    # Consent,
+    # OpinionIntro,
+    Opinion,
+    OpinionIntensity,
+    # GeneralInstructions,
+    # DecisionInstructions,
+    # DGComprehensionCheck,
+    # Blocked,
+    # InfoStage1,
+    # InfoStage2,
+    # DecisionStage,
+    # RevealAfterStage1,
+    # RevealAfterStage2,
+    # Reasons,
+    # BeliefsIntro,
+    # Beliefs,
+    # Proportions,
+    # InformationAvoidanceScale,
+    # SocialDistanceIndex,
+    # RiskAttitudes,
+    # Demographics,
+    # Demand,
+    # FinalForToloka,
 
 ]

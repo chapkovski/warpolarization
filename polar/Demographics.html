@@ -2,9 +2,170 @@
 {{ block title }}
 Завершающая анкета
 {{ endblock }}
-{{ block content }}
 
-    {{ formfields }}
-    {{ next_button }}
+
+{{ block content }}
+<style>
+    label.btn.btn-default.btn-secondary.active {
+        background: yellow;
+        color: black;
+    }
+
+</style>
+<script src="{{ static 'global/js/survey.jquery.min.js'}}"></script>
+<script src="{{ static 'global/js/showdown.min.js'}}"></script>
+
+<div id="surveyElement" style="display:inline-block;width:100%;"></div>
+<div id="surveyResult"></div>
+<input type="hidden" id="surveyholder" name="surveyholder">
+<script>
+    Survey.defaultBootstrapCss.navigationButton = "btn-primary btn-lg";
+    Survey
+        .StylesManager
+        .applyTheme("bootstrap");
+
+    var json = {
+        showCompletedPage: false,
+        questions: [
+            {
+                "type": "text",
+                "name": "age",
+                "title": "Укажите ваш возраст",
+                "isRequired": true,
+                requiredErrorText: {{ C.REQUIRED_MSG|json }},
+                "inputType": "number",
+                "min": 17,
+                "max": 99
+            },
+            {
+                "type": "radiogroup",
+                "name": "education",
+                "title": "Какой самый высокий уровень школы вы закончили или какую высшую степень вы получили?",
+                "isRequired": true,
+                requiredErrorText: {{ C.REQUIRED_MSG|json }},
+                "choices": [
+                    {
+                        "value": 0,
+                        "text": "Средняя школа"
+                    },
+                    {
+                        "value": 1,
+                        "text": "Среднее профессиональное образование"
+                    },
+                    {
+                        "value": 2,
+                        "text": "Незаконченное высшее образование"
+                    },
+                    {
+                        "value": 3,
+                        "text": "Высшее образование"
+                    },
+                    {
+                        "value": 4,
+                        "text": "Два и более диплома / Ученая степень"
+                    }
+                ]
+            },
+            {
+                "type": "radiogroup",
+                "name": "gender",
+                "title": "Укажите ваш пол",
+                "isRequired": true,
+                requiredErrorText: {{ C.REQUIRED_MSG|json }},
+                "choices": [
+                    {
+                        "value": 0,
+                        "text": "Мужской"
+                    },
+                    {
+                        "value": 1,
+                        "text": "Женский"
+                    }
+                ]
+            },
+            {
+                "type": "checkbox",
+                "name": "multi_ses",
+                "title": "Поставьте галочки напротив тех утверждений, которые относятся к вам:",
+                "isRequired": true,
+                requiredErrorText: {{ C.REQUIRED_MSG|json }},
+                "choices": [
+                    {
+                        "value": "is_fully_employed",
+                        "text": "Работаете постоянно"
+                    },
+                    {
+                        "value": "is_married",
+                        "text": "Женаты/замужем/состоите в гражданском браке"
+                    },
+                    {
+                        "value": "is_retired",
+                        "text": "Являетесь пенсионером или получаете пособие по нетрудоспособности"
+                    },
+                    {
+                        "value": "is_student",
+                        "text": "Учитесь на дневном отделении в учебном заведении"
+                    },
+                    {
+                        "value": "is_government_worker",
+                        "text": "Работаете в бюджетной или государственной организации"
+                    }
+                ],
+                "hasNone": true,
+                "noneText": "Ничего из выше перечисленного"
+            },
+            {
+                "type": "radiogroup",
+                "name": "income",
+                "title": "Какое высказывание наиболее точно описывает финансовое положение вашей семьи?",
+                "isRequired": true,
+                requiredErrorText: {{ C.REQUIRED_MSG|json }},
+                "choices": [
+                    {
+                        "value": 0,
+                        "text": "Не хватает денег даже на еду"
+                    },
+                    {
+                        "value": 1,
+                        "text": "Хватает на еду, но не хватает на покупку одежды и обуви"
+                    },
+                    {
+                        "value": 2,
+                        "text": "Хватает на одежду и обувь, но не хватает на покупку мелкой бытовой техники"
+                    },
+                    {
+                        "value": 3,
+                        "text": "Хватает денег на небольшие покупки, но покупка дорогих вещей (компьютера, стиральной машины, холодильника) требует накоплений или кредита"
+                    },
+                    {
+                        "value": 4,
+                        "text": "Хватает денег на покупки для дома, но на покупку машины, дачи, квартиры необходимо копить или брать кредит"
+                    },
+                    {
+                        "value": 5,
+                        "text": "Можем позволить себе любые покупки без ограничений и кредитов"
+                    }
+                ]
+            }
+        ],
+
+        "completeText": "{{ C.NEXT_BTN }}"
+    };
+
+    window.survey = new Survey.Model(json);
+
+    survey
+        .onComplete
+        .add(function (sender) {
+            document
+            $('#surveyholder').val(JSON.stringify(sender.data, null, 3))
+            $('#form').submit()
+            ;
+        });
+
+    $("#surveyElement").Survey({model: survey});
+    ;
+</script>
+
 
 {{ endblock }}

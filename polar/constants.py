@@ -1,11 +1,11 @@
 from otree.api import *
 
 
-class Constants(BaseConstants):
-    name_in_url = 'polar'
-    players_per_group = None
-    num_rounds = 1
-    statement_lgbt = 'Представители ЛГБТ должны иметь такие же  права на заключение брака, как и люди гетеросексуальной ориентации.'
+class C(BaseConstants):
+    NAME_IN_URL = 'polar'
+    PLAYERS_PER_GROUP = None
+    NUM_ROUNDS = 1
+
     privacy_note = 'ВНИМАНИЕ: <b>Только вы</b> можете видеть ответ участника Б на этот вопрос. Участник Б не имеет возможности посмотреть ваши ответы на какие-либо вопросы. '
     ERR_MSG = 'Пожалуйста перечитайте инструкции и попробуйте еще раз!'
     CQ_EGO_LABEL = 'Your bonus  (in cents):'
@@ -15,7 +15,7 @@ class Constants(BaseConstants):
     DICTATOR_ENDOWMENT = BASIC_ENDOWMENT + EXTRA_ENDOWMENT
     belief_bonus = 25
     formatted_belief_bonus = f'{(belief_bonus / 100):.2f}$'
-    agreement_question = 'Согласны ли вы или не согласны со следующим утверждением?'
+    AGREEMENT_QUESTION = 'Скажите, пожалуйста, поддерживаете Вы или нет действия российских вооруженных сил на Украине?'
     NEXT_BTN = 'Далее'
     REQUIRED_MSG = 'Ответьте на вопрос'
     MAX_CQ_ATTEMPTS = 4

@@ -4,11 +4,33 @@ prolific_options = dict(for_prolific=False,
                         for_toloka=True)
 SESSION_CONFIGS = [
     dict(
-        name='reveal_after',
+        name='baselineR',
+        display_name='baseline - Recipient',
         app_sequence=['polar'],
         num_demo_participants=2,
         reveal=True,
         before=False,
+        role='recipient',
+        **prolific_options
+    ),
+    dict(
+        name='vl_r',
+        display_name='Reveal - Recipient',
+        app_sequence=['polar'],
+        num_demo_participants=2,
+        reveal=True,
+        before=False,
+        role='recipient',
+        **prolific_options
+    ),
+    dict(
+        name='baselineD',
+        display_name='baseline Dictator',
+        app_sequence=['polar'],
+        num_demo_participants=2,
+        reveal=True,
+        before=False,
+        role='dictator',
         **prolific_options
     ),
     dict(
@@ -17,6 +39,7 @@ SESSION_CONFIGS = [
         num_demo_participants=2,
         reveal=True,
         before=True,
+        role='dictator',
         **prolific_options
     ),
     dict(
@@ -25,6 +48,7 @@ SESSION_CONFIGS = [
         num_demo_participants=2,
         reveal=False,
         before=False,
+        role='dictator',
         **prolific_options
     ),
 ]

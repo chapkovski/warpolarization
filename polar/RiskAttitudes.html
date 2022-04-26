@@ -24,7 +24,8 @@
         .StylesManager
         .applyTheme("bootstrap");
 
-    var json = {showCompletedPage:false,
+    var json = {
+        showCompletedPage: false,
         questions: [
             {
                 hideNumber: true,
@@ -40,17 +41,14 @@
                         "rateMin": 0,
                         "rateMax": 10,
                         isRequired: true,
-                    requiredErrorText: {{Constants.REQUIRED_MSG|json}},
+                        requiredErrorText: {{Constants.REQUIRED_MSG|json}},
                     },
                 ],
                 "rows": [
                     {value: "risk_general", text: 'В целом'},
                     {value: "risk_financial_matters", text: 'В финансовых вопросах'},
-                    {value: "risk_free", text: 'В свободное время и во время занятий спортом'},
-                    {value: "risk_profession", text: 'В вашей профессии'},
-                    {value: "risk_health", text: 'В том что касается вашего здоровья'},
                     {value: "risk_strangers", text: 'В отношениях с незнакомыми людьми'},
-                    {value: "risk_driving", text: 'Во время езды за рулем'},
+
 
                 ]
             }

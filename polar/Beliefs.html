@@ -26,7 +26,7 @@
 {% elif subsession.treatment == 'forced_reveal' %}
 
     В данном исследовании участники А и Б могли либо согласиться, либо не согласиться со следующим утверждением:
-    <li class="list-group-item text-center lead">{{ Constants.statement_lgbt }}</li>
+    <li class="list-group-item text-center lead">{{ C.statement_lgbt }}</li>
 
 
     {% with  field={'name':'dg_belief_fr_diff', 'label':'На этапе принятия решения, какое решение примет большинство участников A, которые были в паре с участником Б с <span class="red">отличным от их</span> мнением об утверждении выше?'} %}
@@ -47,7 +47,7 @@
     {#    REVEAL_BEFORE #}
 
      В данном исследовании участники А и Б могли либо согласиться, либо не согласиться со следующим утверждением:
-    <li class="list-group-item text-center lead">{{ Constants.statement_lgbt }}</li>
+    <li class="list-group-item text-center lead">{{ C.statement_lgbt }}</li>
     {% with  field={'name':'dg_belief_rb_nonrev', 'label':'Какое решение относительно передачи или взятия денег примет большинство участников A, решивших <span class="red">не узнавать</span> мнение участника Б о приведенном выше утверждении?'} %}
         {% include "polar/includes/choicer_wrapper.html" %}
     {% endwith %}
