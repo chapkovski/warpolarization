@@ -4,23 +4,9 @@
 {{ endblock }}
 {{ block content }}
 {{ formfield player.reason_dg }}
-<div class="alert alert-info">
-    Укажите ниже три ключевых слова, которые лучше всего описывают мотивы, которыми вы руководствовались при принятии вашего решения.
-</div>
-{{ formfield player.keyword_dg_1 label='' }}
-{{ formfield player.keyword_dg_2 label=''  }}
-{{ formfield player.keyword_dg_3  label='' }}
-{% if session.config.reveal %}
-
-
+    {% if session.config.reveal %}
     {{ formfield player.reason_reveal }}
-    <div class="alert alert-info" >
-         Укажите ниже три ключевых слова, которые лучше всего описывают мотивы,  которыми вы руководствовались при принятии
-        решения узнавать или не узнавать ответ участника Б?
-    </div>
-    {{ formfield player.keyword_rev_1 label='' }}
-    {{ formfield player.keyword_rev_2 label=''  }}
-    {{ formfield player.keyword_rev_3  label='' }}
+
 {% endif %}
 
 {{ next_button }}

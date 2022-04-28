@@ -1,6 +1,6 @@
 from otree.api import *
 from .choices import *
-from .constants import C
+from .constants import C, POSITION, TREATMENT, ROLE
 import json
 import itertools
 import random
@@ -13,24 +13,62 @@ f = lambda x: f'{(x / 100):.2f}$'
 
 
 class Subsession(BaseSubsession):
-    treatment = models.StringField()
+    partner_position_shown = models.BooleanField()  # can we show at least theoretically partner's position; is true for all but baseline treatment for Ds
+    counter_yes = models.IntegerField()  # Count number of recipieints who agreed to show their YES opinion
+    counter_no = models.IntegerField()  # Count number of recipieints who agreed to show their NO opinion
+    counter_nr = models.IntegerField()  # Count number of recipieints who DID NOT agree to show their opinion
+    take_nrs = models.BooleanField()  # do we take into account those who do not want to agree
+
+    def get_weights(self):
+        counter = {
+            POSITION.YES: self.player_set.filter_by(partner_position=POSITION.YES).count(),
+            POSITION.NO: self.player_set.filter_by(partner_position=POSITION.NO).count(),
+            POSITION.NR: self.player_set.filter_by(partner_position=POSITION.NR).count()
+        }
+        maxnum = {
+            POSITION.YES: self.counter_yes,
+            POSITION.NO: self.counter_no,
+            POSITION.NR: self.counter_nr
+        }
+        if self.take_nrs:
+            potential_positions = C.POSITIONS_YNR
+        else:
+            potential_positions = C.POSITIONS_YES_NO
+        weights = {}
+        for i in potential_positions:
+            weights[i] = max(0, maxnum[i] - counter[i])
+        if all([i == 0 for i in weights.values()]):
+            return
+        return weights
 
 
-def creating_session(subsession):
+def creating_session(subsession: Subsession):
     conf = subsession.session.config
-    subsession.treatment = conf.get('name')
+    treatment = conf.get('treatment')
+    assert TREATMENT.has_value(treatment), 'something wrong with treatment name setting'
+    role = conf.get('role')
+    assert ROLE.has_value(role), 'something wrong with treatment role setting'
     orders = [False, True]
-    partner_positions = itertools.cycle([False, True])
-
+    if role == ROLE.DICTATOR:
+        endowments = dict(ego_endowment=C.DICTATOR_ENDOWMENT, alter_endowment=C.BASIC_ENDOWMENT)
+    else:
+        endowments = dict(ego_endowment=C.BASIC_ENDOWMENT, alter_endowment=C.DICTATOR_ENDOWMENT)
+    player_updates = dict(_role=role, treatment=treatment, )
+    player_updates.update(endowments)
+    subsession.player_set.update(player_updates)
+    #
+    subsession.take_nrs = treatment == TREATMENT.VL
+    subsession.partner_position_shown = treatment != TREATMENT.BASELINE
+    subsession.counter_no = conf.get('counter_no', 0)
+    subsession.counter_yes = conf.get('counter_yes', 0)
+    subsession.counter_nr = conf.get('counter_nr', 0)
+    if treatment != TREATMENT.VL:
+        assert subsession.counter_nr == 0, 'Check NR counter and treatment'
     for p in subsession.get_players():
-        p._role = conf.get('role')
         c = sorted(REVEAL_CHOICES, key=lambda x: x[0], reverse=random.choice(orders))
         p.reveal_order = json.dumps(c)
-        c = random.sample(OPINION_CHOICES,2)
+        c = random.sample(OPINION_CHOICES, 2)
         p.opinion_war_order = json.dumps(c)
-        p.partner_position = next(partner_positions)
-        p.egoendowment = C.DICTATOR_ENDOWMENT
-        p.alterendowment = C.BASIC_ENDOWMENT
 
 
 class Group(BaseGroup):
@@ -50,17 +88,19 @@ def opinion_intensity_choices(player):
 
 
 class Player(BasePlayer):
+    treatment = models.StringField()
     _role = models.StringField()
     opinion_war_order = models.StringField()
     opinion_intensity_order = models.StringField()
     opinion_war = models.BooleanField(
-        label= C.AGREEMENT_QUESTION,
+        label=C.AGREEMENT_QUESTION,
     )
     opinion_intensity = models.BooleanField()
-
+    partner_show = models.BooleanField()
     partner_position = models.BooleanField()
     aligned = models.BooleanField()
-    reveal = models.BooleanField()
+    dictator_reveal = models.BooleanField()
+    recipient_reveal = models.BooleanField()
     dg_decision = models.IntegerField(widget=widgets.RadioSelectHorizontal)
     payable = models.BooleanField()
     cq_err_counter = models.IntegerField(initial=0)
@@ -153,8 +193,8 @@ class Player(BasePlayer):
 
     #   other   main variables
     reveal_order = models.StringField()
-    egoendowment = models.IntegerField()
-    alterendowment = models.IntegerField()
+    ego_endowment = models.IntegerField()
+    alter_endowment = models.IntegerField()
     # BELIEFS:
     reveal_belief = models.IntegerField(min=0, max=100)
     dg_belief_ra = models.IntegerField()

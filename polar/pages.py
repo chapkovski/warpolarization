@@ -1,11 +1,12 @@
 from otree.api import Page as oTreePage
 from .choices import *
 from .models import *
-from .constants import C
+from .constants import C, POSITION, TREATMENT
 from pprint import pprint
 from starlette.responses import RedirectResponse
 import json
 import random
+import numpy as np
 
 
 class Page(oTreePage):
@@ -96,18 +97,47 @@ class Blocked(Page):
         return player.blocked
 
 
+class PreDecision(Page):
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        s = player.subsession
+        p = player
+        """
+        what we do here:
+         there are four different treatments for dictators.
+          - Baseline - where position is not shown.
+          - FR, RB: Forced reveal and reveal_before where position is shown non depending of the wish of the R
+          - VL - where position is shown depending on the wish of the R
+          if we are in the baseline we don't need partner's position
+          if we in the FL or RB then we need to take into account only the yes and no counters. and values 
+          that partner_position may take is either yes or no. 
+          if we are in VL then the partner_position can be either yes, no or nr (non-reveal).
+          if the total number of Ds matched with Yes exceeds the num_yes, and those matched with No exceeds the num_no,
+          then we assign a baseline treatment to the rest. That's to deal with dropouts.
+          
+           
+          
+        """
+        if player.role == 'dictator':
+            weights = s.get_weights()
+            if weights:
+                p.partner_position = np.random.choice(weights.keys(), p=weights.values())
+            else:
+                p.treatment = TREATMENT.BASELINE
+
+
 class InfoStage1(Page):
     instructions = True
     form_model = 'player'
 
     @staticmethod
     def get_form_fields(player: Player):
-        if player.subsession.treatment == 'reveal_before':
+        if player.subsession.treatment == TREATMENT.RB:
             return ['reveal']
 
     @staticmethod
     def is_displayed(player: Player):
-        return player.subsession.treatment != 'reveal_after'
+        return player.subsession.treatment != TREATMENT.BASELINE
 
 
 class InfoStage2(Page):
@@ -115,7 +145,7 @@ class InfoStage2(Page):
 
     @staticmethod
     def is_displayed(player: Player):
-        return player.subsession.treatment != 'reveal_after'
+        return player.subsession.treatment != TREATMENT.BASELINE
 
 
 class DecisionStage(Page):
@@ -123,20 +153,9 @@ class DecisionStage(Page):
     form_model = 'player'
     form_fields = ['dg_decision']
 
-
-class RevealAfterStage1(Page):
-    form_model = 'player'
-    form_fields = ['reveal']
-
     @staticmethod
     def is_displayed(player: Player):
-        return player.subsession.treatment == 'reveal_after'
-
-
-class RevealAfterStage2(Page):
-    @staticmethod
-    def is_displayed(player: Player):
-        return player.subsession.treatment == 'reveal_after'
+        return player.role() == ROLE.DICTATOR
 
 
 class Reasons(Page):
@@ -223,7 +242,7 @@ class Demographics(Page):
     def post(self):
         survey_data = json.loads(self._form_data.get('surveyholder'))
         pprint(survey_data)
-        ses = survey_data.pop('multi_ses', [])
+        multi_ses = survey_data.pop('multi_ses', [])
 
         for k, v in survey_data.items():
             try:
@@ -231,7 +250,7 @@ class Demographics(Page):
             except AttributeError:
                 pass
 
-        for i in ses:
+        for i in multi_ses:
             try:
                 setattr(self.player, i, True)
             except AttributeError:
@@ -246,16 +265,6 @@ class Demand(Page):
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
         player.payable = True
-        player.payoff = C.DICTATOR_ENDOWMENT - player.dg_decision
-        player.aligned = player.opinion_lgbt == player.partner_position
-
-
-class FinalForProlific(Page):
-    def is_displayed(self):
-        return self.session.config.get('for_prolific')
-
-    def get(self):
-        return RedirectResponse(self.session.config.get('prolific_redirect_url'))
 
 
 class FinalForToloka(Page):
@@ -265,28 +274,29 @@ class FinalForToloka(Page):
 
 
 page_sequence = [
-    # Consent,
+    Consent,
     # OpinionIntro,
     Opinion,
     OpinionIntensity,
-    # GeneralInstructions,
-    # DecisionInstructions,
-    # DGComprehensionCheck,
-    # Blocked,
-    # InfoStage1,
-    # InfoStage2,
+    GeneralInstructions,
+    DecisionInstructions,
+    DGComprehensionCheck,
+
+    PreDecision,
+
+    InfoStage1,
+    InfoStage2,
+    RecipientReveal
     # DecisionStage,
-    # RevealAfterStage1,
-    # RevealAfterStage2,
-    # Reasons,
     # BeliefsIntro,
     # Beliefs,
     # Proportions,
+    # Reasons,
     # InformationAvoidanceScale,
     # SocialDistanceIndex,
     # RiskAttitudes,
     # Demographics,
     # Demand,
     # FinalForToloka,
-
+    # Blocked,
 ]

@@ -109,8 +109,8 @@
     const formatter = (i)=>{return (i/100).toFixed(2)+'$'}
     const $own = $('#ownpayoff')
     const $alter = $('#alterpayoff')
-    const egoendowment = {{ player.egoendowment|json }}
-    const alterendowment = {{ player.alterendowment|json }}
+    const egoendowment = {{ player.ego_endowment|json }}
+    const alterendowment = {{ player.alter_endowment|json }}
     const egopayoff = formatter(egoendowment)
     const alterpayoff = formatter(alterendowment)
     $own.html( egopayoff)

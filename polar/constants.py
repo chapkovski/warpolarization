@@ -1,5 +1,5 @@
 from otree.api import *
-
+from global_constants import *
 
 class C(BaseConstants):
     NAME_IN_URL = 'polar'
@@ -19,5 +19,7 @@ class C(BaseConstants):
     NEXT_BTN = 'Далее'
     REQUIRED_MSG = 'Ответьте на вопрос'
     MAX_CQ_ATTEMPTS = 4
-    formatter = lambda  x: 'раз' if x in [0] or x> 5 else 'раза'
+    formatter = lambda x: 'раз' if x in [0] or x > 5 else 'раза'
     MAX_CQ_ATTEMPTS_formatted = f'{MAX_CQ_ATTEMPTS} {formatter(MAX_CQ_ATTEMPTS)}'
+    POSITIONS_YES_NO = [POSITION.YES, POSITION.NO]
+    POSITIONS_YNR = POSITIONS_YES_NO + [POSITION.NR]
