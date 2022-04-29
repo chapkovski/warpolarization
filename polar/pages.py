@@ -20,7 +20,9 @@ class Page(oTreePage):
         r['instructions'] = self.instructions
         return r
 
-
+class UnBlockedPage(Page):
+    def _is_displayed(self):
+        return not self.player.blocked and super()._is_displayed()
 class Consent(Page):
     pass
 
@@ -56,9 +58,6 @@ class OpinionIntensity(Page):
         return dict(label=label)
 
 
-class Opinion3(Page):
-    form_model = 'player'
-    form_fields = ['opinion_covid']
 
 
 class GeneralInstructions(Page):
@@ -72,12 +71,12 @@ class DecisionInstructions(Page):
 class DGComprehensionCheck(Page):
     instructions = True
     form_model = 'player'
-    form_fields = ['cq1_ego',
-                   'cq1_alter',
-                   'cq2_ego',
-                   'cq2_alter',
-                   'cq3_ego',
-                   'cq3_alter']
+    form_fields = ['cq1_d',
+                   'cq1_r',
+                   'cq2_d',
+                   'cq2_r',
+                   'cq3_d',
+                   'cq3_r']
 
     def form_invalid(self, form):
         self.player.cq_err_counter += 1
@@ -91,13 +90,10 @@ class DGComprehensionCheck(Page):
         return dict(attempts=C.MAX_CQ_ATTEMPTS - player.cq_err_counter)
 
 
-class Blocked(Page):
-    @staticmethod
-    def is_displayed(player: Player):
-        return player.blocked
 
 
-class PreDecision(Page):
+
+class PreDecision(UnBlockedPage):
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
         s = player.subsession
@@ -126,7 +122,7 @@ class PreDecision(Page):
                 p.treatment = TREATMENT.BASELINE
 
 
-class InfoStage1(Page):
+class InfoStage1(UnBlockedPage):
     instructions = True
     form_model = 'player'
 
@@ -137,73 +133,74 @@ class InfoStage1(Page):
 
     @staticmethod
     def is_displayed(player: Player):
-        return player.subsession.treatment != TREATMENT.BASELINE
+        return player.role == ROLE.DICTATOR and player.subsession.treatment != TREATMENT.BASELINE
 
 
-class InfoStage2(Page):
+class InfoStage2(UnBlockedPage):
     instructions = True
 
     @staticmethod
     def is_displayed(player: Player):
-        return player.subsession.treatment != TREATMENT.BASELINE
+        return player.role == ROLE.DICTATOR and player.subsession.treatment != TREATMENT.BASELINE
 
 
-class DecisionStage(Page):
+class RecipientReveal(UnBlockedPage):
+    instructions = True
+    form_model = 'player'
+    form_fields = ['recipient_reveal']
+
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.role == ROLE.RECIPIENT and player.treatment == TREATMENT.VL
+
+
+class DecisionStage(UnBlockedPage):
     instructions = True
     form_model = 'player'
     form_fields = ['dg_decision']
 
     @staticmethod
     def is_displayed(player: Player):
-        return player.role() == ROLE.DICTATOR
+        return player.role == ROLE.DICTATOR
 
 
-class Reasons(Page):
+class Reasons(UnBlockedPage):
     form_model = 'player'
 
     def get_form_fields(player: Player):
-        if player.role == C.dictator:
+
+        if player.role == ROLE.DICTATOR:
             l = ['reason_dg', ]
-            revl = ['reason_reveal', ]
-            if player.session.config.get('reveal'):
-                return l + revl
+            if player.treatment == TREATMENT.RB:
+                l = l + ['reason_reveal_d', ]
         else:
-            return ['reason_dg_r']
+            l = ['reason_dg_r']
+            if player.treatment == TREATMENT.VL:
+                l.append('reason_reveal_r')
+        return l
 
 
-class BeliefsIntro(Page):
+class BeliefsIntro(UnBlockedPage):
     pass
 
 
-class Beliefs(Page):
+class Beliefs(UnBlockedPage):
     form_model = 'player'
 
     @staticmethod
     def get_form_fields(player: Player):
-        if player.subsession.treatment == 'reveal_after':
-            return ['dg_belief_ra', 'reveal_belief']
-        if player.subsession.treatment == 'reveal_before':
-            return [
-                'dg_belief_rb_nonrev',
-                'dg_belief_rb_rev_diff',
-                'dg_belief_rb_rev_same',
-                'reveal_belief'
-            ]
-        if player.subsession.treatment == 'forced_reveal':
-            return [
-
-                'dg_belief_fr_diff',
-                'dg_belief_fr_same',
-
-            ]
+        if player.role==ROLE.DICTATOR:
+            return ['average_dg_belief']
+        if player.role==ROLE.RECIPIENT:
+            return ['own_dg_belief']
 
 
-class Proportions(Page):
+class Proportions(UnBlockedPage):
     form_model = 'player'
     form_fields = ['proportion']
 
 
-class InformationAvoidanceScale(Page):
+class InformationAvoidanceScale(UnBlockedPage):
     def post(self):
         survey_data = json.loads(self._form_data.get('surveyholder'))
 
@@ -213,7 +210,7 @@ class InformationAvoidanceScale(Page):
         return super().post()
 
 
-class SocialDistanceIndex(Page):
+class SocialDistanceIndex(UnBlockedPage):
     def vars_for_template(player: Player):
         return dict(reverted_opinion=player.reverted_opinion,
                     reverted_opinion_single=player.reverted_opinion_single)
@@ -227,7 +224,7 @@ class SocialDistanceIndex(Page):
         return super().post()
 
 
-class RiskAttitudes(Page):
+class RiskAttitudes(UnBlockedPage):
     def post(self):
         survey_data = json.loads(self._form_data.get('surveyholder'))
         risk_attitudes = survey_data.get('risk_attitudes')
@@ -238,7 +235,7 @@ class RiskAttitudes(Page):
         return super().post()
 
 
-class Demographics(Page):
+class Demographics(UnBlockedPage):
     def post(self):
         survey_data = json.loads(self._form_data.get('surveyholder'))
         pprint(survey_data)
@@ -258,7 +255,7 @@ class Demographics(Page):
         return super().post()
 
 
-class Demand(Page):
+class Demand(UnBlockedPage):
     form_model = 'player'
     form_fields = ["demand", 'instructions_clarity']
 
@@ -267,36 +264,38 @@ class Demand(Page):
         player.payable = True
 
 
-class FinalForToloka(Page):
+class FinalForToloka(UnBlockedPage):
     @staticmethod
     def is_displayed(player: Player):
         return player.session.config.get('for_toloka') and not player.blocked
 
-
+class Blocked(Page):
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.blocked
 page_sequence = [
-    Consent,
+    # Consent,
     # OpinionIntro,
-    Opinion,
-    OpinionIntensity,
-    GeneralInstructions,
-    DecisionInstructions,
-    DGComprehensionCheck,
-
-    PreDecision,
-
-    InfoStage1,
-    InfoStage2,
-    RecipientReveal
+    # Opinion,
+    # OpinionIntensity,
+    # GeneralInstructions,
+    # DecisionInstructions,
+    # DGComprehensionCheck,
+    # PreDecision,
+    # InfoStage1,
+    # InfoStage2,
+    # RecipientReveal,
     # DecisionStage,
     # BeliefsIntro,
-    # Beliefs,
     # Proportions,
-    # Reasons,
-    # InformationAvoidanceScale,
-    # SocialDistanceIndex,
-    # RiskAttitudes,
-    # Demographics,
-    # Demand,
-    # FinalForToloka,
-    # Blocked,
+    Beliefs,
+
+    Reasons,
+    InformationAvoidanceScale,
+    SocialDistanceIndex,
+    RiskAttitudes,
+    Demographics,
+    Demand,
+    FinalForToloka,
+    Blocked,
 ]

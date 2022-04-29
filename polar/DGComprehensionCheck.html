@@ -19,12 +19,12 @@
 <div class="card my-3">
     <div class="card-body">
         <div class="card-text">
-            Q1. Если вы решите <b>отдать</b>  50 центов участнику Б, сколько в итоге получит каждый из вас?
+            Q1. Если Участник А решит <b>отдать</b> 50 центов участнику Б, сколько в итоге получит каждый из вас?
 
-            <h6 class="mt-3">Ваш бонус:</h6>
-            {{ formfield player.cq1_ego label=''}}
+            <h6 class="mt-3">Бонус Участника А:</h6>
+            {{ formfield player.cq1_d label=''}}
             <h6>Бонус участника Б:</h6>
-            {{ formfield player.cq1_alter label=''}}
+            {{ formfield player.cq1_r label=''}}
 
         </div>
     </div>
@@ -33,23 +33,24 @@
 <div class="card my-3">
     <div class="card-body">
         <div class="card-text">
-            Q2. Если вы решите <b>оставить</b> полученные вами и участником Б суммы <b>без изменений</b>, сколько в итоге получит каждый из вас?
-            <h6 class="mt-3">Ваш бонус:</h6>
-            {{ formfield player.cq2_ego label=''}}
+            Q2. Если Участник А решит <b>оставить</b> полученные им и участником Б суммы <b>без изменений</b>, сколько в
+            итоге получит каждый из вас?
+            <h6 class="mt-3">Бонус Участника А:</h6>
+            {{ formfield player.cq2_d label=''}}
             <h6>Бонус участника Б:</h6>
-            {{ formfield player.cq2_alter label=''}}
+            {{ formfield player.cq2_r label=''}}
         </div>
     </div>
 </div>
 <div class="card my-3">
     <div class="card-body">
         <div class="card-text">
-             Q3. Если вы решите <b>взять</b>  50 центов у участника Б, сколько в итоге получит каждый из вас?
+            Q3. Если Участник А решит <b>взять</b> 50 центов у участника Б, сколько в итоге получит каждый из вас?
 
-            <h6 class="mt-3">Ваш бонус:</h6>
-            {{ formfield player.cq3_ego label=''}}
+            <h6 class="mt-3">Бонус Участника А:</h6>
+            {{ formfield player.cq3_d label=''}}
             <h6>Бонус участника Б:</h6>
-            {{ formfield player.cq3_alter label=''}}
+            {{ formfield player.cq3_r label=''}}
 
 
         </div>

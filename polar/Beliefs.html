@@ -3,69 +3,20 @@
 
 {{ endblock }}
 {{ block content }}
-
-
-    <style>
-        .red {
-            color: red;
-            font-weight: bold
-        }
-    </style>
-<div class="alert alert-warning">
-   <b>Один</b> из следующих вопросов будет выбран случайным образом и будет использоваться для определения вашего дополнительного бонуса.
-</div>
-{% if subsession.treatment == 'reveal_after' %}
-  {% with  field={'name':'dg_belief_ra', 'label':'На этапе принятия решения, какое решение примет большинство участников А?'} %}
+{{ if player.role == 'dictator' }}
+  {% with  field={'name':'average_dg_belief', 'label':'На этапе принятия решения, какое решение о передаче денег примет большинство участников А?'} %}
         {% include "polar/includes/choicer_wrapper.html" %}
     {% endwith %}
 
-
-    {% include "polar/includes/reveal_belief.html" %}
-
-
-{% elif subsession.treatment == 'forced_reveal' %}
-
-    В данном исследовании участники А и Б могли либо согласиться, либо не согласиться со следующим утверждением:
-    <li class="list-group-item text-center lead">{{ C.statement_lgbt }}</li>
-
-
-    {% with  field={'name':'dg_belief_fr_diff', 'label':'На этапе принятия решения, какое решение примет большинство участников A, которые были в паре с участником Б с <span class="red">отличным от их</span> мнением об утверждении выше?'} %}
-        {% include "polar/includes/choicer_wrapper.html" %}
-    {% endwith %}
-    {% with  field={'name':'dg_belief_fr_same', 'label':'На этапе принятия решения, какое решение примет большинство участников A, которые были в паре с участником Б с <span class="red">таким же как их</span> мнением об утверждении выше?'} %}
+{{ else }}
+  {% with  field={'name':'own_dg_belief', 'label':'Как вы думаете, какое решение о передаче денег примет участник А, с которым вы в паре?'} %}
         {% include "polar/includes/choicer_wrapper.html" %}
     {% endwith %}
 
+{{ endif }}
 
 
 
-
-
-
-
-{% else %}
-    {#    REVEAL_BEFORE #}
-
-     В данном исследовании участники А и Б могли либо согласиться, либо не согласиться со следующим утверждением:
-    <li class="list-group-item text-center lead">{{ C.statement_lgbt }}</li>
-    {% with  field={'name':'dg_belief_rb_nonrev', 'label':'Какое решение относительно передачи или взятия денег примет большинство участников A, решивших <span class="red">не узнавать</span> мнение участника Б о приведенном выше утверждении?'} %}
-        {% include "polar/includes/choicer_wrapper.html" %}
-    {% endwith %}
-    {% with  field={'name':'dg_belief_rb_rev_diff', 'label':'Какое решение относительно передачи или взятия денег примет большинство участников А, которые решили <span class="red">узнать</span> мнение участника Б о приведенном выше утверждении и были в паре с участником Б с <span class="red">отличным от их</span> мнением?'} %}
-        {% include "polar/includes/choicer_wrapper.html" %}
-    {% endwith %}
-    {% with  field={'name':'dg_belief_rb_rev_same', 'label':'На этапе принятия решения, какое решение примут большинство участников А, которые решили <span class="red">узнать</span> мнение участника Б о приведенном выше утверждении и были в паре с участником Б с <span class="red">таким же как их</span> мнением?'} %}
-        {% include "polar/includes/choicer_wrapper.html" %}
-    {% endwith %}
-
-
-
-
-
-    {% include "polar/includes/reveal_belief.html" %}
-
-
-{% endif %}
 
 
 

@@ -88,6 +88,12 @@ def opinion_intensity_choices(player):
 
 
 class Player(BasePlayer):
+    def role_desc(self):
+        if self.role == ROLE.DICTATOR:
+            return 'А'
+        else:
+            return 'Б'
+
     treatment = models.StringField()
     _role = models.StringField()
     opinion_war_order = models.StringField()
@@ -169,8 +175,13 @@ class Player(BasePlayer):
     ias_coworker = models.StringField()
     ias_stranger = models.StringField()
     # REASONS
-    reason_dg_r = models.LongStringField()  # reasons for recipieint beliefs of dictators decision
-    reason_reveal_r = models.LongStringField()  # reasons for recipieint revealing decision
+    reason_dg_r = models.LongStringField(label='Как вы думаете, чем руководствовался Участник А принимая решение о том отдавать или брать деньги у участника Б (вас)?')  # reasons for recipieint beliefs of dictators decision
+    reason_reveal_r = models.LongStringField(
+    label=
+    """Вспомните, пожалуйста, ваше решение относительно того, сообщать или не сообщать участнику А о вашей поддержке или не поддержке действий российских вооруженных сил на Украине. 
+    Чем вы руководствовались при принятии вашего решения?"""
+    )
+
     reason_dg = models.LongStringField(
         label='Вспомните, пожалуйста, свое решение о том отдавать или брать деньги у участника Б, с которым вы были в паре. Чем вы руководствовались при принятии вашего решения?')
 
@@ -178,31 +189,26 @@ class Player(BasePlayer):
         label="""Вспомните, пожалуйста, ваше решение относительно того, узнавать или не узнавать ответ участника Б. Чем вы руководствовались при принятии вашего решения?""")
 
     # Comprehension questions
-    cq1_ego = models.IntegerField(label=C.CQ_EGO_LABEL, choices=CQ_CHOICES,
-                                  widget=widgets.RadioSelectHorizontal)
-    cq1_alter = models.IntegerField(label=C.CQ_ALTER_LABEL, choices=CQ_CHOICES,
-                                    widget=widgets.RadioSelectHorizontal)
-    cq2_ego = models.IntegerField(label=C.CQ_EGO_LABEL, choices=CQ_CHOICES,
-                                  widget=widgets.RadioSelectHorizontal)
-    cq2_alter = models.IntegerField(label=C.CQ_ALTER_LABEL, choices=CQ_CHOICES,
-                                    widget=widgets.RadioSelectHorizontal)
-    cq3_ego = models.IntegerField(label=C.CQ_EGO_LABEL, choices=CQ_CHOICES,
-                                  widget=widgets.RadioSelectHorizontal)
-    cq3_alter = models.IntegerField(label=C.CQ_ALTER_LABEL, choices=CQ_CHOICES,
-                                    widget=widgets.RadioSelectHorizontal)
+    cq1_d = models.IntegerField(label=C.CQ_EGO_LABEL, choices=CQ_CHOICES,
+                                widget=widgets.RadioSelectHorizontal)
+    cq1_r = models.IntegerField(label=C.CQ_ALTER_LABEL, choices=CQ_CHOICES,
+                                widget=widgets.RadioSelectHorizontal)
+    cq2_d = models.IntegerField(label=C.CQ_EGO_LABEL, choices=CQ_CHOICES,
+                                widget=widgets.RadioSelectHorizontal)
+    cq2_r = models.IntegerField(label=C.CQ_ALTER_LABEL, choices=CQ_CHOICES,
+                                widget=widgets.RadioSelectHorizontal)
+    cq3_d = models.IntegerField(label=C.CQ_EGO_LABEL, choices=CQ_CHOICES,
+                                widget=widgets.RadioSelectHorizontal)
+    cq3_r = models.IntegerField(label=C.CQ_ALTER_LABEL, choices=CQ_CHOICES,
+                                widget=widgets.RadioSelectHorizontal)
 
     #   other   main variables
     reveal_order = models.StringField()
     ego_endowment = models.IntegerField()
     alter_endowment = models.IntegerField()
     # BELIEFS:
-    reveal_belief = models.IntegerField(min=0, max=100)
-    dg_belief_ra = models.IntegerField()
-    dg_belief_rb_nonrev = models.IntegerField()
-    dg_belief_rb_rev_diff = models.IntegerField()
-    dg_belief_rb_rev_same = models.IntegerField()
-    dg_belief_fr_diff = models.IntegerField()
-    dg_belief_fr_same = models.IntegerField()
+    average_dg_belief = models.IntegerField()
+    own_dg_belief = models.IntegerField()
     proportion = models.IntegerField(min=0, max=100, label='')
     # DEMOGRAPHICS
 
@@ -238,31 +244,31 @@ def dg_decision_choices(player):
     return [(i, f(i)) for i in ints]
 
 
-def cq1_ego_error_message(player, value):
+def cq1_d_error_message(player, value):
     if value != 50:
         return C.ERR_MSG
 
 
-def cq1_alter_error_message(player, value):
+def cq1_r_error_message(player, value):
     if value != 100:
         return C.ERR_MSG
 
 
-def cq2_ego_error_message(player, value):
+def cq2_d_error_message(player, value):
     if value != 100:
         return C.ERR_MSG
 
 
-def cq2_alter_error_message(player, value):
+def cq2_r_error_message(player, value):
     if value != 50:
         return C.ERR_MSG
 
 
-def cq3_ego_error_message(player, value):
+def cq3_d_error_message(player, value):
     if value != 150:
         return C.ERR_MSG
 
 
-def cq3_alter_error_message(player, value):
+def cq3_r_error_message(player, value):
     if value != 0:
         return C.ERR_MSG

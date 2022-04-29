@@ -3,12 +3,7 @@
 
 {{ endblock }}
 {{ block content }}
-{{ formfield player.reason_dg }}
-    {% if session.config.reveal %}
-    {{ formfield player.reason_reveal }}
-
-{% endif %}
-
+{{ formfields }}
 {{ next_button }}
 
 {{ endblock }}
