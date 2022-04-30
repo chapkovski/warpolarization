@@ -1,62 +1,210 @@
 {% extends "global/Page.html" %}
 {{ block title }}
 
-
 {{ endblock }}
+
+
 {{ block content }}
-
-<div class="alert alert-warning my-3">
-    Следующие вопросы нужны для проверки понимания вами инструкции. Вы сможете продолжить после того, как
-    представите правильные ответы на эти вопросы.
-    <div class="fw-bold">Вы можете всегда перечитать инструкцию, нажав зеленую кнопку "Инструкции" сверху.</div>
-    <div class="lead fw-bold text-center text-danger">Количество оставшихся попыток: {{ attempts }} </div>
-</div>
 <style>
-    label.col-form-label {
-        display: none;
+    label.btn.btn-default.btn-secondary.active {
+        background: yellow;
+        color: black;
     }
+
 </style>
-<div class="card my-3">
-    <div class="card-body">
-        <div class="card-text">
-            Q1. Если Участник А решит <b>отдать</b> 50 центов участнику Б, сколько в итоге получит каждый из вас?
+<script src="{{ static 'global/js/survey.jquery.min.js'}}"></script>
+<script src="{{ static 'global/js/showdown.min.js'}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.1.0/velocity.min.js"></script>
+<div id="surveyElement" style="display:inline-block;width:100%;"></div>
+<div id="surveyResult"></div>
+<input type="hidden" id="surveyholder" name="surveyholder">
+<script>
+    Survey.defaultBootstrapCss.navigationButton = "btn-primary btn-lg";
+    Survey
+        .StylesManager
+        .applyTheme("bootstrap");
+    const recheck_text = "Перечитайте инструкции и попробуйте еще раз";
+    const choices = [{value: 0, text: '0$'}, {value: 50, text: '0.50$'}, {value: 100, text: '1.00$'}, {
+        value: 150,
+        text: '1.50$'
+    }]
 
-            <h6 class="mt-3">Бонус Участника А:</h6>
-            {{ formfield player.cq1_d label=''}}
-            <h6>Бонус участника Б:</h6>
-            {{ formfield player.cq1_r label=''}}
+    var surveyJSON = {
+        pages: [
+            {
+                name: "page1",
+                elements: [
+                    {
+                        type: "html",
+                        name: "html1",
+                        html:
+                            "<h4>Если Участник А решит отдать 50 центов участнику Б, сколько в итоге получит каждый из вас?</h4?"
+                    },
+                    {
+                        type: "radiogroup",
+                        name: "cq1_d",
+                        title: " Бонус Участника А:",
+                        requiredErrorText: "Please answer this question",
+                        validators: [
+                            {
+                                type: "expression",
+                                text: recheck_text,
+                                expression: "{cq1_d} = 50"
+                            }
+                        ],
+                        choices: choices,
 
-        </div>
-    </div>
-</div>
+                    },
+                    {
+                        type: "radiogroup",
+                        name: "cq1_r",
+                        title: "Бонус участника Б:",
+                        requiredErrorText: "Please answer this question",
+                        validators: [
+                            {
+                                type: "expression",
+                                text: recheck_text,
+                                expression: "{cq1_r} = 100"
+                            }
+                        ],
+                        choices: choices,
+                    }
+                ]
+            },
+            {
+                name: "page2",
+                elements: [
+                    {
+                        type: "html",
+                        name: "html2",
+                        html:
+                            "<h4>Если Участник А решит оставить полученные им и участником Б суммы без изменений, сколько в итоге получит каждый из вас?</h4?"
+                    },
+                    {
+                        type: "radiogroup",
+                        name: "cq2_d",
+                        title: " Бонус Участника А:",
+                        requiredErrorText: "Please answer this question",
+                        validators: [
+                            {
+                                type: "expression",
+                                text: recheck_text,
+                                expression: "{cq2_d} = 100"
+                            }
+                        ],
+                        choices: choices,
 
-<div class="card my-3">
-    <div class="card-body">
-        <div class="card-text">
-            Q2. Если Участник А решит <b>оставить</b> полученные им и участником Б суммы <b>без изменений</b>, сколько в
-            итоге получит каждый из вас?
-            <h6 class="mt-3">Бонус Участника А:</h6>
-            {{ formfield player.cq2_d label=''}}
-            <h6>Бонус участника Б:</h6>
-            {{ formfield player.cq2_r label=''}}
-        </div>
-    </div>
-</div>
-<div class="card my-3">
-    <div class="card-body">
-        <div class="card-text">
-            Q3. Если Участник А решит <b>взять</b> 50 центов у участника Б, сколько в итоге получит каждый из вас?
+                    },
+                    {
+                        type: "radiogroup",
+                        name: "cq2_r",
+                        title: "Бонус участника Б:",
+                        requiredErrorText: "Please answer this question",
+                        validators: [
+                            {
+                                type: "expression",
+                                text: recheck_text,
+                                expression: "{cq2_r} = 50"
+                            }
+                        ],
+                        choices: choices,
+                    }
+                ]
+            },
+            {
+                name: "page3",
+                elements: [
+                    {
+                        type: "html",
+                        name: "html3",
+                        html:
+                            "<h4>Если Участник А решит взять 50 центов у участника Б, сколько в итоге получит каждый из вас? </h4?"
+                    },
+                    {
+                        type: "radiogroup",
+                        name: "cq3_d",
+                        title: " Бонус Участника А:",
+                        requiredErrorText: "Please answer this question",
+                        validators: [
+                            {
+                                type: "expression",
+                                text: recheck_text,
+                                expression: "{cq3_d} = 150"
+                            }
+                        ],
+                        choices: choices,
 
-            <h6 class="mt-3">Бонус Участника А:</h6>
-            {{ formfield player.cq3_d label=''}}
-            <h6>Бонус участника Б:</h6>
-            {{ formfield player.cq3_r label=''}}
+                    },
+                    {
+                        type: "radiogroup",
+                        name: "cq3_r",
+                        title: "Бонус участника Б:",
+                        requiredErrorText: "Please answer this question",
+                        validators: [
+                            {
+                                type: "expression",
+                                text: recheck_text,
+                                expression: "{cq3_r} = 0"
+                            }
+                        ],
+                        choices: choices,
+                    }
+                ]
+            },
+
+        ],
+        // showNavigationButtons: "none",
+        showPrevButton: false,
+        showProgressBar: "top",
+        "showQuestionNumbers": "off",
+        showCompletedPage: false,
+        pageNextText: "{{ C.NEXT_BTN }}",
+        "completeText": "{{ C.NEXT_BTN }}"
+    };
 
 
-        </div>
-    </div>
-</div>
+    window.survey = new Survey.Model(surveyJSON);
 
-{{ next_button }}
+    survey
+        .onComplete
+        .add(function (sender) {
+            document
+            $('#surveyholder').val(JSON.stringify(sender.data, null, 3))
+            $('#form').submit()
+            ;
+        });
+
+
+    function animate(animitionType, duration) {
+        if (!duration)
+            duration = 1000;
+        var element = document.getElementById("surveyElement");
+        $(element).velocity(animitionType, {duration: duration});
+    }
+
+    var doAnimantion = true;
+    survey
+        .onCurrentPageChanging
+        .add(function (sender, options) {
+            if (!doAnimantion)
+                return;
+            options.allowChanging = false;
+            setTimeout(function () {
+                doAnimantion = false;
+                sender.currentPage = options.newCurrentPage;
+                doAnimantion = true;
+            }, 500);
+            animate("slideUp", 500);
+        });
+    survey
+        .onCurrentPageChanged
+        .add(function (sender) {
+            animate("slideDown", 500);
+        });
+
+    $("#surveyElement").Survey({model: survey});
+    ;
+</script>
+
 
 {{ endblock }}

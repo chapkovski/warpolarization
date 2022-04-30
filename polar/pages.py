@@ -70,24 +70,18 @@ class DecisionInstructions(Page):
 
 class DGComprehensionCheck(Page):
     instructions = True
-    form_model = 'player'
-    form_fields = ['cq1_d',
-                   'cq1_r',
-                   'cq2_d',
-                   'cq2_r',
-                   'cq3_d',
-                   'cq3_r']
+    def post(self):
+        survey_data = json.loads(self._form_data.get('surveyholder'))
 
-    def form_invalid(self, form):
-        self.player.cq_err_counter += 1
-        if self.player.cq_err_counter > C.MAX_CQ_ATTEMPTS:
-            self.player.blocked = True
-            return
-        return super().form_invalid(form)
+        for k, v in survey_data.items():
+            try:
+                setattr(self.player, k, int(v))
+            except AttributeError:
+                pass
+        return super().post()
 
-    @staticmethod
-    def vars_for_template(player: Player):
-        return dict(attempts=C.MAX_CQ_ATTEMPTS - player.cq_err_counter)
+
+
 
 
 
@@ -276,27 +270,27 @@ class Blocked(Page):
     def is_displayed(player: Player):
         return player.blocked
 page_sequence = [
-    # Consent,
-    # OpinionIntro,
-    # Opinion,
-    # OpinionIntensity,
-    # GeneralInstructions,
-    # DecisionInstructions,
+    Consent,
+    OpinionIntro,
+    Opinion,
+    OpinionIntensity,
+    GeneralInstructions,
+    DecisionInstructions,
     DGComprehensionCheck,
-    # PreDecision,
-    # InfoStage1,
-    # InfoStage2,
-    # RecipientReveal,
-    # DecisionStage,
-    # BeliefsIntro,
-    # Proportions,
-    # Beliefs,
-    # Reasons,
-    # InformationAvoidanceScale,
-    # SocialDistanceIndex,
-    # RiskAttitudes,
-    # Demographics,
-    # Demand,
-    # FinalForToloka,
-    # Blocked,
+    PreDecision,
+    InfoStage1,
+    InfoStage2,
+    RecipientReveal,
+    DecisionStage,
+    BeliefsIntro,
+    Proportions,
+    Beliefs,
+    Reasons,
+    InformationAvoidanceScale,
+    SocialDistanceIndex,
+    RiskAttitudes,
+    Demographics,
+    Demand,
+    FinalForToloka,
+    Blocked,
 ]
