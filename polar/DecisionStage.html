@@ -4,8 +4,18 @@
 {{ endblock }}
 {{ block content }}
 {% if player.treatment != 'baseline' %}
-    {% include 'polar/includes/partner_position.html' %}
-
+    <div class="card my-3">
+        <div class="card-body">
+            <div class="card-text">
+                <ul class="list-group list-group-flush">
+                    {% include 'polar/includes/partner_position.html' %}
+                    <li class="list-group-item">
+                        {{ C.privacy_note }}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
 {% endif %}
 <div class="card my-3">
     <div class="card-body">
@@ -17,22 +27,24 @@
                 </li>
                 <li class="list-group-item mx-3">
 
-                 - В вашем распоряжении $1,00.
+                    - В вашем распоряжении $1,00.
                 </li>
                 <li class="list-group-item mx-3">
-              - Участник Б получил $0,50.
+                    - Участник Б получил $0,50.
 
                 </li>
                 <li class="list-group-item">
-                  Ваше решение:
+                    Ваше решение:
 
                 </li>
                 <li class="list-group-item mx-3">
-                   - Вы можете <b>отдать</b> до $0,50 из полученных вами денег участнику Б (выберите любую положительную сумму или ноль ниже).
+                    - Вы можете <b>отдать</b> до $0,50 из полученных вами денег участнику Б (выберите любую
+                    положительную сумму или ноль ниже).
 
                 </li>
                 <li class="list-group-item mx-3">
-                    - Вы можете <b>взять</b> до $0,50 из полученных  участником Б денег (выберите любую отрицательную сумму или ноль ниже).
+                    - Вы можете <b>взять</b> до $0,50 из полученных участником Б денег (выберите любую отрицательную
+                    сумму или ноль ниже).
 
                 </li>
 
@@ -40,25 +52,7 @@
         </div>
     </div>
 </div>
-{% if player.field_maybe_none('dictator_reveal') or player.treatment == 'forced_reveal' %}
-    <div class="card my-3">
-        <div class="card-body">
-            <div class="card-text">
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">
-                        Участник Б, с которым вы состоите в паре,  <span
-                            class="fw-bolder text-danger lead ">{{ player.get_partner_opinion }}</span>  со следующим утверждением:
-                    </li>
-                    <li class="list-group-item text-center lead my-3">
-                        {{ C.statement_lgbt }}
-                    </li>
-                    <li class="list-group-item">
-                        {{ C.privacy_note }}
-                    </li>
-            </div>
-        </div>
-    </div>
-{% endif %}
+
 <div class="card my-3">
     <div class="card-header">
         Ваше решение:
@@ -109,23 +103,29 @@
 
 
 <script>
-    const formatter = (i)=>{return (i/100).toFixed(2)+'$'}
+    const formatter = (i) => {
+        return (i / 100).toFixed(2) + '$'
+    }
     const $own = $('#ownpayoff')
     const $alter = $('#alterpayoff')
     const $infoblock = $('#infoblock')
-    const egoendowment = {{ player.ego_endowment|json }}
-    const alterendowment = {{ player.alter_endowment|json }}
+    const egoendowment =
+    {{ player.ego_endowment|json }}
+    const alterendowment =
+    {{ player.alter_endowment|json }}
     const egopayoff = formatter(egoendowment)
     const alterpayoff = formatter(alterendowment)
-    $own.html( egopayoff)
-    $alter.html( alterpayoff)
-     $('.dg-decision').click(function(){$infoblock.removeClass('d-none')})
-    $('.dg-decision').change(function(){
+    $own.html(egopayoff)
+    $alter.html(alterpayoff)
+    $('.dg-decision').click(function () {
+        $infoblock.removeClass('d-none')
+    })
+    $('.dg-decision').change(function () {
         const val = $(this).val();
-        const egopayoff = formatter(egoendowment-parseInt(val))
-        const alterpayoff = formatter(alterendowment+parseInt(val))
-        $own.html( egopayoff)
-        $alter.html( alterpayoff)
+        const egopayoff = formatter(egoendowment - parseInt(val))
+        const alterpayoff = formatter(alterendowment + parseInt(val))
+        $own.html(egopayoff)
+        $alter.html(alterpayoff)
     })
 </script>
 

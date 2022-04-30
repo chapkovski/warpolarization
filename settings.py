@@ -65,6 +65,7 @@ SESSION_CONFIGS = [
     ),
     dict(
         name='forced_reveal',
+        display_name='forced_reveal - Dictator',
         app_sequence=['polar'],
         num_demo_participants=2,
         reveal=False,
