@@ -21,5 +21,5 @@ class C(BaseConstants):
     MAX_CQ_ATTEMPTS = 4
     formatter = lambda x: 'раз' if x in [0] or x > 5 else 'раза'
     MAX_CQ_ATTEMPTS_formatted = f'{MAX_CQ_ATTEMPTS} {formatter(MAX_CQ_ATTEMPTS)}'
-    POSITIONS_YES_NO = [POSITION.YES, POSITION.NO]
-    POSITIONS_YNR = POSITIONS_YES_NO + [POSITION.NR]
+    POSITIONS_YES_NO = [POSITION.YES.value, POSITION.NO.value]
+    POSITIONS_YNR = POSITIONS_YES_NO + [POSITION.NR.value]

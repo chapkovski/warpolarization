@@ -37,7 +37,7 @@
         </div>
     </div>
 </div>
-{% if player.field_maybe_none('reveal') or subsession.treatment == 'forced_reveal' %}
+{% if player.field_maybe_none('dictator_reveal') or player.treatment == 'forced_reveal' %}
     <div class="card my-3">
         <div class="card-body">
             <div class="card-text">
@@ -79,7 +79,7 @@
                     {% endfor %}
                 </div>
             </div>
-            <ol class="list-group  ">
+            <ol class="list-group  d-none " id="infoblock">
                 <li class="list-group-item d-flex justify-content-between align-items-start">
                     <div class="ms-2 me-auto">
                         <div class="fw-bold">Ваш бонус:</div>
@@ -109,12 +109,14 @@
     const formatter = (i)=>{return (i/100).toFixed(2)+'$'}
     const $own = $('#ownpayoff')
     const $alter = $('#alterpayoff')
+    const $infoblock = $('#infoblock')
     const egoendowment = {{ player.ego_endowment|json }}
     const alterendowment = {{ player.alter_endowment|json }}
     const egopayoff = formatter(egoendowment)
     const alterpayoff = formatter(alterendowment)
     $own.html( egopayoff)
     $alter.html( alterpayoff)
+     $('.dg-decision').click(function(){$infoblock.removeClass('d-none')})
     $('.dg-decision').change(function(){
         const val = $(this).val();
         const egopayoff = formatter(egoendowment-parseInt(val))

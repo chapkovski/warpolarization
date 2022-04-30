@@ -114,10 +114,12 @@ class PreDecision(UnBlockedPage):
            
           
         """
-        if player.role == 'dictator':
+        # we do not assign partner positions to a treatment baseline because we don't care about the matching for them
+        if player.role == 'dictator' and player.treatment!=TREATMENT.BASELINE:
             weights = s.get_weights()
+
             if weights:
-                p.partner_position = np.random.choice(weights.keys(), p=weights.values())
+                p.partner_position = np.random.choice(list(weights.keys()), p=list(weights.values()))
             else:
                 p.treatment = TREATMENT.BASELINE
 
@@ -128,12 +130,12 @@ class InfoStage1(UnBlockedPage):
 
     @staticmethod
     def get_form_fields(player: Player):
-        if player.subsession.treatment == TREATMENT.RB:
+        if player.treatment == TREATMENT.RB:
             return ['reveal']
 
     @staticmethod
     def is_displayed(player: Player):
-        return player.role == ROLE.DICTATOR and player.subsession.treatment != TREATMENT.BASELINE
+        return player.role == ROLE.DICTATOR and player.treatment != TREATMENT.BASELINE
 
 
 class InfoStage2(UnBlockedPage):
@@ -141,7 +143,7 @@ class InfoStage2(UnBlockedPage):
 
     @staticmethod
     def is_displayed(player: Player):
-        return player.role == ROLE.DICTATOR and player.subsession.treatment != TREATMENT.BASELINE
+        return player.role == ROLE.DICTATOR and player.treatment != TREATMENT.BASELINE
 
 
 class RecipientReveal(UnBlockedPage):
@@ -274,22 +276,21 @@ class Blocked(Page):
     def is_displayed(player: Player):
         return player.blocked
 page_sequence = [
-    # Consent,
-    # OpinionIntro,
-    # Opinion,
-    # OpinionIntensity,
-    # GeneralInstructions,
-    # DecisionInstructions,
-    # DGComprehensionCheck,
-    # PreDecision,
-    # InfoStage1,
-    # InfoStage2,
-    # RecipientReveal,
-    # DecisionStage,
-    # BeliefsIntro,
-    # Proportions,
+    Consent,
+    OpinionIntro,
+    Opinion,
+    OpinionIntensity,
+    GeneralInstructions,
+    DecisionInstructions,
+    DGComprehensionCheck,
+    PreDecision,
+    InfoStage1,
+    InfoStage2,
+    RecipientReveal,
+    DecisionStage,
+    BeliefsIntro,
+    Proportions,
     Beliefs,
-
     Reasons,
     InformationAvoidanceScale,
     SocialDistanceIndex,

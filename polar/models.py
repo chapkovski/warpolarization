@@ -20,15 +20,17 @@ class Subsession(BaseSubsession):
     take_nrs = models.BooleanField()  # do we take into account those who do not want to agree
 
     def get_weights(self):
+
         counter = {
-            POSITION.YES: self.player_set.filter_by(partner_position=POSITION.YES).count(),
-            POSITION.NO: self.player_set.filter_by(partner_position=POSITION.NO).count(),
-            POSITION.NR: self.player_set.filter_by(partner_position=POSITION.NR).count()
+            POSITION.YES.value: self.player_set.filter_by(partner_position=POSITION.YES).count(),
+            POSITION.NO.value: self.player_set.filter_by(partner_position=POSITION.NO).count(),
+            POSITION.NR.value: self.player_set.filter_by(partner_position=POSITION.NR).count()
         }
+
         maxnum = {
-            POSITION.YES: self.counter_yes,
-            POSITION.NO: self.counter_no,
-            POSITION.NR: self.counter_nr
+            POSITION.YES.value: self.counter_yes,
+            POSITION.NO.value: self.counter_no,
+            POSITION.NR.value: self.counter_nr
         }
         if self.take_nrs:
             potential_positions = C.POSITIONS_YNR
@@ -103,7 +105,7 @@ class Player(BasePlayer):
     )
     opinion_intensity = models.BooleanField()
     partner_show = models.BooleanField()
-    partner_position = models.BooleanField()
+    partner_position = models.StringField()
     aligned = models.BooleanField()
     dictator_reveal = models.BooleanField()
     recipient_reveal = models.BooleanField()
@@ -147,15 +149,17 @@ class Player(BasePlayer):
 
     @property
     def reverted_opinion(self):
+        no_option = 'не'
         try:
-            return 'не согласны' if (self.opinion_lgbt) else 'согласны'
+            return no_option if (self.opinion_war) else ''
         except TypeError:
+
             # just for debugging
-            return 'не согласны'
+            return no_option
 
     def reverted_opinion_single(self):
         try:
-            return 'не согласен' if (self.opinion_lgbt) else 'согласен'
+            return 'не согласен' if (self.opinion_war) else 'согласен'
         except TypeError:
             # just for debugging
             return 'не согласен'

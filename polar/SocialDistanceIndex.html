@@ -20,8 +20,8 @@
     <div class="card">
 
         <div class="card-body">
-            <h5 class="card-title">Вспомните следующее утверждение:</h5>
-            <div class="card-text lead text-center">{{ C.statement_lgbt }}</div>
+            <h5 class="card-title">Вспомните следующий вопрос:</h5>
+            <div class="card-text lead text-center">{{ C.AGREEMENT_QUESTION }}</div>
 
         </div>
     </div>
@@ -29,8 +29,8 @@
 </div>
 <input type="hidden" id="surveyholder" name="surveyholder">
 <script>
-    var genStat = "**<u>{{ reverted_opinion }}</u>** с приведенным выше утверждением?"
-    var genStatSingle = "**<u>{{ reverted_opinion_single }}</u>**  с приведенным выше утверждением?"
+    var genStat = "**<u>{{ reverted_opinion }}</u>**"
+
     Survey.defaultBootstrapCss.navigationButton = "btn-primary btn-lg";
     Survey
         .StylesManager
@@ -44,44 +44,44 @@
 
     var json = {
         showCompletedPage: false,requiredText:'', "completeText": {{ C.NEXT_BTN|json }},
-        requiredErrorText: {{Constants.REQUIRED_MSG|json}},
+        requiredErrorText: {{C.REQUIRED_MSG|json}},
         questions:
             [
                 {
                     isRequired: true,
-                    requiredErrorText: {{Constants.REQUIRED_MSG|json}},
+                    requiredErrorText: {{C.REQUIRED_MSG|json}},
                     "hideNumber": true,
                     "type": "radiogroup",
                     "name": "sdi_politics",
-                    "title": `Насколько приемлемо вам было бы **говорить о политике** с людьми, которые  ${genStat}`,
+                    "title": `Насколько приемлемо вам было бы **говорить о политике** с людьми, которые  ${genStat} поддерживают действия российских вооруженных сил на Украине?`,
                     "choices": rateValues
                 },
                 {
                     isRequired: true,
-                      requiredErrorText: {{Constants.REQUIRED_MSG|json}},
+                      requiredErrorText: {{C.REQUIRED_MSG|json}},
                     "hideNumber": true,
                     "type": "radiogroup",
                     "name": "sdi_neighbors",
-                    "title": `Насколько приемлемо для вас было бы, если бы ваши **соседи** были бы ${genStat}`,
+                    "title": `Насколько приемлемо для вас было бы, если бы ваши **соседи** ${genStat} поддерживали действия российских вооруженных сил на Украине`,
                      "choices": rateValues
                 },
                 {
                     isRequired: true,
-                      requiredErrorText: {{Constants.REQUIRED_MSG|json}},
+                      requiredErrorText: {{C.REQUIRED_MSG|json}},
                     "hideNumber": true,
                     "type": "radiogroup",
                     "name": "sdi_friends",
-                    "title": `Насколько приемлемо для вас было бы, если ваши **близкие друзья** были бы  ${genStat}`,
+                    "title": `Насколько приемлемо для вас было бы, если ваши **близкие друзья**   ${genStat} поддерживали бы действия российских вооруженных сил на Украине`,
                      "choices": rateValues
                 },
                 {
                     isRequired: true,
-                      requiredErrorText: {{Constants.REQUIRED_MSG|json}},
+                      requiredErrorText: {{C.REQUIRED_MSG|json}},
                     "hideNumber": true,
                     "type": "radiogroup",
                     "name": "sdi_family",
                     "title": `Предположим, ваш сын или дочь собираются жениться/выйти замуж.
-                    Как бы вы себя чувствовали, если бы он или она женились/вышли замуж за человека, который ${genStatSingle}`,
+                    Как бы вы себя чувствовали, если бы он или она женились/вышли замуж за человека, который ${genStat} поддерживает действия российских вооруженных сил на Украине`,
                     "choices": [
                        "Я бы совершенно не расстроился",
                         "Я бы скорее не расстроился ",
