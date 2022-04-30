@@ -41,6 +41,10 @@ class Subsession(BaseSubsession):
             weights[i] = max(0, maxnum[i] - counter[i])
         if all([i == 0 for i in weights.values()]):
             return
+        tot_values = sum( weights.values())
+        for k,v in weights.items():
+            weights[k] = v/tot_values
+
         return weights
 
 

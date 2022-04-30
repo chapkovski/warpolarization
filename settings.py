@@ -44,7 +44,7 @@ SESSION_CONFIGS = [
         role=ROLE.DICTATOR,
         treatment=TREATMENT.VL,
         partner_position_shown=True,
-        counter_yes=0,
+        counter_yes=1,
         counter_no=0,
         counter_nr=1,
         **prolific_options

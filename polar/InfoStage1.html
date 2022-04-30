@@ -9,32 +9,51 @@
         <div class="card-text">
             <ul class="list-group list-group-flush">
 
-                {% if subsession.treatment == 'reveal_before' %}
+                {% if player.treatment == 'reveal_before' %}
 
 
                     <li class="list-group-item">
-                        Теперь вам нужно решить, хотите ли вы посмотреть, согласен или не согласен участник Б, с которым вы в паре, со следующим утверждением:
+                        Теперь вам нужно решить, хотите ли вы посмотреть, согласен или не согласен участник Б, с которым
+                        вы в паре, со следующим утверждением:
                     </li>
-{#                    <li class="list-group-item text-center lead">{{ C.statement_lgbt }}#}
+                    {#                    <li class="list-group-item text-center lead">{{ C.statement_lgbt }}#}
                     </li>
                     <li class="list-group-item">
-                           {{ formfield player.reveal label='' }}
+                        {{ formfield player.reveal label='' }}
                     </li>
+                {% elif player.treatment == 'vl' %}
+                    <li class="list-group-item">
+                        Участник Б, с которым вы в паре, имел возможность сообщить вам как он (или она)  ответил на вопрос о том, <i>поддерживает он или нет действия российских вооруженных сил на Украине</i>.
+                    </li>
+                    <li class="list-group-item">
+                        Если участник Б <b>согласился</b> сообщить вам свой ответ, то на следующей странице вы увидите его или ее
+                        ответ на
+                        этот вопрос.
+                    </li>
+                    <li class="list-group-item">
+                        Если участник Б <b>отказался</b> сообщать вам свой
+                    ответ, то на следующей странице вы увидите сообщение об отказе.
+                    </li>
+
+
+
+
+
                 {% else %}
 
                     <li class="list-group-item">
-                        На следующей странице вы увидите, согласен или не согласен участник Б, с которым вы в паре, со следующим утверждением:
+                        На следующей странице вы увидите, согласен или не согласен участник Б, с которым вы в паре, со
+                        следующим утверждением:
                     </li>
                     <li class="list-group-item text-center lead">
-{#                         {{ C.statement_lgbt }}#}
+                        {#                         {{ C.statement_lgbt }}#}
                     </li>
 
                 {% endif %}
                 <li class="list-group-item">
                     {{ C.privacy_note }}
                 </li>
-                <li class="list-group-item">Нажмите "Далее", чтобы продолжить
-                </li>
+
             </ul>
         </div>
     </div>

@@ -8,20 +8,7 @@
     <div class="card-body">
         <div class="card-text">
             <ul class="list-group list-group-flush">
-                {% if player.field_maybe_none('reveal') or subsession.treatment == 'forced_reveal' %}
-
-
-                    <li class="list-group-item">
-                        Участник Б, с которым вы состоите в паре,  <span
-                            class="fw-bolder text-danger lead ">{{ player.get_partner_opinion }}</span>  со следующим утверждением:
-                    </li>
-                    <li class="list-group-item text-center lead my-3">
-                        {{ C.statement_lgbt }}
-                    </li>
-                    <li class="list-group-item">
-                        {{ C.privacy_note }}
-                    </li>
-                {% endif %}
+              {% include 'polar/includes/partner_position.html' %}
                 <li class="list-group-item">Нажмите "Далее", чтобы продолжить
                 </li>
         </div>

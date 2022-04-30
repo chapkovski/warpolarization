@@ -1,0 +1,16 @@
+<li class="list-group-item">
+    {{ if player.treatment == 'vl' }}
+    Участник Б, с которым вы в паре, <b>сообщил</b> вам о своем ответе. Он ответил <b>"Поддерживаю"</b>
+    на вопрос:
+
+    {{ else }}
+    Участник Б, с которым вы в паре, ответил “Не поддерживаю”
+    на вопрос:
+
+    {{ endif }}
+</li>
+
+
+<li class="list-group-item fst-italic">
+    {{ C.AGREEMENT_QUESTION }}
+</li>

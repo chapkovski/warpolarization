@@ -276,13 +276,13 @@ class Blocked(Page):
     def is_displayed(player: Player):
         return player.blocked
 page_sequence = [
-    Consent,
-    OpinionIntro,
-    Opinion,
-    OpinionIntensity,
-    GeneralInstructions,
-    DecisionInstructions,
-    DGComprehensionCheck,
+    # Consent,
+    # OpinionIntro,
+    # Opinion,
+    # OpinionIntensity,
+    # GeneralInstructions,
+    # DecisionInstructions,
+    # DGComprehensionCheck,
     PreDecision,
     InfoStage1,
     InfoStage2,
