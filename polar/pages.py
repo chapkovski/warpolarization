@@ -131,7 +131,7 @@ class InfoStage1(UnBlockedPage):
     @staticmethod
     def get_form_fields(player: Player):
         if player.treatment == TREATMENT.RB:
-            return ['reveal']
+            return ['dictator_reveal']
 
     @staticmethod
     def is_displayed(player: Player):

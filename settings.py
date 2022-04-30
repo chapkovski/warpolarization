@@ -52,7 +52,7 @@ SESSION_CONFIGS = [
 
     dict(
         name='reveal_before',
-        display_name='reveal_before - Dictator',
+        display_name='Reveal Before - Dictator',
         app_sequence=['polar'],
         num_demo_participants=2,
         reveal=True,
@@ -65,7 +65,7 @@ SESSION_CONFIGS = [
     ),
     dict(
         name='forced_reveal',
-        display_name='forced_reveal - Dictator',
+        display_name='Forced Reveal - Dictator',
         app_sequence=['polar'],
         num_demo_participants=2,
         reveal=False,
