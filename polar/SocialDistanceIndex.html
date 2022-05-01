@@ -4,7 +4,6 @@
 {{ endblock }}
 
 
-
 {{ block content }}
 <style>
     label.btn.btn-default.btn-secondary.active {
@@ -35,62 +34,86 @@
     Survey
         .StylesManager
         .applyTheme("bootstrap");
-    var rateValues=[
-                        "Полностью неприемлемо",
-                        "Испытываю некоторые затруднения",
-                        "Не вижу серьезных проблем",
-                        "Не испытываю малейших проблем"
-                    ]
+    var rateValues = [
+        "Полностью неприемлемо",
+        "Испытываю некоторые затруднения",
+        "Не вижу серьезных проблем",
+        "Не испытываю малейших проблем"
+    ]
+    const pages = [
+        {
+            name: 'page1', elements:
+                [
+                    {
+                        isRequired: true,
+                        requiredErrorText: {{C.REQUIRED_MSG|json}},
+                        "hideNumber": true,
+                        "type": "radiogroup",
+                        "name": "sdi_politics_contra",
+                        "title": `Насколько приемлемо вам было бы **говорить о политике** с людьми, которые   <u>**не&nbspподдерживают**</u> действия российских вооруженных сил на Украине?`,
+                        "choices": rateValues
+                    },
+                    {
+                        isRequired: true,
+                        requiredErrorText: {{C.REQUIRED_MSG|json}},
+                        "hideNumber": true,
+                        "type": "radiogroup",
+                        "name": "sdi_family_contra",
+                        "title": `Предположим, ваш сын или дочь собираются жениться/выйти замуж.
+                    Как бы вы себя чувствовали, если бы он или она женились/вышли замуж за человека, который <u>**не&nbspподдерживает**</u>  действия российских вооруженных сил на Украине`,
+                        "choices": [
+                            "Я бы совершенно не расстроился",
+                            "Я бы скорее не расстроился ",
+                            "Я бы немного расстроился",
+                            "Я бы сильно расстроился "
+                        ]
+                    }
 
+                ]
+        },
+        {
+            name: 'page2', elements:
+                [
+                    {
+                        isRequired: true,
+                        requiredErrorText: {{C.REQUIRED_MSG|json}},
+                        "hideNumber": true,
+                        "type": "radiogroup",
+                        "name": "sdi_politics_pro",
+                        "title": `Насколько приемлемо вам было бы **говорить о политике** с людьми, которые   <u>**поддерживают**</u>  действия российских вооруженных сил на Украине?`,
+                        "choices": rateValues
+                    },
+                    {
+                        isRequired: true,
+                        requiredErrorText: {{C.REQUIRED_MSG|json}},
+                        "hideNumber": true,
+                        "type": "radiogroup",
+                        "name": "sdi_family_pro",
+                        "title": `Предположим, ваш сын или дочь собираются жениться/выйти замуж.
+                    Как бы вы себя чувствовали, если бы он или она женились/вышли замуж за человека, который  <u>**поддерживает**</u> действия российских вооруженных сил на Украине`,
+                        "choices": [
+                            "Я бы совершенно не расстроился",
+                            "Я бы скорее не расстроился ",
+                            "Я бы немного расстроился",
+                            "Я бы сильно расстроился "
+                        ]
+                    }
+
+                ]
+        },
+
+    ];
+    let shuffled = pages
+        .map(value => ({value, sort: Math.random()}))
+        .sort((a, b) => a.sort - b.sort)
+        .map(({value}) => value)
     var json = {
-        showCompletedPage: false,requiredText:'', "completeText": {{ C.NEXT_BTN|json }},
+        showCompletedPage: false, requiredText: '', "completeText": {{ C.NEXT_BTN|json }},
         requiredErrorText: {{C.REQUIRED_MSG|json}},
-        questions:
-            [
-                {
-                    isRequired: true,
-                    requiredErrorText: {{C.REQUIRED_MSG|json}},
-                    "hideNumber": true,
-                    "type": "radiogroup",
-                    "name": "sdi_politics",
-                    "title": `Насколько приемлемо вам было бы **говорить о политике** с людьми, которые  ${genStat} поддерживают действия российских вооруженных сил на Украине?`,
-                    "choices": rateValues
-                },
-                {
-                    isRequired: true,
-                      requiredErrorText: {{C.REQUIRED_MSG|json}},
-                    "hideNumber": true,
-                    "type": "radiogroup",
-                    "name": "sdi_neighbors",
-                    "title": `Насколько приемлемо для вас было бы, если бы ваши **соседи** ${genStat} поддерживали действия российских вооруженных сил на Украине`,
-                     "choices": rateValues
-                },
-                {
-                    isRequired: true,
-                      requiredErrorText: {{C.REQUIRED_MSG|json}},
-                    "hideNumber": true,
-                    "type": "radiogroup",
-                    "name": "sdi_friends",
-                    "title": `Насколько приемлемо для вас было бы, если ваши **близкие друзья**   ${genStat} поддерживали бы действия российских вооруженных сил на Украине`,
-                     "choices": rateValues
-                },
-                {
-                    isRequired: true,
-                      requiredErrorText: {{C.REQUIRED_MSG|json}},
-                    "hideNumber": true,
-                    "type": "radiogroup",
-                    "name": "sdi_family",
-                    "title": `Предположим, ваш сын или дочь собираются жениться/выйти замуж.
-                    Как бы вы себя чувствовали, если бы он или она женились/вышли замуж за человека, который ${genStat} поддерживает действия российских вооруженных сил на Украине`,
-                    "choices": [
-                       "Я бы совершенно не расстроился",
-                        "Я бы скорее не расстроился ",
-                        "Я бы немного расстроился",
-                        "Я бы сильно расстроился "
-                    ]
-                }
-
-            ]
+        pages:shuffled,
+        showPrevButton: false,
+        pageNextText: "{{ C.NEXT_BTN }}",
+        "completeText": "{{ C.NEXT_BTN }}"
     };
 
     window.survey = new Survey.Model(json);
