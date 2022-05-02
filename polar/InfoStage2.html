@@ -4,16 +4,10 @@
 {{ endblock }}
 {{ block content }}
 
-<div class="card my-3">
-    <div class="card-body">
-        <div class="card-text">
-            <ul class="list-group list-group-flush">
-              {% include 'polar/includes/partner_position.html' %}
-                <li class="list-group-item">Нажмите "Далее", чтобы продолжить
-                </li>
-        </div>
-    </div>
-</div>
+{% include 'polar/includes/partner_position.html' %}
+
+<div class="my-3">Нажмите "Далее", чтобы продолжить</div></li>
+
 
 {{ next_button }}
 

@@ -4,18 +4,7 @@
 {{ endblock }}
 {{ block content }}
 {% if player.treatment != 'baseline' %}
-    <div class="card my-3">
-        <div class="card-body">
-            <div class="card-text">
-                <ul class="list-group list-group-flush">
-                    {% include 'polar/includes/partner_position.html' %}
-                    <li class="list-group-item">
-                        {{ C.privacy_note }}
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
+{% include 'polar/includes/partner_position.html' %}
 {% endif %}
 <div class="card my-3">
     <div class="card-body">

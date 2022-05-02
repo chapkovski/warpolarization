@@ -1,10 +1,25 @@
-    {% if player.field_maybe_none('partner_position') %}
-    {{ if player.partner_position == 'nr' }}
-    {% include 'polar/includes/partner_nr.html' %}
-    {{ elif player.partner_position == 'yes' }}
-    {% include 'polar/includes/partner_yes.html' %}
-    {{ else }}
-    {% include 'polar/includes/partner_no.html' %}
-    {{ endif }}
+{% if player.field_maybe_none('dictator_reveal') != 0 %}
+     <div class="card my-3">
+        <div class="card-body">
+            <div class="card-text">
+                <ul class="list-group list-group-flush">
 
+
+    {% if player.field_maybe_none('partner_position') %}
+        {{ if player.partner_position == 'nr' }}
+        {% include 'polar/includes/partner_nr.html' %}
+        {{ elif player.partner_position == 'yes' }}
+        {% include 'polar/includes/partner_yes.html' %}
+        {{ else }}
+        {% include 'polar/includes/partner_no.html' %}
+        {{ endif }}
+        <li class="list-group-item">
+            {{ C.privacy_note }}
+        </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
     {% endif %}
+{% endif %}
