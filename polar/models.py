@@ -183,7 +183,7 @@ class Player(BasePlayer):
     ias_coworker = models.StringField()
     ias_stranger = models.StringField()
     # REASONS
-    reason_dg_r = models.LongStringField(label='Как вы думаете, чем руководствовался Участник А принимая решение о том отдавать или брать деньги у участника Б (вас)?')  # reasons for recipieint beliefs of dictators decision
+    reason_dg_r = models.LongStringField(label='Как вы думаете, чем будет руководствоваться Участник А принимая решение о том отдавать или брать деньги у участника Б (вас)?')  # reasons for recipieint beliefs of dictators decision
     reason_reveal_r = models.LongStringField(
     label=
     """Вспомните, пожалуйста, ваше решение относительно того, сообщать или не сообщать участнику А о вашей поддержке или не поддержке действий российских вооруженных сил на Украине. 
@@ -193,7 +193,7 @@ class Player(BasePlayer):
     reason_dg = models.LongStringField(
         label='Вспомните, пожалуйста, свое решение о том отдавать или брать деньги у участника Б, с которым вы были в паре. Чем вы руководствовались при принятии вашего решения?')
 
-    reason_reveal = models.LongStringField(
+    reason_reveal_d = models.LongStringField(
         label="""Вспомните, пожалуйста, ваше решение относительно того, узнавать или не узнавать ответ участника Б. Чем вы руководствовались при принятии вашего решения?""")
 
     # Comprehension questions

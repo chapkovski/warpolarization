@@ -20,9 +20,12 @@ class Page(oTreePage):
         r['instructions'] = self.instructions
         return r
 
+
 class UnBlockedPage(Page):
     def _is_displayed(self):
         return not self.player.blocked and super()._is_displayed()
+
+
 class Consent(Page):
     pass
 
@@ -58,8 +61,6 @@ class OpinionIntensity(Page):
         return dict(label=label)
 
 
-
-
 class GeneralInstructions(Page):
     pass
 
@@ -70,7 +71,11 @@ class DecisionInstructions(Page):
 
 class DGComprehensionCheck(Page):
     instructions = True
+
     def post(self):
+        if self._form_data.get('timeout_happened'):
+            return super().post()
+
         survey_data = json.loads(self._form_data.get('surveyholder'))
 
         for k, v in survey_data.items():
@@ -79,12 +84,6 @@ class DGComprehensionCheck(Page):
             except AttributeError:
                 pass
         return super().post()
-
-
-
-
-
-
 
 
 class PreDecision(UnBlockedPage):
@@ -109,7 +108,7 @@ class PreDecision(UnBlockedPage):
           
         """
         # we do not assign partner positions to a treatment baseline because we don't care about the matching for them
-        if player.role == 'dictator' and player.treatment!=TREATMENT.BASELINE:
+        if player.role == 'dictator' and player.treatment != TREATMENT.BASELINE:
             weights = s.get_weights()
 
             if weights:
@@ -185,9 +184,9 @@ class Beliefs(UnBlockedPage):
 
     @staticmethod
     def get_form_fields(player: Player):
-        if player.role==ROLE.DICTATOR:
+        if player.role == ROLE.DICTATOR:
             return ['average_dg_belief']
-        if player.role==ROLE.RECIPIENT:
+        if player.role == ROLE.RECIPIENT:
             return ['own_dg_belief']
 
 
@@ -265,10 +264,13 @@ class FinalForToloka(UnBlockedPage):
     def is_displayed(player: Player):
         return player.session.config.get('for_toloka') and not player.blocked
 
+
 class Blocked(Page):
     @staticmethod
     def is_displayed(player: Player):
         return player.blocked
+
+
 page_sequence = [
     Consent,
     OpinionIntro,
