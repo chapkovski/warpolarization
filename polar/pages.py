@@ -185,9 +185,25 @@ class Beliefs(UnBlockedPage):
     @staticmethod
     def get_form_fields(player: Player):
         if player.role == ROLE.DICTATOR:
-            return ['average_dg_belief']
+            l =  ['average_dg_belief']
         if player.role == ROLE.RECIPIENT:
-            return ['own_dg_belief']
+            l =  ['own_dg_belief']
+
+        if player.treatment== TREATMENT.VL:
+            l.extend(['vl_pro_belief','vl_contra_belief'])
+        return l
+
+class Beliefs2(UnBlockedPage):
+    form_model = 'player'
+
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.treatment == TREATMENT.VL
+    @staticmethod
+    def get_form_fields(player: Player):
+        return ['vl_pro_belief','vl_contra_belief']
+
+
 
 
 class Proportions(UnBlockedPage):
@@ -287,6 +303,7 @@ page_sequence = [
     BeliefsIntro,
     Proportions,
     Beliefs,
+    Beliefs2,
     Reasons,
     InformationAvoidanceScale,
     SocialDistanceIndex,

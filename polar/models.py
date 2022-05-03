@@ -217,6 +217,9 @@ class Player(BasePlayer):
     # BELIEFS:
     average_dg_belief = models.IntegerField()
     own_dg_belief = models.IntegerField()
+    vl_pro_belief = models.IntegerField(min=0, max=100) # shares of those who will reveal if PRO
+    vl_contra_belief = models.IntegerField(min=0, max=100) # shares of those who will reveal if CONTRA
+
     proportion = models.IntegerField(min=0, max=100, label='')
     # DEMOGRAPHICS
 
