@@ -189,8 +189,7 @@ class Beliefs(UnBlockedPage):
         if player.role == ROLE.RECIPIENT:
             l =  ['own_dg_belief']
 
-        if player.treatment== TREATMENT.VL:
-            l.extend(['vl_pro_belief','vl_contra_belief'])
+
         return l
 
 class Beliefs2(UnBlockedPage):
