@@ -73,6 +73,8 @@ class DGComprehensionCheck(Page):
     instructions = True
 
     def post(self):
+        if not bool(self._form_data):
+            return super().post()
         if self._form_data.get('timeout_happened'):
             return super().post()
 
@@ -226,6 +228,7 @@ class SocialDistanceIndex(UnBlockedPage):
                     reverted_opinion_single=player.reverted_opinion_single)
 
     def post(self):
+        print('aaaa', self._form_data)
         survey_data = json.loads(self._form_data.get('surveyholder'))
 
         for k, v in survey_data.items():
