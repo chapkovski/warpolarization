@@ -199,6 +199,9 @@ class Beliefs2(UnBlockedPage):
 
     @staticmethod
     def is_displayed(player: Player):
+        print('*'*100)
+        print(player.treatment)
+        print('*'*100)
         return player.treatment == TREATMENT.VL
     @staticmethod
     def get_form_fields(player: Player):
