@@ -37,7 +37,8 @@ class PlayerBot(Bot):
 
         yield Beliefs, l
 
-        if player.treatment == TREATMENT.VL:
+        if player.treatment == TREATMENT.VL.value:
+
             ans = dict(vl_pro_belief=random.randint(0, 100),
                        vl_contra_belief=random.randint(0, 100))
             yield Beliefs2, ans

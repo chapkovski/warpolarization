@@ -13,10 +13,11 @@
         {{ else }}
         {% include 'polar/includes/partner_no.html' %}
         {{ endif }}
+        {{ if player.partner_position != 'nr' }}
         <li class="list-group-item">
             {{ C.privacy_note }}
         </li>
-
+        {{ endif }}
                 </ul>
             </div>
         </div>

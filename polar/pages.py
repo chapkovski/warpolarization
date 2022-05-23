@@ -112,11 +112,14 @@ class PreDecision(UnBlockedPage):
         # we do not assign partner positions to a treatment baseline because we don't care about the matching for them
         if player.role == 'dictator' and player.treatment != TREATMENT.BASELINE:
             weights = s.get_weights()
-
+            print("WEIGHTS!", weights)
             if weights:
                 p.partner_position = np.random.choice(list(weights.keys()), p=list(weights.values()))
             else:
-                p.treatment = TREATMENT.BASELINE
+                player.treatment = TREATMENT.BASELINE.value
+            print('$'*10)
+            print(p.treatment)
+            print('$'*10)
 
 
 class InfoStage1(UnBlockedPage):
@@ -199,10 +202,7 @@ class Beliefs2(UnBlockedPage):
 
     @staticmethod
     def is_displayed(player: Player):
-        print('*'*100)
-        print(player.treatment)
-        print('*'*100)
-        return player.treatment == TREATMENT.VL
+        return player.treatment == TREATMENT.VL.value
     @staticmethod
     def get_form_fields(player: Player):
         return ['vl_pro_belief','vl_contra_belief']
