@@ -4,6 +4,8 @@ CQ_CHOICES = [(0, '0$'), (50, '0.50$'), (100, '1.00$'), (150, '1.50$')]
 
 REVEAL_CHOICES = [(True, Markup('Я  хочу узнать ответ участника Б')),
                   (False, 'Я не хочу узнать ответ участника Б')]
+RECEPIENT_REVEAL_CHOICES = [(True, 'Да'),
+                            (False, 'Нет')]
 
 OPINION_CHOICES = [(True, 'Поддерживаю'), (False, 'Не поддерживаю'), ]
 INTENSITY_YES_CHOICES = [(False, 'Скорее поддерживаю'), (True, 'Определенно поддерживаю'), ]

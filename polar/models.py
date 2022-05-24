@@ -41,9 +41,9 @@ class Subsession(BaseSubsession):
             weights[i] = max(0, maxnum[i] - counter[i])
         if all([i == 0 for i in weights.values()]):
             return
-        tot_values = sum( weights.values())
-        for k,v in weights.items():
-            weights[k] = v/tot_values
+        tot_values = sum(weights.values())
+        for k, v in weights.items():
+            weights[k] = v / tot_values
 
         return weights
 
@@ -70,12 +70,13 @@ def creating_session(subsession: Subsession):
     subsession.counter_nr = conf.get('counter_nr', 0)
     if treatment != TREATMENT.VL:
         assert subsession.counter_nr == 0, 'Check NR counter and treatment'
+    rr_choices= itertools.cycle([RECEPIENT_REVEAL_CHOICES, RECEPIENT_REVEAL_CHOICES[::-1]])
     for p in subsession.get_players():
         c = sorted(REVEAL_CHOICES, key=lambda x: x[0], reverse=random.choice(orders))
         p.reveal_order = json.dumps(c)
         c = random.sample(OPINION_CHOICES, 2)
         p.opinion_war_order = json.dumps(c)
-
+        p.recipient_reveal_order = json.dumps(next(rr_choices))
 
 class Group(BaseGroup):
     pass
@@ -83,6 +84,10 @@ class Group(BaseGroup):
 
 def reveal_choices(player):
     return json.loads(player.reveal_order)
+
+
+def recipient_reveal_choices(player):
+    return json.loads(player.recipient_reveal_order)
 
 
 def opinion_war_choices(player):
@@ -103,6 +108,7 @@ class Player(BasePlayer):
     treatment = models.StringField()
     _role = models.StringField()
     opinion_war_order = models.StringField()
+    recipient_reveal_order = models.StringField()
     opinion_intensity_order = models.StringField()
     opinion_war = models.BooleanField(
         label=C.AGREEMENT_QUESTION,
@@ -183,11 +189,12 @@ class Player(BasePlayer):
     ias_coworker = models.StringField()
     ias_stranger = models.StringField()
     # REASONS
-    reason_dg_r = models.LongStringField(label='Как вы думаете, чем будет руководствоваться Участник А принимая решение о том отдавать или брать деньги у участника Б (вас)?')  # reasons for recipieint beliefs of dictators decision
+    reason_dg_r = models.LongStringField(
+        label='Как вы думаете, чем будет руководствоваться Участник А принимая решение о том отдавать или брать деньги у участника Б (вас)?')  # reasons for recipieint beliefs of dictators decision
     reason_reveal_r = models.LongStringField(
-    label=
-    """Вспомните, пожалуйста, ваше решение относительно того, сообщать или не сообщать участнику А о вашей поддержке или не поддержке действий российских вооруженных сил на Украине. 
-    Чем вы руководствовались при принятии вашего решения?"""
+        label=
+        """Вспомните, пожалуйста, ваше решение относительно того, сообщать или не сообщать участнику А о вашей поддержке или не поддержке действий российских вооруженных сил на Украине. 
+        Чем вы руководствовались при принятии вашего решения?"""
     )
 
     reason_dg = models.LongStringField(
@@ -217,8 +224,8 @@ class Player(BasePlayer):
     # BELIEFS:
     average_dg_belief = models.IntegerField()
     own_dg_belief = models.IntegerField()
-    vl_pro_belief = models.IntegerField(min=0, max=100) # shares of those who will reveal if PRO
-    vl_contra_belief = models.IntegerField(min=0, max=100) # shares of those who will reveal if CONTRA
+    vl_pro_belief = models.IntegerField(min=0, max=100)  # shares of those who will reveal if PRO
+    vl_contra_belief = models.IntegerField(min=0, max=100)  # shares of those who will reveal if CONTRA
 
     proportion = models.IntegerField(min=0, max=100, label='')
     # DEMOGRAPHICS
