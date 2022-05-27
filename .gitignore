@@ -12,3 +12,7 @@ __pycache__/
 .DS_Store
 *.otreezip
 .env
+./paymodule/data/*
+!./paymodule/data/.gitkeep
+./paymodule/logs/*
+!./paymodule/logs/.gitkeep
