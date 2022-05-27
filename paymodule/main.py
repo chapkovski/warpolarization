@@ -34,14 +34,14 @@ def accept_assignment(assignment_id):
 
 log_columns = ['assignment_id', 'user_id']
 
-file_name = 'payments_for_vlr_pilot.csv'
+file_name = 'to_pay_pj_vlr_pilot.csv'
 log_name = f'logs_paid_{file_name}'
 open(f'logs/{log_name}', 'a').close()
 
 
 def accept_and_pay():
 
-    raw = pd.read_csv(f'data/{file_name}', names=['assignment_id'])
+    raw = pd.read_csv(f'data/{file_name}')
     raw = raw[["assignment_id"]]
     print(raw.columns)
     # return
