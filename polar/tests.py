@@ -16,7 +16,7 @@ class PlayerBot(Bot):
         yield DecisionInstructions,
         yield DGComprehensionCheck,
         yield PreDecision,
-        if self.player.role == ROLE.DICTATOR and self.player.treatment != TREATMENT.BASELINE:
+        if self.player.role == ROLE.DICTATOR:
             ans = {}
             if self.player.treatment == TREATMENT.RB:
                 ans = dict(dictator_reveal=random.choice([False, True]))

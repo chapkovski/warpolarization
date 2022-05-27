@@ -133,7 +133,7 @@ class InfoStage1(UnBlockedPage):
 
     @staticmethod
     def is_displayed(player: Player):
-        return player.role == ROLE.DICTATOR and player.treatment != TREATMENT.BASELINE
+        return player.role == ROLE.DICTATOR # and player.treatment != TREATMENT.BASELINE
 
 
 class InfoStage2(UnBlockedPage):
@@ -141,7 +141,7 @@ class InfoStage2(UnBlockedPage):
 
     @staticmethod
     def is_displayed(player: Player):
-        return player.role == ROLE.DICTATOR and player.treatment != TREATMENT.BASELINE
+        return player.role == ROLE.DICTATOR #and player.treatment != TREATMENT.BASELINE
 
 
 class RecipientReveal(UnBlockedPage):
