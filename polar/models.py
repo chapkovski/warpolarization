@@ -6,9 +6,7 @@ import itertools
 import random
 from math import copysign
 
-# TODO: remove proportions from methods
-# TODO: write down the logic of treatment
-# TODO: what to do with recipieints?
+
 f = lambda x: f'{(x / 100):.2f}$'
 
 
@@ -70,7 +68,7 @@ def creating_session(subsession: Subsession):
     subsession.counter_nr = conf.get('counter_nr', 0)
     if treatment != TREATMENT.VL:
         assert subsession.counter_nr == 0, 'Check NR counter and treatment'
-    rr_choices= itertools.cycle([RECEPIENT_REVEAL_CHOICES, RECEPIENT_REVEAL_CHOICES[::-1]])
+    rr_choices = itertools.cycle([RECEPIENT_REVEAL_CHOICES, RECEPIENT_REVEAL_CHOICES[::-1]])
     for p in subsession.get_players():
         c = sorted(REVEAL_CHOICES, key=lambda x: x[0], reverse=random.choice(orders))
         p.reveal_order = json.dumps(c)
@@ -107,6 +105,7 @@ class Player(BasePlayer):
 
     treatment = models.StringField()
     _role = models.StringField()
+    # these _order vars contain the order in which corresponding choices are shown
     opinion_war_order = models.StringField()
     recipient_reveal_order = models.StringField()
     opinion_intensity_order = models.StringField()
@@ -114,9 +113,9 @@ class Player(BasePlayer):
         label=C.AGREEMENT_QUESTION,
     )
     opinion_intensity = models.BooleanField()
-    partner_show = models.BooleanField()
+    partner_show = models.BooleanField()  # TODO: do we need it??
     partner_position = models.StringField()
-    aligned = models.BooleanField()
+    aligned = models.BooleanField()  # TODO: do we need it??
     dictator_reveal = models.BooleanField()
     recipient_reveal = models.BooleanField()
     dg_decision = models.IntegerField(widget=widgets.RadioSelectHorizontal)
