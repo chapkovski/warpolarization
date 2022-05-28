@@ -32,9 +32,9 @@ def accept_assignment(assignment_id):
     return resp
 
 
-log_columns = ['assignment_id', 'user_id']
+log_columns = ['assignment_id', 'user_id', 'bonus']
 
-file_name = 'to_pay_pj_vlr_pilot.csv'
+file_name = 'payoffs_new_baseline.csv'
 log_name = f'logs_paid_{file_name}'
 open(f'logs/{log_name}', 'a').close()
 
@@ -42,7 +42,7 @@ open(f'logs/{log_name}', 'a').close()
 def accept_and_pay():
 
     raw = pd.read_csv(f'data/{file_name}')
-    raw = raw[["assignment_id"]]
+    raw.rename(columns=dict(payoff='bonus'), inplace=True)
     print(raw.columns)
     # return
 
@@ -59,10 +59,10 @@ def accept_and_pay():
             user_id = get_assignment_info(row.assignment_id).get('user_id')
             newrow['user_id'] = user_id
             accept_assignment(row.assignment_id)
-            # if row.bonus>10:
-            #     print(row)
-            #     raise Exception('too large bonus')
-            pay_bonus(user_id=user_id, bonus=random.choice(['0.40', '0.50', '0.60']),
+            if row.bonus>10:
+                print(row)
+                raise Exception('too large bonus')
+            pay_bonus(user_id=user_id, bonus=row.bonus,
                       title='Спасибо за участие!',
                       message='Спасибо за участие в нашем исследовании! Надеемся увидеть вас снова.')
             print(f'{counter}: Assignment {row.assignment_id} accepted, paid to user {user_id}')
