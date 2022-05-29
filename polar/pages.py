@@ -27,7 +27,10 @@ class UnBlockedPage(Page):
 
 
 class Consent(Page):
-    pass
+    form_model = 'player'
+    form_fields = ['consent', 'consent_wait']
+    def get(self, **kwargs):
+        return super().get(**kwargs)
 
 
 class OpinionIntro(Page):

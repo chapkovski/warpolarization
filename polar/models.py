@@ -6,7 +6,6 @@ import itertools
 import random
 from math import copysign
 
-
 f = lambda x: f'{(x / 100):.2f}$'
 
 
@@ -76,6 +75,7 @@ def creating_session(subsession: Subsession):
         p.opinion_war_order = json.dumps(c)
         p.recipient_reveal_order = json.dumps(next(rr_choices))
 
+
 class Group(BaseGroup):
     pass
 
@@ -103,6 +103,12 @@ class Player(BasePlayer):
         else:
             return 'Б'
 
+    consent = models.BooleanField(
+        label='Подтверждаю свое согласие',
+        widget=widgets.CheckboxInput)
+    consent_wait = models.BooleanField(
+        label='Понимаю, что на проверку задания может уйти несколько рабочих дней',
+        widget=widgets.CheckboxInput)
     treatment = models.StringField()
     _role = models.StringField()
     # these _order vars contain the order in which corresponding choices are shown
