@@ -1,25 +1,45 @@
-{% if player.field_maybe_none('dictator_reveal') != 0 %}
-    <div class="card my-3">
-        <div class="card-body">
-            <div class="card-text">
-                <ul class="list-group list-group-flush">
+<style>
+    span.answer {
+        font-weight: bold;
+        color:red;
+        font-size: 1.2rem;
+    }
+</style>
+<div class="card my-3">
+    <div class="card-body">
+        <div class="card-text">
+            <ul class="list-group list-group-flush">
 
-                    {% if player.treatment == 'baseline' %}
-                        <li class="list-group-item">
-                            <b> Компьютер </b> решил <b>не сообщать</b> вам ответ Участника Б, с которым вы в паре на
+                {% if player.treatment == 'baseline' %}
+                    <li class="list-group-item">
+                        <b> Компьютер </b> решил <b>не сообщать</b> вам ответ Участника Б, с которым вы в паре на
+                        вопрос:
+                    </li>
+
+                    <li class="list-group-item fst-italic">
+                        {{ C.AGREEMENT_QUESTION }}
+                    </li>
+
+                {% elif player.treatment == 'forced_reveal' %}
+                    <li class="list-group-item">
+                        <b> Компьютер </b> решил <b>сообщить</b> вам ответ Участника Б, с которым вы в паре.
+                    </li>
+                {% elif player.treatment == 'reveal_before' %}
+                    <li class="list-group-item">
+                        {% if   not player.dictator_reveal %}
+                            <b> Вы решили </b> <b>не узнавать</b> ответ Участника Б, с которым вы в паре на
                             вопрос:
-                        </li>
+                        {% else %}
+                            <b> Вы решили </b> <b>узнать</b> ответ Участника Б, с которым вы в паре на
+                            вопрос:
+                        {% endif %}
+                    </li>
+                    <li class="list-group-item fst-italic">
+                        {{ C.AGREEMENT_QUESTION }}
+                    </li>
 
-                        <li class="list-group-item fst-italic">
-                            {{ C.AGREEMENT_QUESTION }}
-                        </li>
-
-                    {% elif player.treatment == 'forced_reveal' %}
-                        <li class="list-group-item">
-                            <b> Компьютер </b> решил <b>сообщить</b> вам ответ Участника Б, с которым вы в паре.
-                        </li>
-
-                    {% endif %}
+                {% endif %}
+                {% if player.field_maybe_none('dictator_reveal') != 0 %}
                     {% if player.field_maybe_none('partner_position') %}
                         {{ if player.partner_position == 'nr' }}
                         {% include 'polar/includes/partner_nr.html' %}
@@ -35,8 +55,8 @@
                         {{ endif }}
 
                     {% endif %}
-                </ul>
-            </div>
+                {% endif %}
+            </ul>
         </div>
     </div>
-{% endif %}
+</div>

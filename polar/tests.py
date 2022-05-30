@@ -8,7 +8,7 @@ class PlayerBot(Bot):
 
     def play_round(self):
         player = self.player
-        yield Consent,
+        yield Consent,dict(consent=True, consent_wait=True )
         yield OpinionIntro,
         yield Opinion, dict(opinion_war=random.choice(OPINION_CHOICES))
         yield OpinionIntensity, dict(opinion_intensity=random.choice(INTENSITY_NO_CHOICES))
@@ -22,33 +22,33 @@ class PlayerBot(Bot):
                 ans = dict(dictator_reveal=random.choice([False, True]))
             yield InfoStage1, ans
             yield InfoStage2,
-        if player.role == ROLE.RECIPIENT and player.treatment == TREATMENT.VL:
+        if self.player.role == ROLE.RECIPIENT and self.player.treatment == TREATMENT.VL:
             ans = dict(recipient_reveal=random.choice([False, True]))
             yield RecipientReveal, ans
-        if player.role == ROLE.DICTATOR:
+        if self.player.role == ROLE.DICTATOR:
             yield DecisionStage, dict(dg_decision=random.choice(dg_decision_choices(player)))
         yield BeliefsIntro,
         ans = dict(proportion=random.randint(0, 100))
         yield Proportions, ans
-        if player.role == ROLE.DICTATOR:
-            l = dict(average_dg_belief=dg_decision_choices(player))
-        if player.role == ROLE.RECIPIENT:
-            l = dict(own_dg_belief=dg_decision_choices(player))
+        if self.player.role == ROLE.DICTATOR:
+            l = dict(average_dg_belief=dg_decision_choices(self.player))
+        if self.player.role == ROLE.RECIPIENT:
+            l = dict(own_dg_belief=dg_decision_choices(self.player))
 
         yield Beliefs, l
 
-        if player.treatment == TREATMENT.VL.value:
+        if self.player.treatment == TREATMENT.VL.value:
 
             ans = dict(vl_pro_belief=random.randint(0, 100),
                        vl_contra_belief=random.randint(0, 100))
             yield Beliefs2, ans
-        if player.role == ROLE.DICTATOR:
+        if self.player.role == ROLE.DICTATOR:
             l = dict(reason_dg='test')
-            if player.treatment == TREATMENT.RB:
+            if self.player.treatment == TREATMENT.RB:
                 l['reason_reveal_d'] = 'test'
         else:
             l = dict(reason_dg_r='test')
-            if player.treatment == TREATMENT.VL:
+            if self.player.treatment == TREATMENT.VL:
                 l['reason_reveal_r'] = 'test'
 
         yield Reasons, l
