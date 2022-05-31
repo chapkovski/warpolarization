@@ -35,8 +35,8 @@ SESSION_CONFIGS = [
         role=ROLE.DICTATOR,
         treatment=TREATMENT.VL,
         partner_position_shown=True,
-        counter_yes=20,
-        counter_no=30,
+        counter_yes=1,
+        counter_no=1,
         counter_nr=50,
         **prolific_options
     ),
@@ -49,8 +49,8 @@ SESSION_CONFIGS = [
         reveal=True,
         role=ROLE.DICTATOR,
         treatment=TREATMENT.RB,
-        counter_yes=3,
-        counter_no=4,
+        counter_yes=1,
+        counter_no=1,
         counter_nr=0,
         **prolific_options
     ),
@@ -62,8 +62,8 @@ SESSION_CONFIGS = [
         reveal=False,
         role=ROLE.DICTATOR,
         treatment=TREATMENT.FR,
-        counter_yes=40,
-        counter_no=30,
+        counter_yes=1,
+        counter_no=1,
         counter_nr=0,
         **prolific_options
     ),
