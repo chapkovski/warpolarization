@@ -37,7 +37,7 @@ SESSION_CONFIGS = [
         partner_position_shown=True,
         counter_yes=1,
         counter_no=1,
-        counter_nr=50,
+        counter_nr=1,
         **prolific_options
     ),
 
