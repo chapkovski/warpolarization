@@ -34,7 +34,7 @@ def accept_assignment(assignment_id):
 
 log_columns = ['assignment_id', 'user_id', 'bonus']
 
-file_name = 'payoffs_new_baseline.csv'
+file_name = 'fd_rb_d_payoffs.csv'
 log_name = f'logs_paid_{file_name}'
 open(f'logs/{log_name}', 'a').close()
 
@@ -42,7 +42,8 @@ open(f'logs/{log_name}', 'a').close()
 def accept_and_pay():
 
     raw = pd.read_csv(f'data/{file_name}')
-    raw.rename(columns=dict(payoff='bonus'), inplace=True)
+    raw.rename(columns={'total_payoff':'bonus', 'participant.label':'assignment_id'}, inplace=True)
+    raw=raw[['bonus','assignment_id']]
     print(raw.columns)
     # return
 
@@ -59,13 +60,15 @@ def accept_and_pay():
             user_id = get_assignment_info(row.assignment_id).get('user_id')
             newrow['user_id'] = user_id
             accept_assignment(row.assignment_id)
-            if row.bonus>10:
+            if row.bonus > 10:
                 print(row)
                 raise Exception('too large bonus')
-            pay_bonus(user_id=user_id, bonus=row.bonus,
+            bonus = 0.01 if row.bonus<0.01 else row.bonus
+
+            pay_bonus(user_id=user_id, bonus=bonus,
                       title='Спасибо за участие!',
                       message='Спасибо за участие в нашем исследовании! Надеемся увидеть вас снова.')
-            print(f'{counter}: Assignment {row.assignment_id} accepted, paid to user {user_id}')
+            print(f'{counter}: Assignment {row.assignment_id} accepted, bonus {bonus} paid to user {user_id}')
             writer.writerow(newrow)
             counter += 1
             # if counter > 100:

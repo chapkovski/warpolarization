@@ -16,3 +16,4 @@ __pycache__/
 !/paymodule/data/.gitkeep
 /paymodule/logs/*
 !/paymodule/logs/.gitkeep
+*.dump
